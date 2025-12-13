@@ -1,6 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { collection, addDoc } from 'firebase/firestore';
+import { db } from '../firebase'; // Import Firestore instance
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,6 +10,49 @@ const Contact = () => {
     const sectionRef = useRef(null);
     const formRef = useRef(null);
     const infoRef = useRef(null);
+
+    // Form State
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: ''
+    });
+    const [status, setStatus] = useState('idle'); // idle, loading, success, error
+    const [responseMsg, setResponseMsg] = useState('');
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setStatus('loading');
+
+        try {
+            // Add a new document with a generated id.
+            await addDoc(collection(db, "messages"), {
+                name: formData.name,
+                email: formData.email,
+                message: formData.message,
+                timestamp: new Date()
+            });
+
+            setStatus('success');
+            setResponseMsg('Message sent successfully!');
+            setFormData({ name: '', email: '', message: '' }); // Reset form
+
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            setStatus('error');
+            setResponseMsg('Failed to send message. Please try again.');
+        }
+
+        // Reset status after 5 seconds
+        setTimeout(() => {
+            setStatus('idle');
+            setResponseMsg('');
+        }, 5000);
+    };
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -28,7 +73,7 @@ const Contact = () => {
                 x: 50,
                 opacity: 0,
                 duration: 1,
-                delay: 0.2, // Slight delay after info
+                delay: 0.2,
                 ease: 'power3.out',
                 scrollTrigger: {
                     trigger: sectionRef.current,
@@ -57,7 +102,7 @@ const Contact = () => {
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6', // Warm Cream
+            backgroundColor: '#FFFAF6',
             padding: '100px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
@@ -167,15 +212,29 @@ const Contact = () => {
             padding: '1.2rem',
             borderRadius: '50px',
             border: 'none',
-            backgroundColor: '#E07A5F', // Terracotta
+            backgroundColor: '#E07A5F',
             color: '#FFF',
             fontSize: '1.1rem',
             fontWeight: 700,
-            cursor: 'pointer',
+            cursor: status === 'loading' ? 'not-allowed' : 'pointer',
             transition: 'transform 0.3s, background 0.3s',
             marginTop: '1rem',
             textTransform: 'uppercase',
             letterSpacing: '2px',
+            opacity: status === 'loading' ? 0.7 : 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            gap: '10px'
+        },
+        statusMsg: {
+            marginTop: '1rem',
+            textAlign: 'center',
+            fontSize: '1rem',
+            fontWeight: 600,
+            color: status === 'success' ? '#2E7D32' : '#C62828',
+            opacity: status === 'idle' || status === 'loading' ? 0 : 1,
+            transition: 'opacity 0.3s ease',
         }
     };
 
@@ -201,26 +260,58 @@ const Contact = () => {
                 <form
                     style={styles.form}
                     ref={formRef}
-                    onSubmit={(e) => e.preventDefault()}
+                    onSubmit={handleSubmit}
                 >
                     <div style={styles.inputGroup} className="form-item">
                         <label style={styles.label}>Name</label>
-                        <input type="text" placeholder="Your Name" style={styles.input} className="contact-input" />
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Your Name"
+                            style={styles.input}
+                            className="contact-input"
+                            required
+                        />
                     </div>
 
                     <div style={styles.inputGroup} className="form-item">
                         <label style={styles.label}>Email</label>
-                        <input type="email" placeholder="your@email.com" style={styles.input} className="contact-input" />
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="your@email.com"
+                            style={styles.input}
+                            className="contact-input"
+                            required
+                        />
                     </div>
 
                     <div style={styles.inputGroup} className="form-item">
                         <label style={styles.label}>Message</label>
-                        <textarea placeholder="Tell me about your vision..." style={styles.textarea} className="contact-input"></textarea>
+                        <textarea
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            placeholder="Tell me about your vision..."
+                            style={styles.textarea}
+                            className="contact-input"
+                            required
+                        ></textarea>
                     </div>
 
-                    <button type="submit" style={styles.button} className="form-item submit-btn">
-                        Send Message
+                    <button type="submit" style={styles.button} className="form-item submit-btn" disabled={status === 'loading'}>
+                        {status === 'loading' ? 'Sending...' : 'Send Message'}
                     </button>
+
+                    {responseMsg && (
+                        <div style={styles.statusMsg}>
+                            {responseMsg}
+                        </div>
+                    )}
                 </form>
             </div>
 
@@ -238,6 +329,13 @@ const Contact = () => {
                     background-color: #BF6A50 !important;
                     transform: translateY(-3px);
                     box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+                }
+                .submit-btn:disabled {
+                    background-color: #E0E0E0 !important;
+                    color: #9E9E9E !important;
+                    transform: none !important;
+                    box-shadow: none !important;
+                    cursor: not-allowed !important;
                 }
             `}</style>
         </section>
