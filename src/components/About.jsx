@@ -1,0 +1,287 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const About = () => {
+    const sectionRef = useRef(null);
+    const leftColRef = useRef(null);
+    const rightColRef = useRef(null);
+
+    useEffect(() => {
+        const ctx = gsap.context(() => {
+            // Text Entry
+            gsap.from(leftColRef.current, {
+                x: -50,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top 70%",
+                }
+            });
+
+            // Collage Entry (Staggered)
+            gsap.from(".collage-item", {
+                y: 100,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: rightColRef.current,
+                    start: "top 75%",
+                }
+            });
+
+            // Parallax Effect on Scroll
+            gsap.to(".parallax-up", {
+                y: -50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                }
+            });
+
+            gsap.to(".parallax-down", {
+                y: 50,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: sectionRef.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 1.5,
+                }
+            });
+
+        }, sectionRef);
+
+        return () => ctx.revert();
+    }, []);
+
+    const styles = {
+        section: {
+            backgroundColor: '#FFFAF6',
+            padding: '120px 5%',
+            minHeight: '100vh',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: '"Manrope", sans-serif',
+            overflow: 'hidden',
+        },
+        container: {
+            maxWidth: '1200px',
+            width: '100%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+            gap: '6rem',
+            alignItems: 'center',
+        },
+        // Left Text
+        leftCol: {
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '2rem',
+        },
+        subHeading: {
+            color: '#D87C5A',
+            textTransform: 'uppercase',
+            letterSpacing: '2px',
+            fontSize: '1rem',
+            fontWeight: 700,
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+        },
+        line: {
+            width: '40px',
+            height: '2px',
+            backgroundColor: '#D87C5A',
+        },
+        heading: {
+            fontFamily: '"Playfair Display", serif',
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+            lineHeight: 1.1,
+            color: '#3E2723',
+            margin: 0,
+        },
+        highlight: {
+            color: '#D87C5A',
+        },
+        desc: {
+            fontSize: '1.1rem',
+            lineHeight: 1.8,
+            color: '#795548',
+            maxWidth: '95%',
+        },
+        statsRow: {
+            display: 'flex',
+            gap: '3rem',
+            marginTop: '1rem',
+        },
+        statItem: {
+            display: 'flex',
+            flexDirection: 'column',
+        },
+        statNum: {
+            fontSize: '2.5rem',
+            fontFamily: '"Playfair Display", serif',
+            color: '#D87C5A',
+            lineHeight: 1,
+        },
+        statLabel: {
+            fontSize: '0.9rem',
+            color: '#5D4037',
+            marginTop: '0.5rem',
+            fontWeight: 600,
+        },
+        button: {
+            padding: '1rem 2.5rem',
+            backgroundColor: '#3E2723',
+            color: '#FFF',
+            borderRadius: '50px',
+            border: 'none',
+            fontSize: '1rem',
+            fontWeight: 700,
+            cursor: 'pointer',
+            width: 'fit-content',
+            marginTop: '1rem',
+            transition: 'transform 0.3s ease, background 0.3s ease',
+        },
+        // Right Collage
+        rightCol: {
+            position: 'relative',
+            height: '600px',
+            width: '100%',
+        },
+        // Images
+        imgBase: {
+            position: 'absolute',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            borderRadius: '20px',
+            boxShadow: '0 20px 50px rgba(62, 39, 35, 0.15)',
+        },
+        img1: { // Main Pill
+            width: '280px',
+            height: '420px',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80")',
+            borderRadius: '140px',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            zIndex: 2,
+            border: '5px solid #FFF',
+        },
+        img2: { // Top Right Circle
+            width: '180px',
+            height: '180px',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80")',
+            borderRadius: '50%',
+            top: '20px',
+            right: '0px',
+            zIndex: 1,
+            border: '5px solid #FFF',
+        },
+        img3: { // Bottom Left Landscape
+            width: '200px',
+            height: '150px',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80")',
+            borderRadius: '20px',
+            bottom: '40px',
+            left: '0px',
+            zIndex: 3,
+            border: '5px solid #FFF',
+        },
+        img4: { // Tiny decorative circle
+            width: '100px',
+            height: '100px',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80")',
+            borderRadius: '50%',
+            top: '100px',
+            left: '20px',
+            zIndex: 1,
+            border: '3px solid #FFF',
+            opacity: 0.9,
+        }
+    };
+
+    return (
+        <section style={styles.section} id="about" ref={sectionRef}>
+            <div style={styles.container}>
+                {/* Left Side: Content */}
+                <div style={styles.leftCol} ref={leftColRef}>
+                    <div style={styles.subHeading}>
+                        <span style={styles.line}></span>
+                        <span>About Me</span>
+                    </div>
+
+                    <h2 style={styles.heading}>
+                        Crafting stories that <br />
+                        <span style={styles.highlight}>connect & convert.</span>
+                    </h2>
+
+                    <p style={styles.desc}>
+                        I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.
+                    </p>
+                    <p style={styles.desc}>
+                        From managing campaigns to creating engaging content, I combine the <b>creative</b> side with the <b>performance</b> side of marketing to deliver real value.
+                    </p>
+
+                    <div style={styles.statsRow}>
+                        <div style={styles.statItem}>
+                            <span style={styles.statNum}>5+</span>
+                            <span style={styles.statLabel}>Years Experience</span>
+                        </div>
+                        <div style={styles.statItem}>
+                            <span style={styles.statNum}>50+</span>
+                            <span style={styles.statLabel}>Projects Delivered</span>
+                        </div>
+                    </div>
+
+                    <button className="hover-btn" style={styles.button}>More Details</button>
+                </div>
+
+                {/* Right Side: Collage */}
+                <div style={styles.rightCol} ref={rightColRef}>
+                    {/* Main Image */}
+                    <div className="collage-item parallax-up" style={{ ...styles.imgBase, ...styles.img1 }}></div>
+
+                    {/* Peripheral Images */}
+                    <div className="collage-item parallax-down" style={{ ...styles.imgBase, ...styles.img2 }}></div>
+                    <div className="collage-item parallax-up" style={{ ...styles.imgBase, ...styles.img3 }}></div>
+                    <div className="collage-item parallax-down" style={{ ...styles.imgBase, ...styles.img4 }}></div>
+                </div>
+            </div>
+
+            <style>{`
+                .hover-btn:hover {
+                    background-color: #D87C5A !important;
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+                }
+                @media (max-width: 900px) {
+                    div[style*="gridTemplateColumns"] {
+                        grid-template-columns: 1fr !important;
+                    }
+                    div[style*="height: 600px"] {
+                        height: 500px !important;
+                        margin-top: 3rem;
+                    }
+                    /* Adjust image positions for mobile if needed, or rely on flex stacking */
+                    .collage-item {
+                        transform: scale(0.8) !important;
+                    }
+                }
+            `}</style>
+        </section>
+    );
+};
+
+export default About;

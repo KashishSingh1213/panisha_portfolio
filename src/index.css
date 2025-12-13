@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+:root {
+  /* Color Palette - Warm / Editorial / Clean */
+  --color-bg: #FFFAF6;
+  /* Warm Cream */
+  --color-surface: #FFF5F0;
+  /* Slightly dark cream for cards */
+  --color-accent: #D87C5A;
+  /* Terracotta */
+  --color-accent-light: #E07A5F;
+
+  --color-text-main: #5D4037;
+  /* Warm Coffee Brown */
+  --color-text-muted: #8D6E63;
+  /* Muted Brown */
+  --color-border: rgba(216, 124, 90, 0.2);
+
+  /* Gradients */
+  --gradient-main: linear-gradient(135deg, var(--color-bg), #FFFFFF);
+  --gradient-glow: radial-gradient(circle at center, rgba(216, 124, 90, 0.2), transparent 70%);
+
+  /* Spacing */
+  --section-spacing: 120px;
+  --radius-lg: 30px;
+  --radius-md: 16px;
+
+  /* Effects */
+  --shadow-soft: 0 20px 60px rgba(93, 64, 55, 0.08);
+  --shadow-glow: 0 0 30px rgba(216, 124, 90, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  cursor: auto;
+}
+
+/* Custom Cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-accent);
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-accent);
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-main);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* Remove old grain */
+.grain-overlay {
+  display: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  color: #3E2723;
+  /* Darker brown for headings */
+  text-transform: none;
+  /* Removed uppercase enforcement for elegance */
+  letter-spacing: -0.01em;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+section {
+  padding: var(--section-spacing) 5%;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Utilities */
+.text-gradient {
+  color: var(--color-accent);
+  background: none;
+  -webkit-text-fill-color: initial;
+  font-style: italic;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  background: var(--color-accent);
+  color: #FFF;
+  border-radius: 50px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: var(--color-accent-light);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D7CCC8;
+  border-radius: 5px;
+  border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
