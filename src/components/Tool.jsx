@@ -138,10 +138,7 @@ const Tool = () => {
             justifyContent: 'center'
         },
         // Grid of cards
-        grid: {
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '2rem',
+        gridContainer: {
             maxWidth: '1200px',
             margin: '0 auto',
         },
@@ -228,7 +225,7 @@ const Tool = () => {
                 <h3 style={{ ...styles.h2, fontSize: '2rem' }}>Expertise & Proficiency</h3>
             </div>
 
-            <div style={styles.grid} ref={gridRef}>
+            <div className="tool-grid" style={styles.gridContainer} ref={gridRef}>
                 {proficiencyTools.map((tool, index) => (
                     <div
                         key={index}
@@ -258,6 +255,26 @@ const Tool = () => {
                     </div>
                 ))}
             </div>
+
+            <style>{`
+                .tool-grid {
+                    display: grid;
+                    grid-template-columns: repeat(1, 1fr);
+                    gap: 2rem;
+                    max-width: 1200px;
+                    margin: 0 auto;
+                }
+                @media (min-width: 768px) {
+                    .tool-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+                @media (min-width: 1024px) {
+                    .tool-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+            `}</style>
         </section>
     );
 };
