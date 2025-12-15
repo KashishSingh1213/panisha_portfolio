@@ -72,10 +72,10 @@ const EditSkills = () => {
             </div>
             <form onSubmit={handleSubmit} style={{ maxWidth: '900px' }}>
                 {skills.map((skill, index) => (
-                    <div key={index} style={{ background: '#2a2a2a', padding: '1.5rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid #444' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <h4 style={{ color: '#D87C5A', margin: '0 0 1rem 0' }}>Skill #{skill.id}</h4>
-                            <button type="button" onClick={() => handleRemove(index)} style={{ background: 'red', color: 'white', border: 'none', padding: '0.2rem 0.5rem', cursor: 'pointer' }}>Delete</button>
+                    <div key={index} className="admin-card">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                            <h4 style={{ color: '#1abc9c', margin: 0 }}>Skill #{skill.id}</h4>
+                            <button type="button" onClick={() => handleRemove(index)} className="admin-btn" style={{ backgroundColor: '#e74c3c', padding: '5px 12px', fontSize: '0.8rem' }}>Delete</button>
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -98,14 +98,14 @@ const EditSkills = () => {
                             <label className="admin-label">Color (Hex/RGB)</label>
                             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                                 <input className="admin-input" value={skill.color} onChange={(e) => handleChange(index, 'color', e.target.value)} />
-                                <div style={{ width: '30px', height: '30px', borderRadius: '5px', background: skill.color }}></div>
+                                <div style={{ width: '38px', height: '38px', borderRadius: '8px', background: skill.color, border: '1px solid #ddd' }}></div>
                             </div>
                         </div>
                     </div>
                 ))}
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button type="button" onClick={handleAdd} className="admin-btn" style={{ background: '#444' }}>+ Add Skill</button>
+                    <button type="button" onClick={handleAdd} className="admin-btn" style={{ backgroundColor: '#95a5a6' }}>+ Add Skill</button>
                     <button type="submit" disabled={saving} className="admin-btn">Save Skills</button>
                 </div>
             </form>

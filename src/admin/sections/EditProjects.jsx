@@ -78,10 +78,10 @@ const EditProjects = () => {
             </div>
             <form onSubmit={handleSubmit} style={{ maxWidth: '900px' }}>
                 {works.map((work, index) => (
-                    <div key={index} style={{ background: '#2a2a2a', padding: '1.5rem', borderRadius: '8px', marginBottom: '1.5rem', border: '1px solid #444' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <h4 style={{ color: '#D87C5A', margin: '0 0 1rem 0' }}>Project #{work.id}</h4>
-                            <button type="button" onClick={() => handleRemove(index)} style={{ background: 'red', color: 'white', border: 'none', padding: '0.2rem 0.5rem', cursor: 'pointer' }}>Delete</button>
+                    <div key={index} className="admin-card">
+                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                            <h4 style={{ color: '#1abc9c', margin: 0 }}>Project #{work.id}</h4>
+                            <button type="button" onClick={() => handleRemove(index)} className="admin-btn" style={{ backgroundColor: '#e74c3c', padding: '5px 12px', fontSize: '0.8rem' }}>Delete</button>
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
@@ -119,7 +119,7 @@ const EditProjects = () => {
                 ))}
 
                 <div style={{ display: 'flex', gap: '1rem' }}>
-                    <button type="button" onClick={handleAdd} className="admin-btn" style={{ background: '#444' }}>+ Add Project</button>
+                    <button type="button" onClick={handleAdd} className="admin-btn" style={{ backgroundColor: '#95a5a6' }}>+ Add Project</button>
                     <button type="submit" disabled={saving} className="admin-btn">Save Projects</button>
                 </div>
             </form>
