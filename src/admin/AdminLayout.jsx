@@ -1,6 +1,8 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import './admin.css';
+import AdminHeader from './components/AdminHeader';
+import AdminFooter from './components/AdminFooter';
 
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -21,6 +23,12 @@ const AdminLayout = () => {
         } catch (error) {
             console.error("Failed to log out", error);
         }
+    };
+
+    const getPageTitle = (pathname) => {
+        const path = pathname.split('/').pop();
+        if (pathname === '/admin') return 'Dashboard';
+        return `Edit ${path.charAt(0).toUpperCase() + path.slice(1)}`;
     };
 
     return (
@@ -48,6 +56,12 @@ const AdminLayout = () => {
                     <Link to="/admin/projects" className={`admin-nav-link ${isActive('/admin/projects')}`}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>🚀</span> <span className="text">Edit Projects</span>
                     </Link>
+                    <Link to="/admin/header" className={`admin-nav-link ${isActive('/admin/header')}`}>
+                        <span style={{ width: '24px', fontSize: '1.2rem' }}>🔝</span> <span className="text">Edit Header</span>
+                    </Link>
+                    <Link to="/admin/footer" className={`admin-nav-link ${isActive('/admin/footer')}`}>
+                        <span style={{ width: '24px', fontSize: '1.2rem' }}>⏬</span> <span className="text">Edit Footer</span>
+                    </Link>
                     <Link to="/admin/skills" className={`admin-nav-link ${isActive('/admin/skills')}`}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>💡</span> <span className="text">Edit Skills</span>
                     </Link>
@@ -65,8 +79,12 @@ const AdminLayout = () => {
                     </div>
                 </nav>
             </div>
-            <div className="admin-content">
-                <Outlet />
+            <div className="admin-content" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                <AdminHeader title={getPageTitle(location.pathname)} />
+                <div style={{ flex: 1 }}>
+                    <Outlet />
+                </div>
+                <AdminFooter />
             </div>
         </div>
     );

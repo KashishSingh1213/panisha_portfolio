@@ -20,6 +20,8 @@ import EditProjects from './admin/sections/EditProjects';
 import EditSkills from './admin/sections/EditSkills';
 import EditTestimonials from './admin/sections/EditTestimonials';
 import ViewMessages from './admin/sections/ViewMessages';
+import EditHeader from './admin/sections/EditHeader';
+import EditFooter from './admin/sections/EditFooter';
 
 const Portfolio = () => {
   React.useEffect(() => {
@@ -83,6 +85,8 @@ function App() {
             <Route path="projects" element={<EditProjects />} />
             <Route path="skills" element={<EditSkills />} />
             <Route path="testimonials" element={<EditTestimonials />} />
+            <Route path="header" element={<EditHeader />} />
+            <Route path="footer" element={<EditFooter />} />
             <Route path="messages" element={<ViewMessages />} />
           </Route>
         </Routes>
