@@ -12,6 +12,7 @@ const Navbar = () => {
         pillTextColor: '#ffffff',
         items: [
             { label: 'About', href: '#about' },
+            { label: 'Experience', href: '#experience' },
             { label: 'Services', href: '#services' },
             { label: 'Work', href: '#projects' },
             { label: 'Skills', href: '#skills' },
