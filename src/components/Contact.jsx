@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../firebase'; // Import Firestore instance
+import { FaEnvelope, FaLinkedin } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -247,12 +248,16 @@ const Contact = () => {
                     <p style={styles.subtext}>
                         Got a project that needs a touch of warmth and precision? I'm currently available for freelance work and collaborations.
                     </p>
-                    <a href="mailto:hello@panisha.design" style={styles.emailLink} className="hover-link">hello@panisha.design</a>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1.5rem' }}>
+                        <a href="mailto:panishadhutti@gmail.com" style={{ ...styles.socialLink, textTransform: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem' }} className="hover-link">
+                            <FaEnvelope size={20} />
+                            panishadhutti@gmail.com
+                        </a>
 
-                    <div style={styles.socials}>
-                        <a href="#" style={styles.socialLink} className="hover-link">LinkedIn</a>
-                        <a href="#" style={styles.socialLink} className="hover-link">Dribbble</a>
-                        <a href="#" style={styles.socialLink} className="hover-link">Instagram</a>
+                        <a href="https://linkedin.com/in/panisha-dhutti-611245206" target="_blank" rel="noopener noreferrer" style={{ ...styles.socialLink, textTransform: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem' }} className="hover-link">
+                            <FaLinkedin size={24} />
+                            <span style={{ wordBreak: 'break-all' }}>linkedin.com/in/panisha-dhutti-611245206</span>
+                        </a>
                     </div>
                 </div>
 
