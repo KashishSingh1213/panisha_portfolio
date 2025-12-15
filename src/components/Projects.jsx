@@ -4,60 +4,76 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const works = [
-    {
-        id: 1,
-        title: "Marketing Campaigns",
-        desc: "High-performing marketing campaigns that increased enquiries and conversions.",
-        image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
-        type: "arch", // Top Left
-        col: 1
-    },
-    {
-        id: 4,
-        title: "Graphic Creatives",
-        desc: "Graphic creatives for corporate communication and campaigns.",
-        image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
-        type: "inverted", // Bottom Left
-        col: 1
-    },
-    {
-        id: 6,
-        title: "Strategy & Vision",
-        desc: "Where data meets creativity.",
-        image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600", // Strategy Image
-        type: "inverted-small", // Top Mid
-        col: 2
-    },
-    {
-        id: 3,
-        title: "Video Content",
-        desc: "Video content for events, personal branding, and collaborations.",
-        image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=600",
-        type: "circle", // Bottom Mid
-        col: 2
-    },
-    {
-        id: 2,
-        title: "Social Media",
-        desc: "Social media projects that achieved significant reach and engagement growth.",
-        image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600",
-        type: "arch", // Top Right
-        col: 3
-    },
-    {
-        id: 5,
-        title: "Written Content",
-        desc: "Written content across platforms that aligns with brand voice and audience intent.",
-        image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600",
-        type: "inverted", // Bottom Right
-        col: 3
-    }
-];
-
 const SelectedWork = () => {
     const sectionRef = useRef(null);
     const gridRef = useRef(null);
+    const [works, setWorks] = React.useState([]);
+
+    useEffect(() => {
+        // Fetch content
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "projects"), (doc) => {
+                    if (doc.exists() && doc.data().items) {
+                        setWorks(doc.data().items);
+                    } else {
+                        // Default static data if none in DB
+                        setWorks([
+                            {
+                                id: 1,
+                                title: "Marketing Campaigns",
+                                desc: "High-performing marketing campaigns that increased enquiries and conversions.",
+                                image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
+                                type: "arch",
+                                col: 1
+                            },
+                            {
+                                id: 4,
+                                title: "Graphic Creatives",
+                                desc: "Graphic creatives for corporate communication and campaigns.",
+                                image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
+                                type: "inverted",
+                                col: 1
+                            },
+                            {
+                                id: 6,
+                                title: "Strategy & Vision",
+                                desc: "Where data meets creativity.",
+                                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600",
+                                type: "inverted-small",
+                                col: 2
+                            },
+                            {
+                                id: 3,
+                                title: "Video Content",
+                                desc: "Video content for events, personal branding, and collaborations.",
+                                image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=600",
+                                type: "circle",
+                                col: 2
+                            },
+                            {
+                                id: 2,
+                                title: "Social Media",
+                                desc: "Social media projects that achieved significant reach and engagement growth.",
+                                image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600",
+                                type: "arch",
+                                col: 3
+                            },
+                            {
+                                id: 5,
+                                title: "Written Content",
+                                desc: "Written content across platforms that aligns with brand voice and audience intent.",
+                                image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600",
+                                type: "inverted",
+                                col: 3
+                            }
+                        ]);
+                    }
+                });
+                return () => unsub();
+            });
+        });
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {

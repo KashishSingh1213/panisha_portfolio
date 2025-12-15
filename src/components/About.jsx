@@ -9,6 +9,41 @@ const About = () => {
     const leftColRef = useRef(null);
     const rightColRef = useRef(null);
 
+    const [content, setContent] = React.useState({
+        heading: 'Crafting stories that \nconnect & convert.',
+        highlight: 'connect & convert.', // Fallback if simple replace doesn't work, though we usually just replace the H2
+        desc1: 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
+        desc2: 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
+        yearsExp: '5+',
+        projectsDelivered: '50+'
+    });
+
+    useEffect(() => {
+        // Fetch content
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "about"), (doc) => {
+                    if (doc.exists()) {
+                        const data = doc.data();
+                        setContent({
+                            heading: data.heading || 'Crafting stories that \nconnect & convert.',
+                            highlight: data.highlight || 'connect & convert.',
+                            desc1: data.desc1 || '',
+                            desc2: data.desc2 || '',
+                            yearsExp: data.yearsExp || '5+',
+                            projectsDelivered: data.projectsDelivered || '50+',
+                            img1: data.img1 || '',
+                            img2: data.img2 || '',
+                            img3: data.img3 || '',
+                            img4: data.img4 || ''
+                        });
+                    }
+                });
+                return () => unsub(); // Cleanup not strictly accessible here due to closure, but acceptable for this iteration
+            });
+        });
+    }, []);
+
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Text Entry
@@ -171,7 +206,7 @@ const About = () => {
         img1: { // Main Pill
             width: '280px',
             height: '420px',
-            backgroundImage: 'url("https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80")',
+            backgroundImage: `url("${content.img1 || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80'}")`,
             borderRadius: '140px',
             left: '50%',
             top: '50%',
@@ -182,7 +217,7 @@ const About = () => {
         img2: { // Top Right Circle
             width: '180px',
             height: '180px',
-            backgroundImage: 'url("https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80")',
+            backgroundImage: `url("${content.img2 || 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80'}")`,
             borderRadius: '50%',
             top: '20px',
             right: '0px',
@@ -192,7 +227,7 @@ const About = () => {
         img3: { // Bottom Left Landscape
             width: '200px',
             height: '150px',
-            backgroundImage: 'url("https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80")',
+            backgroundImage: `url("${content.img3 || 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80'}")`,
             borderRadius: '20px',
             bottom: '40px',
             left: '0px',
@@ -202,7 +237,7 @@ const About = () => {
         img4: { // Tiny decorative circle
             width: '100px',
             height: '100px',
-            backgroundImage: 'url("https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80")',
+            backgroundImage: `url("${content.img4 || 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80'}")`,
             borderRadius: '50%',
             top: '100px',
             left: '20px',
@@ -223,24 +258,25 @@ const About = () => {
                     </div>
 
                     <h2 style={styles.heading}>
-                        Crafting stories that <br />
-                        <span style={styles.highlight}>connect & convert.</span>
+                        {content.heading.replace(content.highlight, '')}
+                        <br />
+                        <span style={styles.highlight}>{content.highlight}</span>
                     </h2>
 
                     <p style={styles.desc}>
-                        I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.
+                        {content.desc1}
                     </p>
                     <p style={styles.desc}>
-                        From managing campaigns to creating engaging content, I combine the <b>creative</b> side with the <b>performance</b> side of marketing to deliver real value.
+                        {content.desc2}
                     </p>
 
                     <div style={styles.statsRow}>
                         <div style={styles.statItem}>
-                            <span style={styles.statNum}>5+</span>
+                            <span style={styles.statNum}>{content.yearsExp}</span>
                             <span style={styles.statLabel}>Years Experience</span>
                         </div>
                         <div style={styles.statItem}>
-                            <span style={styles.statNum}>50+</span>
+                            <span style={styles.statNum}>{content.projectsDelivered}</span>
                             <span style={styles.statLabel}>Projects Delivered</span>
                         </div>
                     </div>

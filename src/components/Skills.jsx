@@ -4,55 +4,68 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const skillsData = [
-    // Marketing & Strategy
-    { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', icon: '📅', color: '#FFF3E0' },
-    { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', icon: '🎯', color: '#E3F2FD' },
-    { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', icon: '🔍', color: '#F3E5F5' },
-    { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', icon: '📊', color: '#E8F5E9' },
-
-    // Content & Communication
-    { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', icon: '✍️', color: '#FFF8E1' },
-    { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', icon: '📖', color: '#ECEFF1' },
-    { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', icon: '💬', color: '#FFEBEE' },
-    { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', icon: '🗣️', color: '#E0F7FA' },
-
-    // Creative Skills
-    { id: '09', name: 'Video Editing', desc: 'High-impact video content.', icon: '🎬', color: '#FFF3E0' },
-    { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', icon: '🖼️', color: '#F3E5F5' },
-    { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', icon: '🎨', color: '#E8F5E9' },
-
-    // Tools
-    { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', icon: '📈', color: '#FFF8E1' },
-    { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', icon: '📱', color: '#E3F2FD' },
-    { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', icon: '🗓️', color: '#FFEBEE' }
-];
-
 const Skills = () => {
     const containerRef = useRef(null);
     const cardsRef = useRef([]);
+    const [skillsData, setSkillsData] = React.useState([]);
+
+    useEffect(() => {
+        // Fetch content
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "skills"), (doc) => {
+                    if (doc.exists() && doc.data().items) {
+                        setSkillsData(doc.data().items);
+                    } else {
+                        // Default data
+                        setSkillsData([
+                            { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', icon: '📅', color: '#FFF3E0' },
+                            { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', icon: '🎯', color: '#E3F2FD' },
+                            { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', icon: '🔍', color: '#F3E5F5' },
+                            { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', icon: '📊', color: '#E8F5E9' },
+                            { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', icon: '✍️', color: '#FFF8E1' },
+                            { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', icon: '📖', color: '#ECEFF1' },
+                            { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', icon: '💬', color: '#FFEBEE' },
+                            { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', icon: '🗣️', color: '#E0F7FA' },
+                            { id: '09', name: 'Video Editing', desc: 'High-impact video content.', icon: '🎬', color: '#FFF3E0' },
+                            { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', icon: '🖼️', color: '#F3E5F5' },
+                            { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', icon: '🎨', color: '#E8F5E9' },
+                            { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', icon: '📈', color: '#FFF8E1' },
+                            { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', icon: '📱', color: '#E3F2FD' },
+                            { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', icon: '🗓️', color: '#FFEBEE' }
+                        ]);
+                    }
+                });
+                return () => unsub();
+            });
+        });
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            gsap.fromTo(cardsRef.current,
-                { y: -200, opacity: 0, rotate: "random(-15, 15)" }, // Start from top, random rotation
-                {
-                    y: 0,
-                    opacity: 1,
-                    rotate: "random(-3, 3)", // Settle with slight rotation
-                    duration: 1.2,
-                    stagger: 0.1,
-                    ease: 'elastic.out(1, 0.5)', // Bouncy drop effect
-                    scrollTrigger: {
-                        trigger: containerRef.current,
-                        start: 'top 70%',
+            // Wait for data to be populated or else selector might be empty if not careful, 
+            // but here we just animate whatever is in cardsRef which gets assigned in render
+            if (cardsRef.current.length > 0) {
+                gsap.fromTo(cardsRef.current,
+                    { y: -200, opacity: 0, rotate: "random(-15, 15)" },
+                    {
+                        y: 0,
+                        opacity: 1,
+                        rotate: "random(-3, 3)",
+                        duration: 1.2,
+                        stagger: 0.1,
+                        ease: 'elastic.out(1, 0.5)',
+                        scrollTrigger: {
+                            trigger: containerRef.current,
+                            start: 'top 70%',
+                        }
                     }
-                }
-            );
+                );
+            }
         }, containerRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [skillsData]); // Re-run animation when data loads
 
     const styles = {
         section: {
@@ -60,7 +73,7 @@ const Skills = () => {
             padding: '100px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
-            overflow: 'hidden', // Hide incoming animations
+            overflow: 'hidden',
         },
         header: {
             textAlign: 'center',

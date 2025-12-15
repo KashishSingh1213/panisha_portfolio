@@ -4,86 +4,108 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const testimonialsData = [
-    {
-        id: 1,
-        name: "Sarah M.",
-        role: "Marketing Director",
-        text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference to our campaigns.",
-        rating: 5,
-        align: 'flex-start',
-        direction: -1, // Comes from left
-        zIndex: 1
-    },
-    {
-        id: 2,
-        name: "David K.",
-        role: "Business Owner",
-        text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
-        rating: 5,
-        align: 'flex-end',
-        direction: 1, // Comes from right
-        zIndex: 2
-    },
-    {
-        id: 3,
-        name: "Anita P.",
-        role: "Brand Manager",
-        text: "Her work added clarity and consistency to our brand communication, helping us connect better with our audience.",
-        rating: 5,
-        align: 'flex-start',
-        direction: -1, // Comes from left
-        zIndex: 3
-    }
-];
-
 const Testimonials = () => {
     const sectionRef = useRef(null);
     const containerRef = useRef(null);
     const bubblesRef = useRef([]);
+    const [testimonialsData, setTestimonialsData] = React.useState([]);
+
+    useEffect(() => {
+        // Fetch content
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "testimonials"), (doc) => {
+                    if (doc.exists() && doc.data().items) {
+                        setTestimonialsData(doc.data().items);
+                    } else {
+                        // Default data
+                        setTestimonialsData([
+                            {
+                                id: 1,
+                                name: "Sarah M.",
+                                role: "Marketing Director",
+                                text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference to our campaigns.",
+                                rating: 5,
+                                align: 'flex-start',
+                                direction: -1,
+                                zIndex: 1
+                            },
+                            {
+                                id: 2,
+                                name: "David K.",
+                                role: "Business Owner",
+                                text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
+                                rating: 5,
+                                align: 'flex-end',
+                                direction: 1,
+                                zIndex: 2
+                            },
+                            {
+                                id: 3,
+                                name: "Anita P.",
+                                role: "Brand Manager",
+                                text: "Her work added clarity and consistency to our brand communication, helping us connect better with our audience.",
+                                rating: 5,
+                                align: 'flex-start',
+                                direction: -1,
+                                zIndex: 3
+                            }
+                        ]);
+                    }
+                });
+                return () => unsub();
+            });
+        });
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Entrance Animation: Slide in from sides
-            bubblesRef.current.forEach((bubble, index) => {
-                const direction = testimonialsData[index].direction;
+            if (bubblesRef.current.length > 0) {
+                // Entrance Animation: Slide in from sides
+                bubblesRef.current.forEach((bubble, index) => {
+                    // Safe check if data exists at index, though mapping ensures it usually does
+                    if (!testimonialsData[index]) return;
 
-                // Slide In
-                gsap.fromTo(bubble,
-                    {
-                        x: direction * 150,
-                        opacity: 0,
-                        scale: 0.95
-                    },
-                    {
-                        x: 0,
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1,
-                        ease: 'power2.out',
-                        scrollTrigger: {
-                            trigger: containerRef.current,
-                            start: 'top 75%',
+                    const direction = testimonialsData[index].direction || (index % 2 === 0 ? -1 : 1);
+
+                    // Slide In
+                    gsap.fromTo(bubble,
+                        {
+                            x: direction * 150,
+                            opacity: 0,
+                            scale: 0.95
+                        },
+                        {
+                            x: 0,
+                            opacity: 1,
+                            scale: 1,
+                            duration: 1,
+                            ease: 'power2.out',
+                            scrollTrigger: {
+                                trigger: containerRef.current,
+                                start: 'top 75%',
+                            }
                         }
-                    }
-                );
+                    );
 
-                // Continuous Floating Motion
-                // Delays are staggered to prevent synchronized bobbing
-                gsap.to(bubble, {
-                    y: 10,
-                    duration: 2.5,
-                    yoyo: true,
-                    repeat: -1,
-                    ease: 'sine.inOut',
-                    delay: Math.random() * 1
+                    // Continuous Floating Motion
+                    gsap.to(bubble, {
+                        y: 10,
+                        duration: 2.5,
+                        yoyo: true,
+                        repeat: -1,
+                        ease: 'sine.inOut',
+                        delay: Math.random() * 1
+                    });
                 });
-            });
-
+            }
         }, sectionRef);
 
         return () => ctx.revert();
-    }, []);
+    }, [testimonialsData]);
+
+    // Old useEffect removed
+
 
     const styles = {
         section: {

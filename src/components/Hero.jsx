@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
+import { db } from '../firebase';
+import { doc, onSnapshot } from 'firebase/firestore';
 
 const Hero = () => {
     const heroRef = useRef(null);
@@ -8,6 +10,22 @@ const Hero = () => {
     const headingLine3Ref = useRef(null); // Added distinct subtitle reference
     const contentRef = useRef(null);
     const btnRef = useRef(null);
+
+    const [content, setContent] = useState({
+        titleLine1: 'Creating meaningful connections',
+        titleLine2: 'through strategy & storytelling.',
+        subtitle: 'Where data meets creativity to drive real results.',
+        description: 'I help brands grow through thoughtful marketing, compelling content, and creative storytelling. From building brand visibility to driving meaningful engagement, I combine creativity with strategy to turn ideas into impact.'
+    });
+
+    useEffect(() => {
+        const unsub = onSnapshot(doc(db, "content", "hero"), (doc) => {
+            if (doc.exists()) {
+                setContent(doc.data());
+            }
+        });
+        return () => unsub();
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -194,23 +212,23 @@ const Hero = () => {
                 <div style={styles.h1Wrapper}>
                     {/* H1 Line 1 */}
                     <div ref={headingLine1Ref} style={{ willChange: 'transform, opacity' }}>
-                        <h1 style={styles.h1}>Creating meaningful connections</h1>
+                        <h1 style={styles.h1}>{content.titleLine1}</h1>
                     </div>
                     {/* H1 Line 2 */}
                     <div ref={headingLine2Ref} style={{ willChange: 'transform, opacity' }}>
                         <h1 style={styles.h1}>
-                            <span style={styles.h1Italic}>through strategy & storytelling.</span>
+                            <span style={styles.h1Italic}>{content.titleLine2}</span>
                         </h1>
                     </div>
                     {/* Subtitle */}
                     <div ref={headingLine3Ref} style={{ willChange: 'transform, opacity' }}>
-                        <p style={styles.subtitle}>Where data meets creativity to drive real results.</p>
+                        <p style={styles.subtitle}>{content.subtitle}</p>
                     </div>
                 </div>
 
                 <div ref={contentRef}>
                     <p style={styles.introText}>
-                        I help brands grow through thoughtful marketing, compelling content, and creative storytelling. From building brand visibility to driving meaningful engagement, I combine creativity with strategy to turn ideas into impact.
+                        {content.description}
                     </p>
                 </div>
 

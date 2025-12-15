@@ -4,44 +4,60 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const servicesData = [
-    {
-        id: '01',
-        title: 'Digital Marketing & Strategy',
-        description: 'Campaign planning, lead generation, audience growth strategies, and performance analysis to drive measurable results. We focus on ROI-driven campaigns that scale.',
-        image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: '02',
-        title: 'Social Media Management',
-        description: 'Platform-specific content planning, storytelling, community engagement, and trend analysis to build brand presence. We turn followers into loyal advocates.',
-        image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: '03',
-        title: 'Content Writing',
-        description: 'Website copy, social media captions, brand storytelling, and professional communications aligned with your voice. Words that resonate and persuade.',
-        image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: '04',
-        title: 'Video & Creative Content',
-        description: 'Video editing for brands/personal profiles, short-form content (Reels/TikToks), and creative direction for high-impact campaigns.',
-        image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80'
-    },
-    {
-        id: '05',
-        title: 'Graphic Content',
-        description: 'Engaging social media creatives, brand visuals, and promotional designs that capture attention. Visuals that speak louder than words.',
-        image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80'
-    }
-];
-
 const Services = () => {
     const [activeService, setActiveService] = useState(0);
+    const [servicesData, setServicesData] = useState([]);
     const containerRef = useRef(null);
     const listRef = useRef(null);
     const imageContainerRef = useRef(null);
+
+    useEffect(() => {
+        // Fetch content
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "services"), (doc) => {
+                    if (doc.exists() && doc.data().items) {
+                        setServicesData(doc.data().items);
+                    } else {
+                        // Default data if DB empty
+                        setServicesData([
+                            {
+                                id: '01',
+                                title: 'Digital Marketing & Strategy',
+                                description: 'Campaign planning, lead generation, audience growth strategies, and performance analysis to drive measurable results. We focus on ROI-driven campaigns that scale.',
+                                image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80'
+                            },
+                            {
+                                id: '02',
+                                title: 'Social Media Management',
+                                description: 'Platform-specific content planning, storytelling, community engagement, and trend analysis to build brand presence. We turn followers into loyal advocates.',
+                                image: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&w=800&q=80'
+                            },
+                            {
+                                id: '03',
+                                title: 'Content Writing',
+                                description: 'Website copy, social media captions, brand storytelling, and professional communications aligned with your voice. Words that resonate and persuade.',
+                                image: 'https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=800&q=80'
+                            },
+                            {
+                                id: '04',
+                                title: 'Video & Creative Content',
+                                description: 'Video editing for brands/personal profiles, short-form content (Reels/TikToks), and creative direction for high-impact campaigns.',
+                                image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=800&q=80'
+                            },
+                            {
+                                id: '05',
+                                title: 'Graphic Content',
+                                description: 'Engaging social media creatives, brand visuals, and promotional designs that capture attention. Visuals that speak louder than words.',
+                                image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80'
+                            }
+                        ]);
+                    }
+                });
+                return () => unsub();
+            });
+        });
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
