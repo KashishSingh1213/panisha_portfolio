@@ -1,83 +1,78 @@
 import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaTrophy, FaScroll, FaMapMarkerAlt, FaStar, FaCrown, FaBriefcase, FaGraduationCap, FaMedal } from 'react-icons/fa';
+import { FaGraduationCap, FaBriefcase, FaCalendarAlt, FaMapMarkerAlt, FaStar, FaChevronRight } from 'react-icons/fa';
+import careerImg from '../assets/career_illustration.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const EducationWork = () => {
     const sectionRef = useRef(null);
-    const workColRef = useRef(null);
-    const eduColRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(null); // No default selection, let user hover
+    const [isMobile, setIsMobile] = useState(false);
 
     const [content, setContent] = useState({
         work: [
             {
                 id: 'w1',
-                level: 'Current Quest',
+                type: 'work',
                 title: 'Digital Marketing Executive',
                 org: 'CT Group of Institutions',
                 location: 'Jalandhar',
                 period: 'May 2025 – Present',
-                xp: '+5000 XP',
                 loot: [
-                    'Manage paid lead-generation campaigns to increase student enquiries.',
-                    'Run brand-awareness campaigns to strengthen CT Group’s digital presence.',
-                    'Revamped course pages with the web team to improve UX and conversions.',
-                    'Added a Placement section to showcase outcomes and support admissions.'
+                    'Manage paid lead-generation campaigns.',
+                    'Run brand-awareness campaigns.',
+                    'Revamped course pages for better UX.',
+                    'Showcase placement outcomes.'
                 ]
             },
             {
                 id: 'w2',
-                level: 'Quest Completed',
+                type: 'work',
                 title: 'Marketing & Sales Manager',
                 org: 'Indigo Sails',
                 location: 'London',
                 period: 'Jan 2024 – Mar 2025',
-                xp: '+3500 XP',
                 loot: [
-                    'Executed marketing campaigns, boosting lead conversions by 25%.',
-                    'Managed social media and email content, increasing inquiries by 10%.',
-                    'Analysed performance metrics and optimised campaigns for higher engagement.',
-                    'Assisted in organising events and brand collaborations to enhance brand visibility.'
+                    'Boosted lead conversions by 25%.',
+                    'Increased email inquiries by 10%.',
+                    'Optimised campaigns for engagement.',
+                    'Organised brand visibility events.'
                 ]
             },
             {
                 id: 'w3',
-                level: 'Quest Completed',
+                type: 'work',
                 title: 'Social Media Manager',
                 org: '1 Club',
                 location: 'London',
                 period: 'Mar 2023 – Dec 2023',
-                xp: '+2800 XP',
                 loot: [
-                    'Increased social media reach by 60% in one week through strategic marketing.',
-                    'Managed The Redefined Podcast’s social content, boosting listenership and engagement by 20%.',
-                    'Analysed social data regularly to guide marketing decisions and future strategy.',
-                    'Tracked industry trends and competitor activities.'
+                    'Increased social reach by 60%.',
+                    'Boosted podcast engagement by 20%.',
+                    'Analysed data for strategy.'
                 ]
             }
         ],
         education: [
             {
                 id: 'e1',
-                type: 'Mastery',
+                type: 'education',
                 title: 'MA. Strategic Marketing',
-                org: 'University of Greenwich',
+                org: 'Uni of Greenwich',
                 location: 'London, UK',
                 period: '2021 – 2022',
-                unlock: 'Skill Tree: Strategy',
-                desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
+                desc: 'Specialized in data-driven marketing strategies.'
             },
             {
                 id: 'e2',
-                type: 'Bachelor',
+                type: 'education',
                 title: 'BSc. Airlines & Tourism',
-                org: 'CT Group of Institutions',
+                org: 'CT Group',
                 location: 'Jalandhar, India',
                 period: '2017 – 2020',
-                unlock: 'Skill Tree: Operations',
-                desc: 'Focused on service operations, customer experience management, and global tourism trends.'
+                desc: 'Service operations & customer experience.'
             }
         ]
     });
@@ -87,104 +82,56 @@ const EducationWork = () => {
             import('firebase/firestore').then(({ doc, onSnapshot }) => {
                 const unsub = onSnapshot(doc(db, "content", "experience"), (doc) => {
                     if (doc.exists()) {
-                        setContent(doc.data());
+                        const data = doc.data();
+                        // Optional: simplify loot if needed for this compact view
+                        setContent(data);
                     }
                 });
                 return () => unsub();
             });
         });
+
+        const handleResize = () => setIsMobile(window.innerWidth < 900);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const workData = content.work || [];
-    const eduData = content.education || [];
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            // Animate Columns Staggered
-            gsap.from(workColRef.current.children, {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: workColRef.current,
-                    start: "top 80%"
-                }
-            });
-
-            gsap.from(eduColRef.current.children, {
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.2,
-                delay: 0.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: eduColRef.current,
-                    start: "top 80%"
-                }
-            });
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, []);
+    // Combine data for the orbit
+    // Order: e2 (left bottom), e1 (left top), w3 (top), w2 (right top), w1 (right bottom)
+    // Or just spread them evenly.
+    const nodes = [
+        ...(content.education || []).filter(e => e.id === 'e2'),
+        ...(content.education || []).filter(e => e.id === 'e1'),
+        ...(content.work || []).filter(w => w.id === 'w3'),
+        ...(content.work || []).filter(w => w.id === 'w2'),
+        ...(content.work || []).filter(w => w.id === 'w1'),
+    ];
 
     const styles = {
         section: {
             backgroundColor: '#FFFAF6',
             padding: '100px 5%',
-            minHeight: 'auto',
+            minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
             position: 'relative',
             overflow: 'hidden',
-        },
-        // Decorative Background Elements
-        bgOrb1: {
-            position: 'absolute',
-            top: '-10%',
-            right: '-10%',
-            width: '600px',
-            height: '600px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(216, 124, 90, 0.08) 0%, transparent 70%)',
-            zIndex: 0,
-            pointerEvents: 'none',
-        },
-        bgOrb2: {
-            position: 'absolute',
-            bottom: '10%',
-            left: '-10%',
-            width: '500px',
-            height: '500px',
-            borderRadius: '50%',
-            background: 'radial-gradient(circle, rgba(216, 124, 90, 0.05) 0%, transparent 70%)',
-            zIndex: 0,
-            pointerEvents: 'none',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
         },
         header: {
             textAlign: 'center',
-            marginBottom: '5rem',
+            marginBottom: '4rem',
             position: 'relative',
-            zIndex: 1,
+            zIndex: 10,
         },
         title: {
             fontFamily: '"Playfair Display", serif',
-            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
             color: '#3E2723',
             marginBottom: '0.5rem',
-            position: 'relative',
-            display: 'inline-block',
-        },
-        titleUnderline: {
-            content: '""',
-            display: 'block',
-            width: '60%',
-            height: '3px',
-            backgroundColor: '#D87C5A',
-            margin: '0.5rem auto 0',
-            borderRadius: '2px',
-            opacity: 0.6,
         },
         subtitle: {
             color: '#D87C5A',
@@ -192,281 +139,229 @@ const EducationWork = () => {
             fontWeight: '700',
             textTransform: 'uppercase',
             letterSpacing: '3px',
-            marginTop: '1rem',
+            marginBottom: '1rem',
             display: 'block',
         },
-        grid: {
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-            gap: '4rem',
-            maxWidth: '1200px',
-            margin: '0 auto',
-            alignItems: 'start',
+
+        // ORBIT / RADIAL CONTAINER
+        orbitContainer: {
             position: 'relative',
-            zIndex: 1,
-        },
-        colHeader: {
+            width: '100%',
+            maxWidth: '1200px',
+            height: isMobile ? 'auto' : '650px', // Fixed height for desktop orbit
             display: 'flex',
+            justifyContent: 'center',
             alignItems: 'center',
-            justifyContent: 'flex-start',
-            gap: '1rem',
-            marginBottom: '2.5rem',
-            paddingBottom: '1rem',
-            borderBottom: '1px solid rgba(62, 39, 35, 0.1)',
-        },
-        colIcon: {
-            fontSize: '1.8rem',
-            color: '#D87C5A',
-        },
-        colTitle: {
-            fontFamily: '"Playfair Display", serif',
-            fontSize: '2rem',
-            color: '#3E2723',
-            margin: 0,
+            marginBottom: '4rem',
         },
 
-        // Work Card ("Quest Log")
-        questCard: {
-            backgroundColor: '#FFFFFF',
+        // Central Image
+        centerHub: {
+            width: '400px',
+            height: '400px',
+            borderRadius: '50%',
+            position: isMobile ? 'relative' : 'absolute',
+            top: isMobile ? '0' : '50%',
+            left: isMobile ? 'auto' : '50%',
+            transform: isMobile ? 'none' : 'translate(-50%, -50%)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            zIndex: 5,
+        },
+        centerImg: {
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain',
+            filter: 'drop-shadow(0 20px 40px rgba(216, 124, 90, 0.2))',
+            transform: isMobile ? 'scale(0.9)' : 'scale(1.2)', // Make it pop
+        },
+
+        // Node
+        nodeContainer: {
+            position: isMobile ? 'relative' : 'absolute',
+            top: isMobile ? '0' : '50%',
+            left: isMobile ? 'auto' : '50%',
+            // Transform handles positioning in JS
+            width: isMobile ? '100%' : '320px',
+            padding: '1.5rem',
+            backgroundColor: '#FFF',
             borderRadius: '20px',
-            padding: '2rem',
-            marginBottom: '2rem',
-            border: '1px solid rgba(255, 255, 255, 1)',
-            boxShadow: '0 10px 40px rgba(93, 64, 55, 0.08)',
-            position: 'relative',
-            overflow: 'hidden',
-            transition: 'transform 0.4s ease, box-shadow 0.4s ease',
+            boxShadow: '0 10px 30px rgba(93, 64, 55, 0.08)',
+            border: '1px solid rgba(216, 124, 90, 0.1)',
+            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+            zIndex: 10,
+            cursor: 'default',
+            marginBottom: isMobile ? '1.5rem' : '0',
+            opacity: 1, // Controlled by GSAP usually, but hardcode visible here
         },
-        questRibbon: {
-            position: 'absolute',
-            top: '20px',
-            right: '-30px',
-            background: '#D87C5A',
-            color: '#FFF',
-            padding: '0.3rem 3rem',
-            fontSize: '0.7rem',
-            fontWeight: '800',
-            textTransform: 'uppercase',
-            transform: 'rotate(45deg)',
-            boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-            zIndex: 2,
+
+        nodeHeader: {
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            marginBottom: '0.8rem',
         },
-        cardHeader: {
-            marginBottom: '1rem',
+        iconBox: {
+            width: '45px',
+            height: '45px',
+            borderRadius: '50%',
+            background: 'rgba(216, 124, 90, 0.1)',
+            color: '#D87C5A',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.2rem',
+            flexShrink: 0,
         },
-        role: {
-            fontSize: '1.4rem',
+        nodeTitle: {
+            fontSize: '1.1rem',
             fontFamily: '"Playfair Display", serif',
             fontWeight: 700,
             color: '#3E2723',
             lineHeight: 1.2,
-            marginBottom: '0.5rem',
-            display: 'block',
-            paddingRight: '2rem', // Space for ribbon
         },
-        org: {
-            fontSize: '1rem',
-            fontWeight: 700,
-            color: '#D87C5A',
-            marginBottom: '0.2rem',
-            display: 'block',
-        },
-        meta: {
+        nodeOrg: {
             fontSize: '0.85rem',
-            color: '#8D6E63',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.6rem',
-            marginBottom: '1.5rem',
-            fontStyle: 'italic',
-        },
-        // Divider
-        divider: {
-            width: '100%',
-            height: '1px',
-            background: 'linear-gradient(to right, rgba(216, 124, 90, 0.1), rgba(216, 124, 90, 0.5), rgba(216, 124, 90, 0.1))',
-            margin: '1.5rem 0',
-        },
-        lootList: {
-            listStyle: 'none',
-            padding: 0,
-            margin: 0,
-        },
-        lootItem: {
-            fontSize: '0.95rem',
-            color: '#5D4037',
-            marginBottom: '0.8rem',
-            display: 'flex',
-            alignItems: 'flex-start',
-            gap: '0.8rem',
-            lineHeight: 1.6,
-        },
-        xpTag: {
-            display: 'inline-block',
-            marginTop: '1rem',
-            padding: '0.3rem 1rem',
-            backgroundColor: 'rgba(216, 124, 90, 0.1)',
             color: '#D87C5A',
-            borderRadius: '50px',
-            fontSize: '0.8rem',
-            fontWeight: 800,
-        },
-
-        // Education Card ("Certificate")
-        eduCard: {
-            backgroundColor: '#FFFFFF',
-            borderRadius: '20px',
-            padding: '2rem',
-            marginBottom: '2rem',
-            position: 'relative',
-            border: '1px solid #FFF',
-            borderLeft: '5px solid #D87C5A',
-            boxShadow: '0 10px 40px rgba(93, 64, 55, 0.08)',
-            transition: 'transform 0.4s ease, box-shadow 0.4s ease',
-        },
-        watermark: {
-            position: 'absolute',
-            bottom: '-20px',
-            right: '-20px',
-            fontSize: '8rem',
-            color: 'rgba(62, 39, 35, 0.03)',
-            transform: 'rotate(-15deg)',
-            pointerEvents: 'none',
-        },
-        unlockBox: {
-            marginTop: '1.5rem',
-            paddingTop: '1rem',
-            borderTop: '1px dashed rgba(62, 39, 35, 0.15)',
-            color: '#D87C5A',
-            fontSize: '0.9rem',
             fontWeight: 700,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
+            textTransform: 'uppercase',
+            display: 'block',
+        },
+        nodeDesc: {
+            fontSize: '0.9rem',
+            color: '#8D6E63',
+            lineHeight: 1.5,
         }
+    };
+
+    // calculate positions for 5 nodes in an arc
+    // Spread them from roughly 190 degrees (left) to -10 degrees (right) 
+    // to arc OVER the image.
+    const getDesktopStyle = (index) => {
+        if (isMobile) return {};
+
+        const total = nodes.length;
+        const startRad = Math.PI; // 180 degrees (Left)
+        const endRad = 0; // 0 degrees (Right)
+
+        // We want them to span nicely around the top/sides
+        // Let's place 1 at Left (-x, 0), 1 at Right (x, 0), others in between top
+        // Actually, let's use a mapping for 5 items specifically to look good
+        // 0: Left Bottom, 1: Left Top, 2: Top Center, 3: Right Top, 4: Right Middle
+
+        const radiusString = isMobile ? '0' : '380px'; // Distance from center
+        const positions = [
+            { deg: 180, label: 'bottom-left' }, // Left
+            { deg: 140, label: 'mid-left' },    // Top-Left
+            { deg: 90, label: 'top' },         // Top
+            { deg: 40, label: 'mid-right' },   // Top-Right
+            { deg: 0, label: 'right' },       // Right
+        ];
+
+        // Map 5 nodes to these positions
+        // We have 5 nodes exactly in 'nodes' array
+        const pos = positions[index] || { deg: 0 };
+        const rad = (pos.deg * Math.PI) / 180;
+        const radius = 350; // px
+
+        // In web layout (x right, y down), but math (x right, y up).
+        // x = r * cos(theta)
+        // y = -r * sin(theta) (negative to go UP)
+
+        const x = radius * Math.cos(rad);
+        const y = -radius * Math.sin(rad) * 0.8; // Flatten ellipse slightly if needed
+
+        return {
+            transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
+        };
     };
 
     return (
         <section style={styles.section} id="experience" ref={sectionRef}>
-            <div style={styles.bgOrb1}></div>
-            <div style={styles.bgOrb2}></div>
-
             <div style={styles.header}>
                 <span style={styles.subtitle}>My Journey</span>
-                <h2 style={styles.title}>
-                    Career & Academy
-                    <span style={styles.titleUnderline}></span>
-                </h2>
+                <h2 style={styles.title}>Career & Academy</h2>
             </div>
 
-            <div style={styles.grid}>
-                {/* Work Column */}
-                <div>
-                    <div style={styles.colHeader}>
-                        <FaCrown style={styles.colIcon} />
-                        <h3 style={styles.colTitle}>Main Quests</h3>
-                    </div>
-                    <div ref={workColRef}>
-                        {workData.map((item) => (
-                            <div
-                                key={item.id}
-                                style={styles.questCard}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-8px)';
-                                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(216, 124, 90, 0.15)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = styles.questCard.boxShadow;
-                                }}
-                            >
-                                {/* Ribbon for status */}
-                                {item.level === 'Current Quest' && (
-                                    <div style={styles.questRibbon}>Active</div>
+            <div style={styles.orbitContainer}>
+                {/* Central Illustration */}
+                <div style={styles.centerHub}>
+                    <img src={careerImg} alt="Career Center" style={styles.centerImg} />
+                </div>
+
+                {/* Nodes */}
+                {nodes.map((item, index) => {
+                    const isHovered = activeIndex === index;
+                    const desktopStyle = getDesktopStyle(index);
+
+                    return (
+                        <div
+                            key={item.id}
+                            style={{
+                                ...styles.nodeContainer,
+                                ...desktopStyle,
+                                transform: isMobile
+                                    ? 'none'
+                                    : desktopStyle.transform + (isHovered ? ' scale(1.1) translateY(-5px)' : ' scale(1)'),
+                                zIndex: isHovered ? 20 : 10,
+                                boxShadow: isHovered ? '0 20px 50px rgba(216, 124, 90, 0.15)' : styles.nodeContainer.boxShadow
+                            }}
+                            onMouseEnter={() => setActiveIndex(index)}
+                            onMouseLeave={() => setActiveIndex(null)}
+                        >
+                            <div style={styles.nodeHeader}>
+                                <div style={styles.iconBox}>
+                                    {item.type === 'work' ? <FaBriefcase /> : <FaGraduationCap />}
+                                </div>
+                                <div>
+                                    <span style={styles.nodeOrg}>{item.org}</span>
+                                    <h3 style={styles.nodeTitle}>{item.title}</h3>
+                                </div>
+                            </div>
+
+                            <div style={{ ...styles.nodeDesc, maxHeight: isHovered || isMobile ? '200px' : '60px', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
+                                {item.loot ? (
+                                    <ul style={{ listStyle: 'none', padding: 0 }}>
+                                        {item.loot.slice(0, 3).map((l, i) => ( // limit items for design
+                                            <li key={i} style={{ marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <div style={{ width: '4px', height: '4px', background: '#D87C5A', borderRadius: '50%' }}></div>
+                                                {l}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                ) : (
+                                    <p style={{ margin: 0 }}>{item.desc}</p>
                                 )}
-
-                                <div style={styles.cardHeader}>
-                                    <span style={styles.role}>{item.title}</span>
-                                    <span style={styles.org}>{item.org}</span>
-                                    <div style={styles.meta}>
-                                        <FaMapMarkerAlt /> {item.location} • {item.period}
-                                    </div>
-                                </div>
-
-                                <div style={styles.divider}></div>
-
-                                <ul style={styles.lootList}>
-                                    {item.loot.map((loot, i) => (
-                                        <li key={i} style={styles.lootItem}>
-                                            <FaStar size={12} color="#D87C5A" style={{ marginTop: '5px', flexShrink: 0 }} />
-                                            <span>{loot}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                                <div style={styles.xpTag}>
-                                    <FaTrophy style={{ marginRight: '5px' }} /> {item.xp}
-                                </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
 
-                {/* Education Column */}
-                <div>
-                    <div style={styles.colHeader}>
-                        <FaScroll style={styles.colIcon} />
-                        <h3 style={styles.colTitle}>Academy</h3>
-                    </div>
-                    <div ref={eduColRef}>
-                        {eduData.map((item) => (
-                            <div
-                                key={item.id}
-                                style={styles.eduCard}
-                                onMouseEnter={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(-8px)';
-                                    e.currentTarget.style.boxShadow = '0 20px 60px rgba(216, 124, 90, 0.15)';
-                                }}
-                                onMouseLeave={(e) => {
-                                    e.currentTarget.style.transform = 'translateY(0)';
-                                    e.currentTarget.style.boxShadow = styles.eduCard.boxShadow;
-                                }}
-                            >
-                                <div style={styles.watermark}>
-                                    <FaGraduationCap />
-                                </div>
-                                <div style={styles.cardHeader}>
-                                    <span style={styles.role}>{item.title}</span>
-                                    <span style={styles.org}>{item.org}</span>
-                                    <div style={styles.meta}>
-                                        <FaGraduationCap /> {item.location} • {item.period}
-                                    </div>
-                                </div>
-
-                                <p style={{ fontSize: '0.95rem', color: '#6D4C41', lineHeight: 1.6, position: 'relative', zIndex: 1 }}>
-                                    {item.desc}
-                                </p>
-
-                                <div style={styles.unlockBox}>
-                                    <FaMedal size={16} />
-                                    <span>{item.unlock}</span>
-                                </div>
+                            <div style={{
+                                marginTop: '1rem',
+                                fontSize: '0.8rem',
+                                color: '#8D6E63',
+                                fontWeight: 700,
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '5px'
+                            }}>
+                                <FaCalendarAlt /> {item.period}
                             </div>
-                        ))}
-                    </div>
-                </div>
+                        </div>
+                    );
+                })}
+
+
+                {/* Mobile: Just list them normally (flex column handled by container styles on mobile if needed) */}
+                {isMobile && (
+                    <style>{`
+                        .orbitContainer {
+                            flex-direction: column !important;
+                            height: auto !important;
+                             margin-top: 2rem !important;
+                        }
+                    `}</style>
+                )}
             </div>
-
-            <style>{`
-                @media (max-width: 900px) {
-                    div[style*="gridTemplateColumns"] {
-                        grid-template-columns: 1fr !important;
-                    }
-                    /* Center header on mobile */
-                    div[style*="justify-content: flex-start"] {
-                        justify-content: center !important;
-                    }
-                }
-            `}</style>
         </section>
     );
 };
