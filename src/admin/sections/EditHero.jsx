@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import Toast from '../components/Toast';
 
 const EditHero = () => {
     const [formData, setFormData] = useState({
@@ -57,11 +58,11 @@ const EditHero = () => {
 
     return (
         <div>
+            {msg && <Toast msg={msg} onClose={() => setMsg('')} />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <h2 style={{ color: '#333', border: 'none' }}>Edit Hero Section</h2>
-                {msg && <span style={{ color: msg.includes('Error') ? 'red' : 'lightgreen' }}>{msg}</span>}
             </div>
-
+            {/* ... rest of form ... */}
             <form onSubmit={handleSubmit} style={{ maxWidth: '800px' }}>
                 <div className="admin-form-group">
                     <label className="admin-label">Heading Line 1</label>

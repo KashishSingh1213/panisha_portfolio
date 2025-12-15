@@ -1,0 +1,118 @@
+.admin-toast-container {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    z-index: 9999;
+    font-family: 'Poppins', sans-serif;
+}
+
+.admin-toast {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+    transform: translateX(120%);
+    animation: toastSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    overflow: hidden;
+    position: relative;
+    color: #333;
+}
+
+.admin-toast.success {
+    border-left: 5px solid #00b894;
+}
+
+.admin-toast.error {
+    border-left: 5px solid #d63031;
+}
+
+.toast-icon-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.success .toast-icon-box {
+    background: rgba(0, 184, 148, 0.15);
+    color: #00b894;
+}
+
+.error .toast-icon-box {
+    background: rgba(214, 48, 49, 0.15);
+    color: #d63031;
+}
+
+.toast-content {
+    flex: 1;
+}
+
+.toast-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
+    color: #2d3436;
+    display: block;
+}
+
+.toast-message {
+    font-size: 0.85rem;
+    color: #636e72;
+}
+
+.toast-close {
+    background: none;
+    border: none;
+    color: #b2bec3;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s;
+    padding: 0;
+    line-height: 1;
+}
+
+.toast-close:hover {
+    color: #2d3436;
+}
+
+.toast-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: #00b894;
+    animation: toastProgress 3s linear forwards;
+}
+
+.error .toast-progress {
+    background: #d63031;
+}
+
+@keyframes toastSlideIn {
+    0% {
+        transform: translateX(120%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes toastProgress {
+    0% {
+        width: 100%;
+    }
+
+    100% {
+        width: 0%;
+    }
+}

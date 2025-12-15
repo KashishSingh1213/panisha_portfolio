@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import Toast from '../components/Toast';
 
 const EditServices = () => {
     // We will store the services array as a JSON string for simplicity in editing individual fields, 
@@ -74,9 +75,9 @@ const EditServices = () => {
 
     return (
         <div>
+            {msg && <Toast msg={msg} onClose={() => setMsg('')} />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <h2 style={{ color: '#333' }}>Edit Services</h2>
-                <span style={{ color: msg.includes('Error') ? 'red' : 'lightgreen' }}>{msg}</span>
             </div>
             <form onSubmit={handleSubmit} style={{ maxWidth: '900px' }}>
                 {services.map((service, index) => (
