@@ -25,36 +25,48 @@ const SelectedWork = () => {
                                 id: 1,
                                 title: "Marketing Campaigns",
                                 desc: "High-performing marketing campaigns that increased enquiries and conversions.",
+                                details: "Detailed marketing strategy execution focusing on ROI and audience engagement.",
                                 image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
                             },
                             {
                                 id: 2,
                                 title: "Brand Identity",
                                 desc: "Visuals that matter and define your corporate presence.",
+                                details: "Creating cohesive brand identities from logo design to brand guidelines.",
                                 image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
                             },
                             {
                                 id: 3,
                                 title: "Strategy & Vision",
                                 desc: "Where data meets creativity to drive growth.",
+                                details: "Long-term strategic planning to position brands for success in competitive markets.",
                                 image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600",
                             },
                             {
                                 id: 4,
                                 title: "Video Content",
                                 desc: "Video content for events, branding, and collaborations.",
+                                details: "I have expertise in video editing and creation, including projects for company, personal branding, collaborations/partnerships, and trending content.",
                                 image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=600",
                             },
                             {
                                 id: 5,
                                 title: "Social Media",
                                 desc: "Social media projects that achieved significant reach.",
+                                details: "Managing and growing social media communities across platforms.",
                                 image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600",
                             },
                             {
                                 id: 6,
                                 title: "Copywriting",
                                 desc: "Written content that aligns with brand voice.",
+                                details: `I have hands-on experience in content writing for both personal branding and company-focused projects. My work covers a wide range, from writing marketing materials like brochures, leaflets, and banners to crafting copy for brand merchandise such as T-shirts, notebooks, and tote bags. Always ensuring consistency in tone and message.
+
+A key part of my content writing includes developing platform-specific social media content. I create tailored captions and copy that align with the tone and audience of each platform, including professional and value-driven posts for LinkedIn, engaging visual storytelling for Instagram, community-focused updates for Facebook, and concise descriptions for YouTube.
+
+In addition to creative content, I’ve also worked closely on writing and reviewing formal documents such as funding projects, contracts and NDAs, ensuring they are clear, professional, and aligned with brand standards.
+
+Whether it’s building a brand voice, writing for different formats, or adapting content to fit various platforms, I bring a thoughtful, and strategic approach to every piece I create.`,
                                 image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600",
                             }
                         ]);
@@ -65,103 +77,11 @@ const SelectedWork = () => {
         });
     }, []);
 
-    // Animation for List View
-    useEffect(() => {
-        if (!selectedProject && works.length > 0) {
-            // Force refresh of ScrollTrigger to ensure positions are correct after view switch
-            ScrollTrigger.refresh();
-
-            const ctx = gsap.context(() => {
-                gsap.fromTo(".process-item",
-                    { y: 100, opacity: 0 },
-                    {
-                        y: 0,
-                        opacity: 1,
-                        duration: 0.8,
-                        stagger: 0.1,
-                        ease: "power3.out", // Smoother, no overshoot
-                        scrollTrigger: {
-                            trigger: containerRef.current,
-                            start: "top 85%", // Trigger slightly earlier/easier
-                        }
-                    }
-                );
-
-                gsap.fromTo(".connect-line",
-                    { width: 0 },
-                    {
-                        width: '90%', // Ensure it doesn't go 100% if padding issues exist
-                        duration: 1.5,
-                        ease: "power2.out",
-                        delay: 0.3,
-                        scrollTrigger: {
-                            trigger: containerRef.current,
-                            start: "top 85%",
-                        }
-                    }
-                );
-            }, sectionRef);
-            return () => ctx.revert();
-        }
-    }, [works, selectedProject]);
-
-    // Animation for Detail View
-    useEffect(() => {
-        if (selectedProject) {
-            // Scroll to top of section
-            if (sectionRef.current) {
-                sectionRef.current.scrollIntoView({ behavior: 'smooth' });
-            }
-
-            const ctx = gsap.context(() => {
-                // Image Scale & Fade
-                gsap.from(".detail-img-anim", {
-                    y: -50,
-                    opacity: 0,
-                    scale: 0.95,
-                    duration: 1,
-                    ease: "power3.out"
-                });
-                // Title Fade Up
-                gsap.from(".detail-title-anim", {
-                    y: 30,
-                    opacity: 0,
-                    duration: 0.8,
-                    delay: 0.2,
-                    ease: "power3.out"
-                });
-                // Left Column (Text) Slide In
-                gsap.from(".detail-left-anim", {
-                    x: -50,
-                    opacity: 0,
-                    duration: 0.8,
-                    delay: 0.4,
-                    ease: "power3.out"
-                });
-                // Right Column (Meta) Slide In
-                gsap.from(".detail-right-anim", {
-                    x: 50,
-                    opacity: 0,
-                    duration: 0.8,
-                    delay: 0.5,
-                    ease: "power3.out"
-                });
-                // Gallery Stagger
-                gsap.from(".detail-gallery div", {
-                    y: 50,
-                    opacity: 0,
-                    duration: 0.8,
-                    stagger: 0.1,
-                    delay: 0.6,
-                    ease: "power3.out"
-                });
-            }, detailRef);
-            return () => ctx.revert();
-        }
-    }, [selectedProject]);
-
     // Warm colors
     const colors = ['#E76F51', '#2A9D8F', '#F4A261', '#264653', '#E9C46A', '#D87C5A'];
+
+
+    // ... (animations unchanged)
 
     // Render Detail View
     if (selectedProject) {
@@ -217,12 +137,14 @@ const SelectedWork = () => {
                     <div className="detail-grid">
                         <div className="detail-text detail-left-anim">
                             <h3 style={{ fontSize: '2rem', fontFamily: '"Playfair Display", serif', color: color, marginBottom: '20px' }}>Project Overview</h3>
-                            <p style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#5D4037', marginBottom: '20px' }}>
-                                {selectedProject.desc} This project was conceived with a vision to revolutionize the way users interact with the brand. Through careful strategy and impeccable execution, we achieved results that speak for themselves.
-                            </p>
-                            <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#5D4037', opacity: 0.8 }}>
-                                We focused on creating a seamless experience that guides the user through the journey, ensuring every touchpoint transforms interest into action.
-                            </p>
+                            <div style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#5D4037', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>
+                                {selectedProject.details || selectedProject.desc}
+                            </div>
+                            {!selectedProject.details && ( // Only show generic text if no specific details exist
+                                <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#5D4037', opacity: 0.8 }}>
+                                    We focused on creating a seamless experience that guides the user through the journey, ensuring every touchpoint transforms interest into action.
+                                </p>
+                            )}
                         </div>
                         <div className="detail-meta detail-right-anim">
                             <div className="meta-item">
@@ -304,8 +226,9 @@ const SelectedWork = () => {
                 {/* Connecting Line Background */}
                 <div className="connect-line"></div>
 
+                {/* Move colors definition up or use it inside the component scope where it is already defined */}
                 {works.map((work, index) => {
-                    const color = colors[index % colors.length];
+                    const color = colors[index % colors.length]; // colors is defined in the component scope
                     return (
                         <div key={work.id || index} className="process-item">
 

@@ -45,12 +45,66 @@ const EditProjects = () => {
     const [msg, setMsg] = useState('');
 
     const defaultWorks = [
-        { id: 1, title: "Marketing Campaigns", desc: "High-performing marketing campaigns...", image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600", type: "arch", col: 1 },
-        { id: 4, title: "Graphic Creatives", desc: "Graphic creatives for corporate...", image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600", type: "inverted", col: 1 },
-        { id: 6, title: "Strategy & Vision", desc: "Where data meets creativity.", image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600", type: "inverted-small", col: 2 },
-        { id: 3, title: "Video Content", desc: "Video content for events...", image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=600", type: "circle", col: 2 },
-        { id: 2, title: "Social Media", desc: "Social media projects...", image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600", type: "arch", col: 3 },
-        { id: 5, title: "Written Content", desc: "Written content across platforms...", image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600", type: "inverted", col: 3 }
+        {
+            id: 1,
+            title: "Marketing Campaigns",
+            desc: "High-performing marketing campaigns that increased enquiries and conversions.",
+            details: "Detailed marketing strategy execution focusing on ROI and audience engagement.",
+            image: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80&w=600",
+            type: "arch",
+            col: 1
+        },
+        {
+            id: 2,
+            title: "Brand Identity",
+            desc: "Visuals that matter and define your corporate presence.",
+            details: "Creating cohesive brand identities from logo design to brand guidelines.",
+            image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80&w=600",
+            type: "inverted",
+            col: 1
+        },
+        {
+            id: 3,
+            title: "Strategy & Vision",
+            desc: "Where data meets creativity to drive growth.",
+            details: "Long-term strategic planning to position brands for success in competitive markets.",
+            image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=600",
+            type: "inverted-small",
+            col: 2
+        },
+        {
+            id: 4,
+            title: "Video Content",
+            desc: "Video content for events, branding, and collaborations.",
+            details: "I have expertise in video editing and creation, including projects for company, personal branding, collaborations/partnerships, and trending content.",
+            image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80&w=600",
+            type: "circle",
+            col: 2
+        },
+        {
+            id: 5,
+            title: "Social Media",
+            desc: "Social media projects that achieved significant reach.",
+            details: "Managing and growing social media communities across platforms.",
+            image: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?auto=format&fit=crop&q=80&w=600",
+            type: "arch",
+            col: 3
+        },
+        {
+            id: 6,
+            title: "Copywriting",
+            desc: "Written content that aligns with brand voice.",
+            details: `I have hands-on experience in content writing for both personal branding and company-focused projects. My work covers a wide range, from writing marketing materials like brochures, leaflets, and banners to crafting copy for brand merchandise such as T-shirts, notebooks, and tote bags. Always ensuring consistency in tone and message.
+
+A key part of my content writing includes developing platform-specific social media content. I create tailored captions and copy that align with the tone and audience of each platform, including professional and value-driven posts for LinkedIn, engaging visual storytelling for Instagram, community-focused updates for Facebook, and concise descriptions for YouTube.
+
+In addition to creative content, I’ve also worked closely on writing and reviewing formal documents such as funding projects, contracts and NDAs, ensuring they are clear, professional, and aligned with brand standards.
+
+Whether it’s building a brand voice, writing for different formats, or adapting content to fit various platforms, I bring a thoughtful, and strategic approach to every piece I create.`,
+            image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=600",
+            type: "inverted",
+            col: 3
+        }
     ];
 
     useEffect(() => {
@@ -82,7 +136,7 @@ const EditProjects = () => {
     const handleAdd = () => {
         // Auto-increment ID
         const maxId = works.reduce((max, w) => Math.max(max, w.id), 0);
-        setWorks([...works, { id: maxId + 1, title: 'New Project', desc: '', image: '', type: 'arch', col: 1 }]);
+        setWorks([...works, { id: maxId + 1, title: 'New Project', desc: '', details: '', image: '', type: 'arch', col: 1 }]);
     };
 
     const handleRemove = (index) => {
@@ -131,8 +185,13 @@ const EditProjects = () => {
                         </div>
 
                         <div className="admin-form-group">
-                            <label className="admin-label">Description</label>
+                            <label className="admin-label">Short Description (Card)</label>
                             <textarea className="admin-textarea" style={{ minHeight: '60px' }} value={work.desc} onChange={(e) => handleChange(index, 'desc', e.target.value)} />
+                        </div>
+
+                        <div className="admin-form-group">
+                            <label className="admin-label">Full Details (Detail View)</label>
+                            <textarea className="admin-textarea" style={{ minHeight: '120px' }} value={work.details || ''} onChange={(e) => handleChange(index, 'details', e.target.value)} />
                         </div>
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>

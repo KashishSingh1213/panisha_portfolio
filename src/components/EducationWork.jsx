@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaTrophy, FaScroll, FaMapMarkerAlt, FaStar, FaCrown, FaBriefcase, FaGraduationCap, FaMedal } from 'react-icons/fa';
@@ -10,76 +10,93 @@ const EducationWork = () => {
     const workColRef = useRef(null);
     const eduColRef = useRef(null);
 
-    const workData = [
-        {
-            id: 'w1',
-            level: 'Current Quest',
-            title: 'Digital Marketing Executive',
-            org: 'CT Group of Institutions',
-            location: 'Jalandhar',
-            period: 'May 2025 – Present',
-            xp: '+5000 XP',
-            loot: [
-                'Manage paid lead-generation campaigns to increase student enquiries.',
-                'Run brand-awareness campaigns to strengthen CT Group’s digital presence.',
-                'Revamped course pages with the web team to improve UX and conversions.',
-                'Added a Placement section to showcase outcomes and support admissions.'
-            ]
-        },
-        {
-            id: 'w2',
-            level: 'Quest Completed',
-            title: 'Marketing & Sales Manager',
-            org: 'Indigo Sails',
-            location: 'London',
-            period: 'Jan 2024 – Mar 2025',
-            xp: '+3500 XP',
-            loot: [
-                'Executed marketing campaigns, boosting lead conversions by 25%.',
-                'Managed social media and email content, increasing inquiries by 10%.',
-                'Analysed performance metrics and optimised campaigns for higher engagement.',
-                'Assisted in organising events and brand collaborations to enhance brand visibility.'
-            ]
-        },
-        {
-            id: 'w3',
-            level: 'Quest Completed',
-            title: 'Social Media Manager',
-            org: '1 Club',
-            location: 'London',
-            period: 'Mar 2023 – Dec 2023',
-            xp: '+2800 XP',
-            loot: [
-                'Increased social media reach by 60% in one week through strategic marketing.',
-                'Managed The Redefined Podcast’s social content, boosting listenership and engagement by 20%.',
-                'Analysed social data regularly to guide marketing decisions and future strategy.',
-                'Tracked industry trends and competitor activities.'
-            ]
-        }
-    ];
+    const [content, setContent] = useState({
+        work: [
+            {
+                id: 'w1',
+                level: 'Current Quest',
+                title: 'Digital Marketing Executive',
+                org: 'CT Group of Institutions',
+                location: 'Jalandhar',
+                period: 'May 2025 – Present',
+                xp: '+5000 XP',
+                loot: [
+                    'Manage paid lead-generation campaigns to increase student enquiries.',
+                    'Run brand-awareness campaigns to strengthen CT Group’s digital presence.',
+                    'Revamped course pages with the web team to improve UX and conversions.',
+                    'Added a Placement section to showcase outcomes and support admissions.'
+                ]
+            },
+            {
+                id: 'w2',
+                level: 'Quest Completed',
+                title: 'Marketing & Sales Manager',
+                org: 'Indigo Sails',
+                location: 'London',
+                period: 'Jan 2024 – Mar 2025',
+                xp: '+3500 XP',
+                loot: [
+                    'Executed marketing campaigns, boosting lead conversions by 25%.',
+                    'Managed social media and email content, increasing inquiries by 10%.',
+                    'Analysed performance metrics and optimised campaigns for higher engagement.',
+                    'Assisted in organising events and brand collaborations to enhance brand visibility.'
+                ]
+            },
+            {
+                id: 'w3',
+                level: 'Quest Completed',
+                title: 'Social Media Manager',
+                org: '1 Club',
+                location: 'London',
+                period: 'Mar 2023 – Dec 2023',
+                xp: '+2800 XP',
+                loot: [
+                    'Increased social media reach by 60% in one week through strategic marketing.',
+                    'Managed The Redefined Podcast’s social content, boosting listenership and engagement by 20%.',
+                    'Analysed social data regularly to guide marketing decisions and future strategy.',
+                    'Tracked industry trends and competitor activities.'
+                ]
+            }
+        ],
+        education: [
+            {
+                id: 'e1',
+                type: 'Mastery',
+                title: 'MA. Strategic Marketing',
+                org: 'University of Greenwich',
+                location: 'London, UK',
+                period: '2021 – 2022',
+                unlock: 'Skill Tree: Strategy',
+                desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
+            },
+            {
+                id: 'e2',
+                type: 'Bachelor',
+                title: 'BSc. Airlines & Tourism',
+                org: 'CT Group of Institutions',
+                location: 'Jalandhar, India',
+                period: '2017 – 2020',
+                unlock: 'Skill Tree: Operations',
+                desc: 'Focused on service operations, customer experience management, and global tourism trends.'
+            }
+        ]
+    });
 
-    const eduData = [
-        {
-            id: 'e1',
-            type: 'Mastery',
-            title: 'MA. Strategic Marketing',
-            org: 'University of Greenwich',
-            location: 'London, UK',
-            period: '2021 – 2022',
-            unlock: 'Skill Tree: Strategy',
-            desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
-        },
-        {
-            id: 'e2',
-            type: 'Bachelor',
-            title: 'BSc. Airlines & Tourism',
-            org: 'CT Group of Institutions',
-            location: 'Jalandhar, India',
-            period: '2017 – 2020',
-            unlock: 'Skill Tree: Operations',
-            desc: 'Focused on service operations, customer experience management, and global tourism trends.'
-        }
-    ];
+    useEffect(() => {
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, onSnapshot }) => {
+                const unsub = onSnapshot(doc(db, "content", "experience"), (doc) => {
+                    if (doc.exists()) {
+                        setContent(doc.data());
+                    }
+                });
+                return () => unsub();
+            });
+        });
+    }, []);
+
+    const workData = content.work || [];
+    const eduData = content.education || [];
 
     useEffect(() => {
         const ctx = gsap.context(() => {

@@ -56,6 +56,9 @@ const AdminLayout = () => {
                     <Link to="/admin/projects" className={`admin-nav-link ${isActive('/admin/projects')}`}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>🚀</span> <span className="text">Edit Projects</span>
                     </Link>
+                    <Link to="/admin/experience" className={`admin-nav-link ${isActive('/admin/experience')}`}>
+                        <span style={{ width: '24px', fontSize: '1.2rem' }}>⚔️</span> <span className="text">Edit Experience</span>
+                    </Link>
                     <Link to="/admin/header" className={`admin-nav-link ${isActive('/admin/header')}`}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>🔝</span> <span className="text">Edit Header</span>
                     </Link>

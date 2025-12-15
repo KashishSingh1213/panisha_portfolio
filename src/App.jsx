@@ -23,6 +23,7 @@ import EditTestimonials from './admin/sections/EditTestimonials';
 import ViewMessages from './admin/sections/ViewMessages';
 import EditHeader from './admin/sections/EditHeader';
 import EditFooter from './admin/sections/EditFooter';
+import EditExperience from './admin/sections/EditExperience';
 
 const Portfolio = () => {
   React.useEffect(() => {
@@ -89,6 +90,7 @@ function App() {
             <Route path="testimonials" element={<EditTestimonials />} />
             <Route path="header" element={<EditHeader />} />
             <Route path="footer" element={<EditFooter />} />
+            <Route path="experience" element={<EditExperience />} />
             <Route path="messages" element={<ViewMessages />} />
           </Route>
         </Routes>

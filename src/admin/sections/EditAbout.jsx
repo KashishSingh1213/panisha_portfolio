@@ -54,10 +54,10 @@ const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
 
 const EditAbout = () => {
     const [formData, setFormData] = useState({
-        heading: 'Crafting stories that connect & convert.',
-        highlight: 'connect & convert.',
-        desc1: 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
-        desc2: 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
+        heading: 'Strategic Content that \nBuilds Brands.',
+        highlight: 'Builds Brands.',
+        desc1: 'I have hands-on experience in content writing for both personal branding and company-focused projects. My work covers a wide range, from writing marketing materials like brochures and banners to crafting copy for brand merchandise, always ensuring consistency in tone and message.',
+        desc2: 'Whether it’s building a brand voice, writing for different formats, or adapting content to fit various platforms, I bring a thoughtful, and strategic approach to every piece I create.',
         yearsExp: '5+',
         projectsDelivered: '50+',
         img1: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80',
