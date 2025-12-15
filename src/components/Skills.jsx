@@ -1,6 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+    FaCalendarAlt, FaChessKnight, FaSearch, FaChartLine, FaPenNib,
+    FaBookOpen, FaCommentDots, FaMicrophoneAlt, FaVideo, FaImage,
+    FaPalette, FaChartBar, FaMobileAlt, FaTasks, FaWrench
+} from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -8,6 +13,24 @@ const Skills = () => {
     const containerRef = useRef(null);
     const cardsRef = useRef([]);
     const [skillsData, setSkillsData] = React.useState([]);
+
+    // Map skill names to React Icons
+    const iconMap = {
+        'Campaign Planning': <FaCalendarAlt />,
+        'Brand Positioning': <FaChessKnight />,
+        'Audience Research': <FaSearch />,
+        'Performance Analysis': <FaChartLine />,
+        'Content Writing': <FaPenNib />,
+        'Storytelling': <FaBookOpen />,
+        'Social Media Copy': <FaCommentDots />,
+        'Brand Voice': <FaMicrophoneAlt />,
+        'Video Editing': <FaVideo />,
+        'Visual Storytelling': <FaImage />,
+        'Graphic Content': <FaPalette />,
+        'Analytics Tools': <FaChartBar />,
+        'Social Platforms': <FaMobileAlt />,
+        'Planning Tools': <FaTasks />
+    };
 
     useEffect(() => {
         // Fetch content
@@ -19,20 +42,20 @@ const Skills = () => {
                     } else {
                         // Default data
                         setSkillsData([
-                            { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', icon: '📅', color: '#FFF3E0' },
-                            { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', icon: '🎯', color: '#E3F2FD' },
-                            { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', icon: '🔍', color: '#F3E5F5' },
-                            { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', icon: '📊', color: '#E8F5E9' },
-                            { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', icon: '✍️', color: '#FFF8E1' },
-                            { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', icon: '📖', color: '#ECEFF1' },
-                            { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', icon: '💬', color: '#FFEBEE' },
-                            { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', icon: '🗣️', color: '#E0F7FA' },
-                            { id: '09', name: 'Video Editing', desc: 'High-impact video content.', icon: '🎬', color: '#FFF3E0' },
-                            { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', icon: '🖼️', color: '#F3E5F5' },
-                            { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', icon: '🎨', color: '#E8F5E9' },
-                            { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', icon: '📈', color: '#FFF8E1' },
-                            { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', icon: '📱', color: '#E3F2FD' },
-                            { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', icon: '🗓️', color: '#FFEBEE' }
+                            { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', color: '#FFF3E0' },
+                            { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', color: '#E3F2FD' },
+                            { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', color: '#F3E5F5' },
+                            { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', color: '#E8F5E9' },
+                            { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', color: '#FFF8E1' },
+                            { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', color: '#ECEFF1' },
+                            { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', color: '#FFEBEE' },
+                            { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', color: '#E0F7FA' },
+                            { id: '09', name: 'Video Editing', desc: 'High-impact video content.', color: '#FFF3E0' },
+                            { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', color: '#F3E5F5' },
+                            { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', color: '#E8F5E9' },
+                            { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', color: '#FFF8E1' },
+                            { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', color: '#E3F2FD' },
+                            { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', color: '#FFEBEE' }
                         ]);
                     }
                 });
@@ -43,21 +66,19 @@ const Skills = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Wait for data to be populated or else selector might be empty if not careful, 
-            // but here we just animate whatever is in cardsRef which gets assigned in render
             if (cardsRef.current.length > 0) {
                 gsap.fromTo(cardsRef.current,
-                    { y: -200, opacity: 0, rotate: "random(-15, 15)" },
+                    { y: 100, opacity: 0, rotate: "random(-5, 5)" },
                     {
                         y: 0,
                         opacity: 1,
-                        rotate: "random(-3, 3)",
-                        duration: 1.2,
+                        rotate: 0,
+                        duration: 0.8,
                         stagger: 0.1,
-                        ease: 'elastic.out(1, 0.5)',
+                        ease: 'back.out(1.2)',
                         scrollTrigger: {
                             trigger: containerRef.current,
-                            start: 'top 70%',
+                            start: 'top 80%',
                         }
                     }
                 );
@@ -65,12 +86,12 @@ const Skills = () => {
         }, containerRef);
 
         return () => ctx.revert();
-    }, [skillsData]); // Re-run animation when data loads
+    }, [skillsData]);
 
     const styles = {
         section: {
             backgroundColor: '#FFFAF6',
-            padding: '100px 5%',
+            padding: '120px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
             overflow: 'hidden',
@@ -81,7 +102,7 @@ const Skills = () => {
         },
         h2: {
             fontFamily: '"Playfair Display", serif',
-            fontSize: '3.5rem',
+            fontSize: 'clamp(2.5rem, 5vw, 4rem)',
             color: '#3E2723',
             marginBottom: '1rem',
         },
@@ -89,60 +110,67 @@ const Skills = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: '3rem',
-            maxWidth: '1200px',
+            gap: '2rem',
+            maxWidth: '1400px',
             margin: '0 auto',
             perspective: '1000px',
         },
         card: {
-            width: '280px',
-            minHeight: '320px',
+            width: '260px',
+            minHeight: '300px',
             backgroundColor: '#FFF',
-            padding: '2rem 1.5rem',
-            borderRadius: '10px', // Paper-like rounded corners
+            padding: '2rem',
+            borderRadius: '20px',
             position: 'relative',
-            boxShadow: '0 10px 30px rgba(93, 64, 55, 0.1), 0 1px 3px rgba(93, 64, 55, 0.05)',
+            boxShadow: '0 15px 35px rgba(0,0,0,0.05)',
             transformOrigin: 'top center',
             display: 'flex',
             flexDirection: 'column',
-            transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
             cursor: 'default',
+            border: '1px solid rgba(0,0,0,0.02)'
         },
         pin: {
-            width: '24px',
-            height: '24px',
+            width: '16px',
+            height: '16px',
             borderRadius: '50%',
-            background: 'radial-gradient(circle at 30% 30%, #FF8A65, #D84315)', // 3D Pin look
+            background: '#D87C5A',
             position: 'absolute',
-            top: '-12px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            boxShadow: '0 5px 10px rgba(0,0,0,0.2)',
-            zIndex: 10,
+            top: '20px',
+            right: '20px',
+            boxShadow: '0 0 0 4px rgba(216, 124, 90, 0.2)',
         },
         number: {
-            fontSize: '1.5rem',
-            fontFamily: '"Playfair Display", serif',
+            fontSize: '1rem',
+            fontFamily: '"Manrope", sans-serif',
             fontWeight: 'bold',
-            color: '#D87C5A', // Terracotta
-            opacity: 0.8,
-            marginBottom: '1rem',
+            color: '#D87C5A',
+            opacity: 0.6,
+            marginBottom: '1.5rem',
+            display: 'block'
         },
         iconContainer: {
-            fontSize: '3rem',
-            marginBottom: '1rem',
-            alignSelf: 'flex-start',
+            fontSize: '2.5rem',
+            marginBottom: '1.5rem',
+            color: '#3E2723',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            height: '60px'
         },
         cardTitle: {
-            fontSize: '1.5rem',
+            fontSize: '1.3rem',
             color: '#3E2723',
-            marginBottom: '0.5rem',
+            marginBottom: '0.8rem',
             fontWeight: 700,
+            fontFamily: '"Playfair Display", serif',
+            lineHeight: 1.2
         },
         cardDesc: {
             fontSize: '0.95rem',
-            color: '#795548',
+            color: '#6D4C41',
             lineHeight: 1.6,
+            opacity: 0.9
         }
     };
 
@@ -150,33 +178,42 @@ const Skills = () => {
         <section style={styles.section} id="skills" ref={containerRef}>
             <div style={styles.header}>
                 <h2 style={styles.h2}>Technical Arsenal</h2>
-                <p style={{ color: '#8D6E63', fontSize: '1.1rem' }}>My toolkit for crafting digital experiences</p>
+                <p style={{ color: '#8D6E63', fontSize: '1.2rem' }}>My toolkit for crafting digital experiences</p>
             </div>
 
             <div style={styles.grid}>
-                {skillsData.map((skill, index) => (
-                    <div
-                        key={skill.id}
-                        ref={el => cardsRef.current[index] = el}
-                        style={{
-                            ...styles.card,
-                            background: `linear-gradient(135deg, #FFFFFF 0%, ${skill.color} 100%)` // Subtle colored tint at bottom right
-                        }}
-                        className="skill-card"
-                        onMouseEnter={(e) => {
-                            gsap.to(e.currentTarget, { scale: 1.05, rotate: 0, zIndex: 10, duration: 0.3 });
-                        }}
-                        onMouseLeave={(e) => {
-                            gsap.to(e.currentTarget, { scale: 1, rotate: "random(-3, 3)", zIndex: 1, duration: 0.3 });
-                        }}
-                    >
-                        <div style={styles.pin}></div>
-                        <span style={styles.number}>{skill.id}</span>
-                        <div style={styles.iconContainer}>{skill.icon}</div>
-                        <h3 style={styles.cardTitle}>{skill.name}</h3>
-                        <p style={styles.cardDesc}>{skill.desc}</p>
-                    </div>
-                ))}
+                {skillsData.map((skill, index) => {
+                    // Fallback to generic icon if mapped one isn't found
+                    const IconComponent = iconMap[skill.name] || <FaWrench />;
+
+                    return (
+                        <div
+                            key={skill.id}
+                            ref={el => cardsRef.current[index] = el}
+                            style={{
+                                ...styles.card,
+                                background: `linear-gradient(170deg, #FFFFFF 60%, ${skill.color || '#FFF3E0'} 100%)`
+                            }}
+                            className="skill-card"
+                            onMouseEnter={(e) => {
+                                gsap.to(e.currentTarget, { y: -10, scale: 1.02, boxShadow: '0 20px 40px rgba(0,0,0,0.1)', duration: 0.3 });
+                            }}
+                            onMouseLeave={(e) => {
+                                gsap.to(e.currentTarget, { y: 0, scale: 1, boxShadow: '0 15px 35px rgba(0,0,0,0.05)', duration: 0.3 });
+                            }}
+                        >
+                            <div style={styles.pin}></div>
+                            <span style={styles.number}>0{index + 1}</span>
+
+                            <div style={styles.iconContainer}>
+                                {IconComponent}
+                            </div>
+
+                            <h3 style={styles.cardTitle}>{skill.name}</h3>
+                            <p style={styles.cardDesc}>{skill.desc}</p>
+                        </div>
+                    );
+                })}
             </div>
         </section>
     );
