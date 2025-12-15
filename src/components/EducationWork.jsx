@@ -21,10 +21,10 @@ const EducationWork = () => {
                 location: 'Jalandhar',
                 period: 'May 2025 – Present',
                 loot: [
-                    'Manage paid lead-generation campaigns.',
-                    'Run brand-awareness campaigns.',
-                    'Revamped course pages for better UX.',
-                    'Showcase placement outcomes.'
+                    'Manage paid lead-generation campaigns to increase student enquiries.',
+                    'Run brand-awareness campaigns to strengthen CT Group’s digital presence.',
+                    'Revamped course pages with the web team to improve UX and conversions.',
+                    'Added a Placement section to showcase outcomes and support admissions.'
                 ]
             },
             {
@@ -35,10 +35,10 @@ const EducationWork = () => {
                 location: 'London',
                 period: 'Jan 2024 – Mar 2025',
                 loot: [
-                    'Boosted lead conversions by 25%.',
-                    'Increased email inquiries by 10%.',
-                    'Optimised campaigns for engagement.',
-                    'Organised brand visibility events.'
+                    'Executed marketing campaigns, boosting lead conversions by 25%.',
+                    'Managed social media and email content, increasing inquiries by 10%.',
+                    'Analysed performance metrics and optimised campaigns for higher engagement.',
+                    'Assisted in organising events and brand collaborations to enhance brand visibility.'
                 ]
             },
             {
@@ -49,9 +49,10 @@ const EducationWork = () => {
                 location: 'London',
                 period: 'Mar 2023 – Dec 2023',
                 loot: [
-                    'Increased social reach by 60%.',
-                    'Boosted podcast engagement by 20%.',
-                    'Analysed data for strategy.'
+                    'Increased social media reach by 60% in one week through strategic marketing.',
+                    'Managed The Redefined Podcast’s social content, boosting listenership and engagement by 20%.',
+                    'Analysed social data regularly to guide marketing decisions and future strategy.',
+                    'Tracked industry trends and competitor activities.'
                 ]
             }
         ],
@@ -60,19 +61,19 @@ const EducationWork = () => {
                 id: 'e1',
                 type: 'education',
                 title: 'MA. Strategic Marketing',
-                org: 'Uni of Greenwich',
+                org: 'University of Greenwich',
                 location: 'London, UK',
                 period: '2021 – 2022',
-                desc: 'Specialized in data-driven marketing strategies.'
+                desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
             },
             {
                 id: 'e2',
                 type: 'education',
                 title: 'BSc. Airlines & Tourism',
-                org: 'CT Group',
+                org: 'CT Group of Institutions',
                 location: 'Jalandhar, India',
                 period: '2017 – 2020',
-                desc: 'Service operations & customer experience.'
+                desc: 'Focused on service operations, customer experience management, and global tourism trends.'
             }
         ]
     });
@@ -320,13 +321,13 @@ const EducationWork = () => {
                                 </div>
                             </div>
 
-                            <div style={{ ...styles.nodeDesc, maxHeight: isHovered || isMobile ? '200px' : '60px', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
+                            <div style={{ ...styles.nodeDesc, maxHeight: isHovered || isMobile ? '500px' : '60px', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
                                 {item.loot ? (
                                     <ul style={{ listStyle: 'none', padding: 0 }}>
-                                        {item.loot.slice(0, 3).map((l, i) => ( // limit items for design
-                                            <li key={i} style={{ marginBottom: '4px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <div style={{ width: '4px', height: '4px', background: '#D87C5A', borderRadius: '50%' }}></div>
-                                                {l}
+                                        {item.loot.map((l, i) => (
+                                            <li key={i} style={{ marginBottom: '4px', display: 'flex', alignItems: 'start', gap: '6px' }}>
+                                                <div style={{ width: '4px', height: '4px', background: '#D87C5A', borderRadius: '50%', marginTop: '8px', flexShrink: 0 }}></div>
+                                                <span style={{ flex: 1 }}>{l}</span>
                                             </li>
                                         ))}
                                     </ul>
