@@ -1,0 +1,17 @@
+IMPORTANT: YOU MUST RUN THIS COMMAND TO FIX THE CORD ERROR.
+
+You are seeing this error because the new storage bucket 'panisha-portfoilo.appspot.com' 
+does NOT have the CORS rules we set up earlier.
+
+1. Open Google Cloud Shell (click the link below):
+   https://console.cloud.google.com/home/dashboard?cloudshell=true&project=panisha-portfoilo
+
+2. Copy and paste this exact command:
+   
+   echo '[{"origin": ["*"],"method": ["GET", "POST", "PUT", "HEAD", "DELETE", "OPTIONS"],"maxAgeSeconds": 3600}]' > cors.json && gsutil cors set cors.json gs://panisha-portfoilo.appspot.com
+
+
+3. Wait for it to finish.
+4. Restart your 'npm run dev'.
+
+Result: The errors will disappear and images will upload instantly!

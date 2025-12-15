@@ -1,7 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { uploadToCloudinary } from '../../cloudinaryHelper';
 import Toast from '../components/Toast';
+
+// Reusable Image Upload Component
+const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const url = await uploadToCloudinary(file);
+            onUploadSuccess(url);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed: " + error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="admin-form-group">
+            <label className="admin-label">{label}</label>
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                {currentImage && (
+                    <img src={currentImage} alt="Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }} />
+                )}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading...</span>}
+            </div>
+            <input type="file" onChange={handleFileChange} accept="image/*" className="admin-input" style={{ padding: '8px' }} disabled={uploading} />
+        </div>
+    );
+};
 
 const EditServices = () => {
     // We will store the services array as a JSON string for simplicity in editing individual fields, 
@@ -100,8 +135,11 @@ const EditServices = () => {
                             <textarea className="admin-textarea" style={{ minHeight: '80px' }} value={service.description} onChange={(e) => handleChange(index, 'description', e.target.value)} />
                         </div>
                         <div className="admin-form-group">
-                            <label className="admin-label">Image URL</label>
-                            <input className="admin-input" value={service.image} onChange={(e) => handleChange(index, 'image', e.target.value)} />
+                            <ImageUpload
+                                label="Service Image"
+                                currentImage={service.image}
+                                onUploadSuccess={(url) => handleChange(index, 'image', url)}
+                            />
                         </div>
                     </div>
                 ))}

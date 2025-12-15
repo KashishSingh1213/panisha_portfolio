@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudinary/url-gen": "^1.22.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
+    "axios": "^1.13.2",
+    "cloudinary": "^2.8.0",
     "firebase": "^12.6.0",
     "framer-motion": "^12.23.25",
     "gsap": "^3.14.1",

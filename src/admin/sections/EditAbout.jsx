@@ -1,7 +1,56 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { uploadToCloudinary } from '../../cloudinaryHelper';
 import Toast from '../components/Toast';
+
+// Reusable Image Upload Component
+const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const url = await uploadToCloudinary(file);
+            onUploadSuccess(url);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed: " + error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="admin-form-group">
+            <label className="admin-label">{label}</label>
+
+            {/* Preview */}
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                {currentImage && (
+                    <img
+                        src={currentImage}
+                        alt="Preview"
+                        style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }}
+                    />
+                )}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading...</span>}
+            </div>
+
+            <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                className="admin-input"
+                style={{ padding: '8px' }}
+                disabled={uploading}
+            />
+        </div>
+    );
+};
 
 const EditAbout = () => {
     const [formData, setFormData] = useState({
@@ -89,22 +138,29 @@ const EditAbout = () => {
 
                 <h3 style={{ color: '#333', marginTop: '2rem', marginBottom: '1rem' }}>Collage Images</h3>
 
-                <div className="admin-form-group">
-                    <label className="admin-label">Main Image URL (Large Pill)</label>
-                    <input className="admin-input" name="img1" value={formData.img1 || ''} onChange={handleChange} />
-                </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">Top Right Image URL (Circle)</label>
-                    <input className="admin-input" name="img2" value={formData.img2 || ''} onChange={handleChange} />
-                </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">Bottom Left Image URL (Landscape)</label>
-                    <input className="admin-input" name="img3" value={formData.img3 || ''} onChange={handleChange} />
-                </div>
-                <div className="admin-form-group">
-                    <label className="admin-label">Decor Circle Image URL</label>
-                    <input className="admin-input" name="img4" value={formData.img4 || ''} onChange={handleChange} />
-                </div>
+                <ImageUpload
+                    label="Main Image (Large Pill)"
+                    currentImage={formData.img1}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, img1: url }))}
+                />
+
+                <ImageUpload
+                    label="Top Right Image (Circle)"
+                    currentImage={formData.img2}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, img2: url }))}
+                />
+
+                <ImageUpload
+                    label="Bottom Left Image (Landscape)"
+                    currentImage={formData.img3}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, img3: url }))}
+                />
+
+                <ImageUpload
+                    label="Decor Circle Image"
+                    currentImage={formData.img4}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, img4: url }))}
+                />
 
                 <button type="submit" disabled={saving} className="admin-btn" style={{ marginTop: '1rem' }}>Save Changes</button>
             </form>
