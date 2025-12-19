@@ -42,20 +42,20 @@ const Skills = () => {
                     } else {
                         // Default data
                         setSkillsData([
-                            { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', color: '#FFF3E0' },
-                            { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', color: '#E3F2FD' },
-                            { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', color: '#F3E5F5' },
-                            { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', color: '#E8F5E9' },
-                            { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', color: '#FFF8E1' },
-                            { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', color: '#ECEFF1' },
-                            { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', color: '#FFEBEE' },
-                            { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', color: '#E0F7FA' },
-                            { id: '09', name: 'Video Editing', desc: 'High-impact video content.', color: '#FFF3E0' },
-                            { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', color: '#F3E5F5' },
-                            { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', color: '#E8F5E9' },
-                            { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', color: '#FFF8E1' },
-                            { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', color: '#E3F2FD' },
-                            { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', color: '#FFEBEE' }
+                            { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', color: '#F3E5F5' },
+                            { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', color: '#E8EAF6' },
+                            { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', color: '#FFF8E1' },
+                            { id: '04', name: 'Performance Analysis', desc: 'Data-driven optimization.', color: '#F3E5F5' },
+                            { id: '05', name: 'Content Writing', desc: 'Compelling copy across platforms.', color: '#FFFFF0' },
+                            { id: '06', name: 'Storytelling', desc: 'Connecting brands with people.', color: '#E0F2F1' },
+                            { id: '07', name: 'Social Media Copy', desc: 'Engaging captions & scripts.', color: '#EDE7F6' },
+                            { id: '08', name: 'Brand Voice', desc: 'Consistent communication style.', color: '#FFF3E0' },
+                            { id: '09', name: 'Video Editing', desc: 'High-impact video content.', color: '#F3E5F5' },
+                            { id: '10', name: 'Visual Storytelling', desc: 'Communicating through imagery.', color: '#E8EAF6' },
+                            { id: '11', name: 'Graphic Content', desc: 'Social creatives & branding.', color: '#FFF8E1' },
+                            { id: '12', name: 'Analytics Tools', desc: 'Measuring success & ROI.', color: '#EDE7F6' },
+                            { id: '13', name: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', color: '#F3E5F5' },
+                            { id: '14', name: 'Planning Tools', desc: 'Organizing content workflows.', color: '#E8EAF6' }
                         ]);
                     }
                 });
@@ -90,7 +90,7 @@ const Skills = () => {
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6',
+            backgroundColor: '#FFFFF0',
             padding: '120px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
@@ -103,7 +103,7 @@ const Skills = () => {
         h2: {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-            color: '#3E2723',
+            color: '#1F0954',
             marginBottom: '1rem',
         },
         grid: {
@@ -134,17 +134,17 @@ const Skills = () => {
             width: '16px',
             height: '16px',
             borderRadius: '50%',
-            background: '#D87C5A',
+            background: '#C7B58D',
             position: 'absolute',
             top: '20px',
             right: '20px',
-            boxShadow: '0 0 0 4px rgba(216, 124, 90, 0.2)',
+            boxShadow: '0 0 0 4px rgba(199, 181, 141, 0.2)',
         },
         number: {
             fontSize: '1rem',
             fontFamily: '"Manrope", sans-serif',
             fontWeight: 'bold',
-            color: '#D87C5A',
+            color: '#C7B58D',
             opacity: 0.6,
             marginBottom: '1.5rem',
             display: 'block'
@@ -152,7 +152,7 @@ const Skills = () => {
         iconContainer: {
             fontSize: '2.5rem',
             marginBottom: '1.5rem',
-            color: '#3E2723',
+            color: '#1F0954',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'flex-start',
@@ -160,7 +160,7 @@ const Skills = () => {
         },
         cardTitle: {
             fontSize: '1.3rem',
-            color: '#3E2723',
+            color: '#1F0954',
             marginBottom: '0.8rem',
             fontWeight: 700,
             fontFamily: '"Playfair Display", serif',
@@ -168,7 +168,7 @@ const Skills = () => {
         },
         cardDesc: {
             fontSize: '0.95rem',
-            color: '#6D4C41',
+            color: '#5E4B8B',
             lineHeight: 1.6,
             opacity: 0.9
         }
@@ -178,7 +178,7 @@ const Skills = () => {
         <section style={styles.section} id="skills" ref={containerRef}>
             <div style={styles.header}>
                 <h2 style={styles.h2}>Technical Arsenal</h2>
-                <p style={{ color: '#8D6E63', fontSize: '1.2rem' }}>My toolkit for crafting digital experiences</p>
+                <p style={{ color: '#C7B58D', fontSize: '1.2rem' }}>My toolkit for crafting digital experiences</p>
             </div>
 
             <div style={styles.grid}>
@@ -192,7 +192,7 @@ const Skills = () => {
                             ref={el => cardsRef.current[index] = el}
                             style={{
                                 ...styles.card,
-                                background: `linear-gradient(170deg, #FFFFFF 60%, ${skill.color || '#FFF3E0'} 100%)`
+                                background: `linear-gradient(170deg, #FFFFFF 60%, ${skill.color || '#F3E5F5'} 100%)`
                             }}
                             className="skill-card"
                             onMouseEnter={(e) => {
