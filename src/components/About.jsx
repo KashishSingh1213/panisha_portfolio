@@ -101,7 +101,7 @@ const About = () => {
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6',
+            backgroundColor: '#FFFFF0',
             padding: '120px 5%',
             minHeight: '100vh',
             display: 'flex',
@@ -125,7 +125,7 @@ const About = () => {
             gap: '2rem',
         },
         subHeading: {
-            color: '#D87C5A',
+            color: '#1F0954', // Dark Navy
             textTransform: 'uppercase',
             letterSpacing: '2px',
             fontSize: '1rem',
@@ -137,22 +137,22 @@ const About = () => {
         line: {
             width: '40px',
             height: '2px',
-            backgroundColor: '#D87C5A',
+            backgroundColor: '#1F0954', // Dark Navy
         },
         heading: {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
             lineHeight: 1.1,
-            color: '#3E2723',
+            color: '#1F0954',
             margin: 0,
         },
         highlight: {
-            color: '#D87C5A',
+            color: '#4B0082',
         },
         desc: {
             fontSize: '1.1rem',
             lineHeight: 1.8,
-            color: '#795548',
+            color: '#5E4B8B',
             maxWidth: '95%',
         },
         statsRow: {
@@ -167,18 +167,18 @@ const About = () => {
         statNum: {
             fontSize: '2.5rem',
             fontFamily: '"Playfair Display", serif',
-            color: '#D87C5A',
+            color: '#4B0082',
             lineHeight: 1,
         },
         statLabel: {
             fontSize: '0.9rem',
-            color: '#5D4037',
+            color: '#1F0954',
             marginTop: '0.5rem',
             fontWeight: 600,
         },
         button: {
             padding: '1rem 2.5rem',
-            backgroundColor: '#3E2723',
+            backgroundColor: '#4B0082',
             color: '#FFF',
             borderRadius: '50px',
             border: 'none',
@@ -201,7 +201,7 @@ const About = () => {
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             borderRadius: '20px',
-            boxShadow: '0 20px 50px rgba(62, 39, 35, 0.15)',
+            boxShadow: '0 20px 50px rgba(31, 9, 84, 0.15)',
         },
         img1: { // Main Pill
             width: '280px',
@@ -298,9 +298,9 @@ const About = () => {
 
             <style>{`
                 .hover-btn:hover {
-                    background-color: #D87C5A !important;
+                    background-color: #6A1B9A !important;
                     transform: translateY(-3px);
-                    box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+                    box-shadow: 0 10px 20px rgba(106, 27, 154, 0.3);
                 }
                 @media (max-width: 900px) {
                     div[style*="gridTemplateColumns"] {

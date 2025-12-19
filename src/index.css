@@ -1,24 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
 
 :root {
-  /* Color Palette - Warm / Editorial / Clean */
-  --color-bg: #FFFAF6;
-  /* Warm Cream */
-  --color-surface: #FFF5F0;
-  /* Slightly dark cream for cards */
-  --color-accent: #D87C5A;
-  /* Terracotta */
-  --color-accent-light: #E07A5F;
+  /* Color Palette - Ivory / Purple / Gold */
+  --color-bg: #FFFFF0;
+  --color-surface: #F2F0EF;
 
-  --color-text-main: #5D4037;
-  /* Warm Coffee Brown */
-  --color-text-muted: #8D6E63;
-  /* Muted Brown */
-  --color-border: rgba(216, 124, 90, 0.2);
+  --color-accent: #4B0082;
+  /* Indigo for primary actions */
+  --color-accent-secondary: #C7B58D;
+  /* Gold for subtle highlights */
+  --color-accent-light: #6A1B9A;
+  /* Lighter Purple for hovers */
+
+  --color-text-main: #1F0954;
+  /* Dark Navy/Purple */
+  --color-text-muted: #5E4B8B;
+  /* Muted Purple */
+  --color-border: #D3D3D3;
 
   /* Gradients */
   --gradient-main: linear-gradient(135deg, var(--color-bg), #FFFFFF);
-  --gradient-glow: radial-gradient(circle at center, rgba(216, 124, 90, 0.2), transparent 70%);
+  --gradient-glow: radial-gradient(circle at center, rgba(75, 0, 130, 0.15), transparent 70%);
 
   /* Spacing */
   --section-spacing: 120px;
@@ -26,8 +28,8 @@
   --radius-md: 16px;
 
   /* Effects */
-  --shadow-soft: 0 20px 60px rgba(93, 64, 55, 0.08);
-  --shadow-glow: 0 0 30px rgba(216, 124, 90, 0.2);
+  --shadow-soft: 0 20px 60px rgba(31, 9, 84, 0.06);
+  --shadow-glow: 0 0 30px rgba(75, 0, 130, 0.15);
 }
 
 * {
@@ -82,10 +84,8 @@ h5,
 h6 {
   font-family: 'Playfair Display', serif;
   font-weight: 700;
-  color: #3E2723;
-  /* Darker brown for headings */
+  color: var(--color-text-main);
   text-transform: none;
-  /* Removed uppercase enforcement for elegance */
   letter-spacing: -0.01em;
 }
 
@@ -130,7 +130,7 @@ section {
 .btn-primary:hover {
   background: var(--color-accent-light);
   transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+  box-shadow: 0 10px 20px rgba(75, 0, 130, 0.3);
 }
 
 /* Scrollbar */
@@ -143,7 +143,7 @@ section {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D7CCC8;
+  background: var(--color-accent-secondary);
   border-radius: 5px;
   border: 2px solid var(--color-bg);
 }

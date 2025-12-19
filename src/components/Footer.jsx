@@ -9,9 +9,9 @@ gsap.registerPlugin(ScrollTrigger);
 const Footer = () => {
     const footerRef = useRef(null);
     const [config, setConfig] = useState({
-        backgroundColor: '#3E2723',
-        textColor: '#FFFAF6',
-        accentColor: '#D87C5A',
+        backgroundColor: '#1F0954', // Dark Navy
+        textColor: '#FFFFF0', // Ivory
+        accentColor: '#C7B58D', // Gold
         logoText: 'Panisha Dhutti.',
         description: 'Creating meaningful connections through strategy, design, and storytelling.',
         menuTitle: 'Menu',

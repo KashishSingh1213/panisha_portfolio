@@ -77,9 +77,8 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
         });
     }, []);
 
-    // Warm colors
-    const colors = ['#E76F51', '#2A9D8F', '#F4A261', '#264653', '#E9C46A', '#D87C5A'];
-
+    // Warm colors -> New Palette
+    const colors = ['#4B0082', '#C7B58D', '#1F0954', '#6A1B9A', '#9E8C6C', '#5E4B8B'];
 
     // ... (animations unchanged)
 
@@ -87,7 +86,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
     if (selectedProject) {
         const color = colors[(selectedProject.id - 1) % colors.length] || colors[0];
         return (
-            <section ref={sectionRef} style={{ backgroundColor: '#FFFAF6', padding: '120px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif' }}>
+            <section ref={sectionRef} style={{ backgroundColor: '#FFFFF0', padding: '120px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif' }}>
                 <div ref={detailRef} style={{ maxWidth: '1200px', margin: '0 auto' }}>
                     <button
                         onClick={() => setSelectedProject(null)}
@@ -95,7 +94,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                         style={{
                             background: 'transparent',
                             border: 'none',
-                            color: '#D87C5A',
+                            color: '#C7B58D',
                             fontSize: '1rem',
                             cursor: 'pointer',
                             display: 'flex',
@@ -112,7 +111,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                     <h1 className="detail-title-anim" style={{
                         fontSize: 'clamp(3rem, 6vw, 4.5rem)',
                         fontFamily: '"Playfair Display", serif',
-                        color: '#3E2723',
+                        color: '#1F0954',
                         lineHeight: 1.1,
                         marginBottom: '40px'
                     }}>
@@ -137,11 +136,11 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                     <div className="detail-grid">
                         <div className="detail-text detail-left-anim">
                             <h3 style={{ fontSize: '2rem', fontFamily: '"Playfair Display", serif', color: color, marginBottom: '20px' }}>Project Overview</h3>
-                            <div style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#5D4037', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>
+                            <div style={{ fontSize: '1.2rem', lineHeight: 1.8, color: '#1F0954', marginBottom: '20px', whiteSpace: 'pre-wrap' }}>
                                 {selectedProject.details || selectedProject.desc}
                             </div>
                             {!selectedProject.details && ( // Only show generic text if no specific details exist
-                                <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#5D4037', opacity: 0.8 }}>
+                                <p style={{ fontSize: '1.1rem', lineHeight: 1.8, color: '#1F0954', opacity: 0.8 }}>
                                     We focused on creating a seamless experience that guides the user through the journey, ensuring every touchpoint transforms interest into action.
                                 </p>
                             )}
@@ -203,7 +202,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                     .meta-item p {
                         margin: 0;
                         font-size: 1.2rem;
-                        color: #3E2723;
+                        color: #1F0954;
                         font-weight: 500;
                     }
                     @media(max-width: 900px) {
@@ -216,10 +215,10 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
     }
 
     return (
-        <section style={{ backgroundColor: '#FFFAF6', padding: '100px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif', overflow: 'hidden' }} ref={sectionRef} id="projects">
+        <section style={{ backgroundColor: '#FFFFF0', padding: '100px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif', overflow: 'hidden' }} ref={sectionRef} id="projects">
             <div style={{ textAlign: 'center', marginBottom: '120px' }}>
-                <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontFamily: '"Playfair Display", serif', color: '#3E2723', margin: 0 }}>Selected Work</h2>
-                <p style={{ color: '#D87C5A', marginTop: '1rem', fontSize: '1.1rem' }}>Our portfolio and project model</p>
+                <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontFamily: '"Playfair Display", serif', color: '#1F0954', margin: 0 }}>Selected Work</h2>
+                <p style={{ color: '#C7B58D', marginTop: '1rem', fontSize: '1.1rem' }}>Our portfolio and project model</p>
             </div>
 
             <div className="process-container" ref={containerRef}>

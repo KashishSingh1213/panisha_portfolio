@@ -1,34 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { FaGraduationCap, FaBriefcase, FaCalendarAlt, FaMapMarkerAlt, FaStar, FaChevronRight } from 'react-icons/fa';
-import careerImg from '../assets/career_illustration.png';
-
-gsap.registerPlugin(ScrollTrigger);
+import { FaGraduationCap, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
 
 const EducationWork = () => {
     const sectionRef = useRef(null);
-    const [activeIndex, setActiveIndex] = useState(null); // No default selection, let user hover
     const [isMobile, setIsMobile] = useState(false);
+    const [activeTab, setActiveTab] = useState('education'); // Default: show study (Academy)
 
     const [content, setContent] = useState({
         work: [
             {
                 id: 'w1',
-                type: 'work',
-                title: 'Digital Marketing Executive',
-                org: 'CT Group of Institutions',
-                location: 'Jalandhar',
-                period: 'May 2025 – Present',
-                loot: [
-                    'Manage paid lead-generation campaigns to increase student enquiries.',
-                    'Run brand-awareness campaigns to strengthen CT Group’s digital presence.',
-                    'Revamped course pages with the web team to improve UX and conversions.',
-                    'Added a Placement section to showcase outcomes and support admissions.'
-                ]
-            },
-            {
-                id: 'w2',
                 type: 'work',
                 title: 'Marketing & Sales Manager',
                 org: 'Indigo Sails',
@@ -38,11 +19,11 @@ const EducationWork = () => {
                     'Executed marketing campaigns, boosting lead conversions by 25%.',
                     'Managed social media and email content, increasing inquiries by 10%.',
                     'Analysed performance metrics and optimised campaigns for higher engagement.',
-                    'Assisted in organising events and brand collaborations to enhance brand visibility.'
+                    'Assisted in organising events and brand collaborations.'
                 ]
             },
             {
-                id: 'w3',
+                id: 'w2',
                 type: 'work',
                 title: 'Social Media Manager',
                 org: '1 Club',
@@ -50,9 +31,23 @@ const EducationWork = () => {
                 period: 'Mar 2023 – Dec 2023',
                 loot: [
                     'Increased social media reach by 60% in one week through strategic marketing.',
-                    'Managed The Redefined Podcast’s social content, boosting listenership and engagement by 20%.',
-                    'Analysed social data regularly to guide marketing decisions and future strategy.',
-                    'Tracked industry trends and competitor activities.'
+                    'Managed The Redefined Podcast’s social content, boosting listenership.',
+                    'Analysed social data regularly to guide marketing decisions.',
+                    'Tracked industry trends and competitor activities to stay ahead.'
+                ]
+            },
+            {
+                id: 'w3',
+                type: 'work',
+                title: 'Digital Marketing Executive',
+                org: 'CT Group of Institutions',
+                location: 'Jalandhar',
+                period: 'May 2025 (Projected)',
+                loot: [
+                    'Managed paid lead-generation campaigns to increase student enquiries.',
+                    'Run brand-awareness campaigns to strengthen digital presence.',
+                    'Revamped course pages with the web team to improve UX.',
+                    'Added a Placement section to showcase outcomes.'
                 ]
             }
         ],
@@ -84,8 +79,15 @@ const EducationWork = () => {
                 const unsub = onSnapshot(doc(db, "content", "experience"), (doc) => {
                     if (doc.exists()) {
                         const data = doc.data();
-                        // Optional: simplify loot if needed for this compact view
-                        setContent(data);
+
+                        // Ensure we have arrays and update state
+                        if (data.work || data.education) {
+                            setContent(prev => ({
+                                ...prev,
+                                work: data.work || prev.work,
+                                education: data.education || prev.education
+                            }));
+                        }
                     }
                 });
                 return () => unsub();
@@ -98,44 +100,42 @@ const EducationWork = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Combine data for the orbit
-    // Order: e2 (left bottom), e1 (left top), w3 (top), w2 (right top), w1 (right bottom)
-    // Or just spread them evenly.
-    const nodes = [
-        ...(content.education || []).filter(e => e.id === 'e2'),
-        ...(content.education || []).filter(e => e.id === 'e1'),
-        ...(content.work || []).filter(w => w.id === 'w3'),
-        ...(content.work || []).filter(w => w.id === 'w2'),
-        ...(content.work || []).filter(w => w.id === 'w1'),
+    // Filter nodes based on active tab
+    const nodes = activeTab === 'education'
+        ? [...(content.education || [])]
+        : [...(content.work || [])];
+
+    const colors = [
+        '#4B0082', // Indigo
+        '#C7B58D', // Gold
+        '#1F0954', // Dark Navy
+        '#6A1B9A', // Light Purple
+        '#9E8C6C'  // Dark Gold
     ];
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6',
-            padding: '100px 5%',
+            backgroundColor: '#FFFFF0',
+            padding: '80px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
-            position: 'relative',
-            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center',
+            position: 'relative'
         },
         header: {
             textAlign: 'center',
-            marginBottom: '4rem',
-            position: 'relative',
-            zIndex: 10,
+            marginBottom: '2rem', // Reduced to fit tabs
         },
         title: {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
-            color: '#3E2723',
+            color: '#1F0954',
             marginBottom: '0.5rem',
         },
         subtitle: {
-            color: '#D87C5A',
+            color: '#1F0954', // Dark Navy
             fontSize: '1rem',
             fontWeight: '700',
             textTransform: 'uppercase',
@@ -144,138 +144,149 @@ const EducationWork = () => {
             display: 'block',
         },
 
-        // ORBIT / RADIAL CONTAINER
-        orbitContainer: {
+        // Tab Container
+        tabContainer: {
+            display: 'flex',
+            gap: '20px',
+            marginBottom: '4rem',
             position: 'relative',
+            zIndex: 10
+        },
+        tabBtn: (isActive) => ({
+            padding: '0.8rem 2.5rem',
+            borderRadius: '50px',
+            border: 'none',
+            fontSize: '1.1rem',
+            fontWeight: '600',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            backgroundColor: isActive ? '#4B0082' : '#F2F0EF',
+            color: isActive ? '#FFF' : '#888',
+            boxShadow: isActive ? '0 10px 20px rgba(216, 124, 90, 0.3)' : 'none',
+            outline: 'none'
+        }),
+
+        // Timeline
+        timelineContainer: {
+            display: 'flex',
+            flexDirection: 'column',
             width: '100%',
             maxWidth: '1200px',
-            height: isMobile ? 'auto' : '650px', // Fixed height for desktop orbit
+            position: 'relative',
+        },
+        // Center Line
+        centerLine: {
+            position: 'absolute',
+            left: isMobile ? '20px' : '50%',
+            top: 0,
+            bottom: 0,
+            width: '2px',
+            backgroundColor: 'rgba(75, 0, 130, 0.1)',
+            transform: isMobile ? 'none' : 'translateX(-50%)',
+        },
+
+        // Row
+        row: (index) => ({
             display: 'flex',
-            justifyContent: 'center',
+            width: '100%',
+            flexDirection: isMobile ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
             alignItems: 'center',
             marginBottom: '4rem',
-        },
+            position: 'relative',
+            opacity: 0,
+            animation: `fadeInUp 0.6s ease forwards ${index * 0.15}s`
+        }),
 
-        // Central Image
-        centerHub: {
-            width: '400px',
-            height: '400px',
-            borderRadius: '50%',
-            position: isMobile ? 'relative' : 'absolute',
-            top: isMobile ? '0' : '50%',
-            left: isMobile ? 'auto' : '50%',
-            transform: isMobile ? 'none' : 'translate(-50%, -50%)',
+        // Half Widths for standard items
+        half: {
+            width: isMobile ? '100%' : '50%',
+            padding: isMobile ? '0 0 0 50px' : (isMobile ? '0' : '0 40px'), // Padding for spacing from center
+            boxSizing: 'border-box',
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            zIndex: 5,
-        },
-        centerImg: {
-            width: '100%',
-            height: 'auto',
-            objectFit: 'contain',
-            filter: 'drop-shadow(0 20px 40px rgba(216, 124, 90, 0.2))',
-            transform: isMobile ? 'scale(0.9)' : 'scale(1.2)', // Make it pop
+            justifyContent: isMobile ? 'flex-start' : 'center', // Align card properly per side
         },
 
-        // Node
-        nodeContainer: {
-            position: isMobile ? 'relative' : 'absolute',
-            top: isMobile ? '0' : '50%',
-            left: isMobile ? 'auto' : '50%',
-            // Transform handles positioning in JS
-            width: isMobile ? '100%' : '320px',
-            padding: '1.5rem',
-            backgroundColor: '#FFF',
-            borderRadius: '20px',
-            boxShadow: '0 10px 30px rgba(93, 64, 55, 0.08)',
-            border: '1px solid rgba(216, 124, 90, 0.1)',
-            transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
-            zIndex: 10,
-            cursor: 'default',
-            marginBottom: isMobile ? '1.5rem' : '0',
-            opacity: 1, // Controlled by GSAP usually, but hardcode visible here
+        // Specific alignment helpers
+        leftContent: {
+            justifyContent: 'flex-end', // Push text to center
+            textAlign: isMobile ? 'left' : 'right'
+        },
+        rightContent: {
+            justifyContent: 'flex-start', // Push text to center
+            textAlign: 'left'
         },
 
-        nodeHeader: {
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            marginBottom: '0.8rem',
-        },
-        iconBox: {
-            width: '45px',
-            height: '45px',
+        // The Center Circle
+        centerCircle: {
+            width: '60px',
+            height: '60px',
             borderRadius: '50%',
-            background: 'rgba(216, 124, 90, 0.1)',
-            color: '#D87C5A',
+            background: '#fff',
+            border: '2px dashed #C7B58D',
+            color: '#1F0954',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.2rem',
-            flexShrink: 0,
-        },
-        nodeTitle: {
-            fontSize: '1.1rem',
-            fontFamily: '"Playfair Display", serif',
-            fontWeight: 700,
-            color: '#3E2723',
-            lineHeight: 1.2,
-        },
-        nodeOrg: {
-            fontSize: '0.85rem',
-            color: '#D87C5A',
-            fontWeight: 700,
-            textTransform: 'uppercase',
-            display: 'block',
-        },
-        nodeDesc: {
+            fontWeight: 'bold',
             fontSize: '0.9rem',
-            color: '#8D6E63',
-            lineHeight: 1.5,
+            position: 'absolute',
+            left: isMobile ? '20px' : '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 5,
+            boxShadow: '0 0 0 8px #FFFFF0' // Fake margin via border color mask
+        },
+
+        // Card Wrapper
+        cardWrapper: {
+            background: '#fff',
+            borderRadius: '12px',
+            boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
+            overflow: 'hidden',
+            width: '100%',
+            maxWidth: '500px', // Limit width
+            transition: 'transform 0.3s ease',
+            position: 'relative',
+            display: 'flex'
+        },
+
+        colorStrip: {
+            width: '8px',
+            flexShrink: 0
+        },
+
+        contentBox: {
+            padding: '2rem',
+            flex: 1
+        },
+
+        roleTitle: {
+            fontSize: '1.4rem',
+            fontFamily: '"Playfair Display", serif',
+            fontWeight: '700',
+            color: '#1F0954',
+            marginBottom: '0.3rem',
+            lineHeight: 1.2
+        },
+        orgName: {
+            fontSize: '0.9rem',
+            fontWeight: '700',
+            textTransform: 'uppercase',
+            letterSpacing: '1px',
+            color: '#C7B58D',
+            marginBottom: '1rem',
+            display: 'block'
+        },
+        desc: {
+            fontSize: '1rem',
+            color: '#5D4037',
+            lineHeight: 1.6
+        },
+        list: {
+            paddingLeft: '1.2rem',
+            margin: 0,
+            color: '#5D4037',
+            lineHeight: 1.6
         }
-    };
-
-    // calculate positions for 5 nodes in an arc
-    // Spread them from roughly 190 degrees (left) to -10 degrees (right) 
-    // to arc OVER the image.
-    const getDesktopStyle = (index) => {
-        if (isMobile) return {};
-
-        const total = nodes.length;
-        const startRad = Math.PI; // 180 degrees (Left)
-        const endRad = 0; // 0 degrees (Right)
-
-        // We want them to span nicely around the top/sides
-        // Let's place 1 at Left (-x, 0), 1 at Right (x, 0), others in between top
-        // Actually, let's use a mapping for 5 items specifically to look good
-        // 0: Left Bottom, 1: Left Top, 2: Top Center, 3: Right Top, 4: Right Middle
-
-        const radiusString = isMobile ? '0' : '380px'; // Distance from center
-        const positions = [
-            { deg: 180, label: 'bottom-left' }, // Left
-            { deg: 140, label: 'mid-left' },    // Top-Left
-            { deg: 90, label: 'top' },         // Top
-            { deg: 40, label: 'mid-right' },   // Top-Right
-            { deg: 0, label: 'right' },       // Right
-        ];
-
-        // Map 5 nodes to these positions
-        // We have 5 nodes exactly in 'nodes' array
-        const pos = positions[index] || { deg: 0 };
-        const rad = (pos.deg * Math.PI) / 180;
-        const radius = 350; // px
-
-        // In web layout (x right, y down), but math (x right, y up).
-        // x = r * cos(theta)
-        // y = -r * sin(theta) (negative to go UP)
-
-        const x = radius * Math.cos(rad);
-        const y = -radius * Math.sin(rad) * 0.8; // Flatten ellipse slightly if needed
-
-        return {
-            transform: `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`,
-        };
     };
 
     return (
@@ -285,84 +296,89 @@ const EducationWork = () => {
                 <h2 style={styles.title}>Career & Academy</h2>
             </div>
 
-            <div style={styles.orbitContainer}>
-                {/* Central Illustration */}
-                <div style={styles.centerHub}>
-                    <img src={careerImg} alt="Career Center" style={styles.centerImg} />
-                </div>
+            {/* Pagination / Tabs */}
+            <div style={styles.tabContainer}>
+                <button
+                    style={styles.tabBtn(activeTab === 'education')}
+                    onClick={() => setActiveTab('education')}
+                >
+                    Academy
+                </button>
+                <button
+                    style={styles.tabBtn(activeTab === 'work')}
+                    onClick={() => setActiveTab('work')}
+                >
+                    Career
+                </button>
+            </div>
 
-                {/* Nodes */}
+            <div style={styles.timelineContainer}>
+                <div style={styles.centerLine}></div>
+
                 {nodes.map((item, index) => {
-                    const isHovered = activeIndex === index;
-                    const desktopStyle = getDesktopStyle(index);
+                    const color = colors[index % colors.length];
+                    const isLeft = index % 2 === 0;
+                    const year = item.period.match(/\d{4}/)?.[0] || '2024';
 
                     return (
-                        <div
-                            key={item.id}
-                            style={{
-                                ...styles.nodeContainer,
-                                ...desktopStyle,
-                                transform: isMobile
-                                    ? 'none'
-                                    : desktopStyle.transform + (isHovered ? ' scale(1.1) translateY(-5px)' : ' scale(1)'),
-                                zIndex: isHovered ? 20 : 10,
-                                boxShadow: isHovered ? '0 20px 50px rgba(216, 124, 90, 0.15)' : styles.nodeContainer.boxShadow
-                            }}
-                            onMouseEnter={() => setActiveIndex(index)}
-                            onMouseLeave={() => setActiveIndex(null)}
-                        >
-                            <div style={styles.nodeHeader}>
-                                <div style={styles.iconBox}>
-                                    {item.type === 'work' ? <FaBriefcase /> : <FaGraduationCap />}
+                        <div key={item.id} style={styles.row(index)}>
+
+                            {/* Desktop: Empty space on one side to balance */}
+                            {!isMobile && (
+                                <div style={{ ...styles.half, ...(!isLeft ? styles.leftContent : styles.rightContent), opacity: 0 }}>
+                                    {/* Empty placeholder for alignment */}
                                 </div>
-                                <div>
-                                    <span style={styles.nodeOrg}>{item.org}</span>
-                                    <h3 style={styles.nodeTitle}>{item.title}</h3>
+                            )}
+
+                            {/* Center Circle with Date */}
+                            <div style={{ ...styles.centerCircle, borderColor: color, color: color }}>
+                                {year}
+                            </div>
+
+                            {/* The Actual Content Card */}
+                            <div style={{ ...styles.half, ...(isLeft ? styles.leftContent : styles.rightContent) }}>
+                                <div
+                                    style={styles.cardWrapper}
+                                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+                                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                                >
+                                    <div style={{ ...styles.colorStrip, background: color }}></div>
+                                    <div style={styles.contentBox}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                            <h3 style={styles.roleTitle}>{item.title}</h3>
+                                            {item.type === 'work' ? <FaBriefcase color={color} /> : <FaGraduationCap color={color} />}
+                                        </div>
+                                        <span style={{ ...styles.orgName, color: color }}>{item.org}</span>
+                                        <p style={{ fontSize: '0.85rem', color: '#999', marginBottom: '1rem', fontStyle: 'italic' }}>
+                                            <FaCalendarAlt style={{ marginRight: 5 }} /> {item.period}
+                                        </p>
+
+                                        {item.loot ? (
+                                            <ul style={styles.list}>
+                                                {item.loot.map((l, i) => (
+                                                    <li key={i} style={{ marginBottom: '5px' }}>{l}</li>
+                                                ))}
+                                            </ul>
+                                        ) : (
+                                            <p style={styles.desc}>{item.desc}</p>
+                                        )}
+                                    </div>
                                 </div>
                             </div>
 
-                            <div style={{ ...styles.nodeDesc, maxHeight: isHovered || isMobile ? '500px' : '60px', overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
-                                {item.loot ? (
-                                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                                        {item.loot.map((l, i) => (
-                                            <li key={i} style={{ marginBottom: '4px', display: 'flex', alignItems: 'start', gap: '6px' }}>
-                                                <div style={{ width: '4px', height: '4px', background: '#D87C5A', borderRadius: '50%', marginTop: '8px', flexShrink: 0 }}></div>
-                                                <span style={{ flex: 1 }}>{l}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                ) : (
-                                    <p style={{ margin: 0 }}>{item.desc}</p>
-                                )}
-                            </div>
-
-                            <div style={{
-                                marginTop: '1rem',
-                                fontSize: '0.8rem',
-                                color: '#8D6E63',
-                                fontWeight: 700,
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '5px'
-                            }}>
-                                <FaCalendarAlt /> {item.period}
-                            </div>
                         </div>
                     );
                 })}
-
-
-                {/* Mobile: Just list them normally (flex column handled by container styles on mobile if needed) */}
-                {isMobile && (
-                    <style>{`
-                        .orbitContainer {
-                            flex-direction: column !important;
-                            height: auto !important;
-                             margin-top: 2rem !important;
-                        }
-                    `}</style>
-                )}
             </div>
+
+            <style>{`
+                @keyframes fadeInUp {
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `}</style>
         </section>
     );
 };

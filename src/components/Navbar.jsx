@@ -7,8 +7,8 @@ const Navbar = () => {
     const [config, setConfig] = useState({
         logoText: 'Panisha Dhutti',
         logoImg: '',
-        baseColor: 'rgba(255, 250, 246, 0.85)',
-        pillColor: '#D87C5A', // fallback
+        baseColor: 'rgba(255, 255, 240, 0.9)', // Ivory
+        pillColor: '#4B0082', // Indigo
         pillTextColor: '#ffffff',
         items: [
             { label: 'About', href: '#about' },
@@ -34,16 +34,16 @@ const Navbar = () => {
     // Looking at PillNav usage, it takes props like `baseColor`, `pillColor`.
 
     // The previous mocked props were:
-    // logo="https://api.iconify.design/ph:sparkle-fill.svg?color=%23D87C5A"
+    // logo="https://api.iconify.design/ph:sparkle-fill.svg?color=%234B0082"
     // logoAlt="Panisha Dhutti"
-    // baseColor="rgba(255, 250, 246, 0.85)"
+    // baseColor="rgba(255, 255, 240, 0.9)"
     // pillColor="var(--color-accent)"
     // pillTextColor="#ffffff"
 
     return (
         <PillNav
             items={config.items}
-            logo={config.logoImg || "https://api.iconify.design/ph:sparkle-fill.svg?color=%23D87C5A"}
+            logo={config.logoImg || "https://api.iconify.design/ph:sparkle-fill.svg?color=%234B0082"}
             logoAlt={config.logoText}
             baseColor={config.baseColor}
             pillColor={config.pillColor}

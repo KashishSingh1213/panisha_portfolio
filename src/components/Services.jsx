@@ -99,13 +99,13 @@ const Services = () => {
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6',
+            backgroundColor: '#FFFFF0',
             padding: '120px 5%',
             minHeight: '100vh', // Ensure sticky has room
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            color: '#5D4037',
+            color: '#1F0954',
             fontFamily: '"Manrope", sans-serif',
         },
         header: {
@@ -114,7 +114,7 @@ const Services = () => {
             width: '100%',
         },
         sub: {
-            color: '#E07A5F',
+            color: '#C7B58D',
             fontWeight: 'bold',
             textTransform: 'uppercase',
             letterSpacing: '2px',
@@ -125,7 +125,7 @@ const Services = () => {
         h2: {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(2.5rem, 4vw, 3.5rem)',
-            color: '#3E2723',
+            color: '#1F0954',
             margin: 0,
             maxWidth: '600px',
         },
@@ -147,8 +147,8 @@ const Services = () => {
         },
         item: (index) => ({
             padding: '2.5rem 0',
-            borderTop: '1px solid rgba(93, 64, 55, 0.2)',
-            borderBottom: index === servicesData.length - 1 ? '1px solid rgba(93, 64, 55, 0.2)' : 'none',
+            borderTop: '1px solid rgba(75, 0, 130, 0.1)',
+            borderBottom: index === servicesData.length - 1 ? '1px solid rgba(75, 0, 130, 0.1)' : 'none',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'flex-start',
@@ -162,7 +162,7 @@ const Services = () => {
         },
         id: {
             fontSize: '1.2rem',
-            color: '#D87C5A',
+            color: '#C7B58D',
             fontFamily: '"Playfair Display", serif',
             marginBottom: '0.5rem',
             display: 'block',
@@ -171,12 +171,12 @@ const Services = () => {
             fontFamily: '"Playfair Display", serif',
             fontSize: '1.8rem',
             margin: '0 0 0.5rem 0',
-            color: '#3E2723',
+            color: '#1F0954',
             transition: 'color 0.3s ease',
         },
         description: (index) => ({
             fontSize: '1.05rem',
-            color: '#795548',
+            color: '#5E4B8B',
             maxWidth: '95%',
             height: activeService === index ? 'auto' : '0',
             overflow: 'hidden',
@@ -190,7 +190,7 @@ const Services = () => {
             fontSize: '1.5rem',
             transform: activeService === index ? 'rotate(-45deg)' : 'rotate(0deg)',
             transition: 'transform 0.4s ease',
-            color: activeService === index ? '#E07A5F' : '#D87C5A',
+            color: activeService === index ? '#4B0082' : '#C7B58D',
         }),
         imageContainer: {
             height: '600px',
@@ -198,7 +198,7 @@ const Services = () => {
             top: '100px', // Stick below header or nav
             borderRadius: '20px',
             overflow: 'hidden',
-            boxShadow: '0 25px 50px -12px rgba(62, 39, 35, 0.25)',
+            boxShadow: '0 25px 50px -12px rgba(75, 0, 130, 0.25)',
         },
         image: (isActive) => ({
             position: 'absolute',
@@ -276,7 +276,7 @@ const Services = () => {
 
             <style>{`
                 .active-title {
-                    color: #E07A5F !important;
+                    color: #4B0082 !important;
                 }
                 @media (max-width: 968px) {
                     .services-list {

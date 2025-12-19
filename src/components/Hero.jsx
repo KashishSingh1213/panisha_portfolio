@@ -88,10 +88,10 @@ const Hero = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: '#FFFAF6', // Very warm, soft cream/blush
-            color: '#5D4037', // Deep warm coffee brown
+            backgroundColor: '#FFFFF0', // Ivory
+            color: '#1F0954', // Dark Navy
             fontFamily: '"Manrope", sans-serif',
-            padding: '140px 5% 40px', // Added top padding for fixed navbar
+            padding: '140px 5% 40px',
             position: 'relative',
             overflow: 'hidden',
         },
@@ -110,15 +110,15 @@ const Hero = () => {
             alignItems: 'center',
             gap: '8px',
             padding: '8px 16px',
-            backgroundColor: 'rgba(216, 124, 90, 0.1)',
+            backgroundColor: 'rgba(75, 0, 130, 0.1)', // Indigo tint
             borderRadius: '30px',
             marginBottom: '0.5rem',
             fontWeight: '700',
-            color: '#D87C5A', // Terracotta
+            color: '#4B0082', // Indigo
             textTransform: 'uppercase',
             letterSpacing: '1.5px',
             fontSize: '0.8rem',
-            boxShadow: '0 2px 10px rgba(216, 124, 90, 0.05)',
+            boxShadow: '0 2px 10px rgba(75, 0, 130, 0.05)',
         },
         h1Wrapper: {
             display: 'flex',
@@ -132,7 +132,7 @@ const Hero = () => {
             fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
             fontWeight: 700,
             lineHeight: 1.1,
-            color: '#3E2723', // Very dark brown
+            color: '#1F0954', // Dark Navy
             margin: 0,
             letterSpacing: '-1px',
         },
@@ -140,20 +140,20 @@ const Hero = () => {
             fontFamily: '"Playfair Display", serif',
             fontStyle: 'italic',
             fontWeight: 400,
-            color: '#D87C5A', // Terracotta Accent
+            color: '#1F0954', // Dark Navy
         },
         subtitle: {
             fontSize: 'clamp(1.1rem, 3vw, 1.5rem)',
             fontFamily: '"Playfair Display", serif',
             fontStyle: 'italic',
-            color: '#8D6E63',
+            color: '#5E4B8B', // Muted Purple
             marginTop: '1rem',
             marginBottom: '1rem'
         },
         introText: {
             fontSize: '1.1rem',
             lineHeight: 1.8,
-            color: '#5D4037', // Medium brown
+            color: '#1F0954', // Dark Navy
             maxWidth: '800px',
             margin: '0 auto',
             fontWeight: 400,
@@ -165,7 +165,7 @@ const Hero = () => {
             marginTop: '1.5rem',
         },
         primaryBtn: {
-            background: 'linear-gradient(135deg, #E07A5F 0%, #D87C5A 100%)', // Warm terracotta gradient
+            background: 'linear-gradient(135deg, #4B0082 0%, #30005A 100%)', // Indigo gradient
             color: '#FFF',
             padding: '16px 42px',
             borderRadius: '50px',
@@ -174,7 +174,7 @@ const Hero = () => {
             fontWeight: 600,
             cursor: 'pointer',
             transition: 'all 0.3s ease',
-            boxShadow: '0 10px 25px rgba(216, 124, 90, 0.3)',
+            boxShadow: '0 10px 25px rgba(75, 0, 130, 0.3)',
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
@@ -191,8 +191,8 @@ const Hero = () => {
     return (
         <section style={styles.section} ref={heroRef} id="hero">
             {/* Warm, Soft Background Glows */}
-            <div className="decoration-orb" style={{ ...styles.decorationOrbs, top: '-20%', left: '-10%', width: '600px', height: '600px', background: 'rgba(255, 224, 178, 0.3)' }}></div>
-            <div className="decoration-orb" style={{ ...styles.decorationOrbs, bottom: '-10%', right: '-10%', width: '500px', height: '500px', background: 'rgba(242, 199, 184, 0.3)' }}></div>
+            <div className="decoration-orb" style={{ ...styles.decorationOrbs, top: '-20%', left: '-10%', width: '600px', height: '600px', background: 'rgba(199, 181, 141, 0.2)' }}></div>
+            <div className="decoration-orb" style={{ ...styles.decorationOrbs, bottom: '-10%', right: '-10%', width: '500px', height: '500px', background: 'rgba(106, 27, 154, 0.15)' }}></div>
 
             {/* Subtle Grain Overlay for Texture */}
             <div style={{
@@ -246,8 +246,8 @@ const Hero = () => {
             <style>{`
                 .btn-hover:hover {
                     transform: translateY(-4px) scale(1.02);
-                    box-shadow: 0 15px 35px rgba(216, 124, 90, 0.4) !important;
-                    background: linear-gradient(135deg, #D87C5A 0%, #BF6A50 100%) !important;
+                    box-shadow: 0 15px 35px rgba(75, 0, 130, 0.4) !important;
+                    background: linear-gradient(135deg, #6A1B9A 0%, #4B0082 100%) !important;
                 }
                 .btn-hover:active {
                     transform: translateY(-1px);
