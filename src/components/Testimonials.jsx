@@ -1,260 +1,224 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaQuoteLeft } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Testimonials = () => {
     const sectionRef = useRef(null);
-    const containerRef = useRef(null);
-    const bubblesRef = useRef([]);
-    const [testimonialsData, setTestimonialsData] = React.useState([]);
+    const mainContentRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [testimonialsData, setTestimonialsData] = useState([]);
 
+    // Mock Data Loading
     useEffect(() => {
-        // Fetch content
-        import('../firebase').then(({ db }) => {
-            import('firebase/firestore').then(({ doc, onSnapshot }) => {
-                const unsub = onSnapshot(doc(db, "content", "testimonials"), (doc) => {
-                    if (doc.exists() && doc.data().items) {
-                        setTestimonialsData(doc.data().items);
-                    } else {
-                        // Default data
-                        setTestimonialsData([
-                            {
-                                id: 1,
-                                name: "Sarah M.",
-                                role: "Marketing Director",
-                                text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference to our campaigns.",
-                                rating: 5,
-                                align: 'flex-start',
-                                direction: -1,
-                                zIndex: 1
-                            },
-                            {
-                                id: 2,
-                                name: "David K.",
-                                role: "Business Owner",
-                                text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
-                                rating: 5,
-                                align: 'flex-end',
-                                direction: 1,
-                                zIndex: 2
-                            },
-                            {
-                                id: 3,
-                                name: "Anita P.",
-                                role: "Brand Manager",
-                                text: "Her work added clarity and consistency to our brand communication, helping us connect better with our audience.",
-                                rating: 5,
-                                align: 'flex-start',
-                                direction: -1,
-                                zIndex: 3
-                            }
-                        ]);
-                    }
-                });
-                return () => unsub();
-            });
-        });
+        setTestimonialsData([
+            {
+                id: 1,
+                name: "Michael Johnson",
+                role: "Senior Software Engineer",
+                text: "I was looking for my next big career move, and within weeks, I landed a role that perfectly matched my skills and aspirations. The process was seamless!",
+                image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                name: "Sarah Meyers",
+                role: "Marketing Director",
+                text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference.",
+                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                name: "David Kim",
+                role: "Startup Founder",
+                text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
+                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 4,
+                name: "Anita Patel",
+                role: "Brand Architect",
+                text: "Her work added clarity and consistency to our brand communication. The new visual identity helped us connect better with our audience.",
+                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+            }
+        ]);
     }, []);
 
+    // Animate content when activeIndex changes
     useEffect(() => {
-        const ctx = gsap.context(() => {
-            if (bubblesRef.current.length > 0) {
-                // Entrance Animation: Slide in from sides
-                bubblesRef.current.forEach((bubble, index) => {
-                    // Safe check if data exists at index, though mapping ensures it usually does
-                    if (!testimonialsData[index]) return;
+        if (!mainContentRef.current) return;
 
-                    const direction = testimonialsData[index].direction || (index % 2 === 0 ? -1 : 1);
+        // Fade out slightly then back in
+        gsap.fromTo(mainContentRef.current,
+            { opacity: 0, x: 20 },
+            { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }
+        );
+    }, [activeIndex]);
 
-                    // Slide In
-                    gsap.fromTo(bubble,
-                        {
-                            x: direction * 150,
-                            opacity: 0,
-                            scale: 0.95
-                        },
-                        {
-                            x: 0,
-                            opacity: 1,
-                            scale: 1,
-                            duration: 1,
-                            ease: 'power2.out',
-                            scrollTrigger: {
-                                trigger: containerRef.current,
-                                start: 'top 75%',
-                            }
-                        }
-                    );
-
-                    // Continuous Floating Motion
-                    gsap.to(bubble, {
-                        y: 10,
-                        duration: 2.5,
-                        yoyo: true,
-                        repeat: -1,
-                        ease: 'sine.inOut',
-                        delay: Math.random() * 1
-                    });
-                });
-            }
-        }, sectionRef);
-
-        return () => ctx.revert();
-    }, [testimonialsData]);
-
-    // Old useEffect removed
-
-
-    const styles = {
-        section: {
-            backgroundColor: '#FFFAF6',
-            padding: '100px 5%',
-            minHeight: '100vh',
-            fontFamily: '"Manrope", sans-serif',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            overflow: 'hidden'
-        },
-        headerContainer: {
-            textAlign: 'center',
-            marginBottom: '4rem',
-            position: 'relative',
-        },
-        mainHeading: {
-            fontFamily: '"Playfair Display", serif',
-            fontSize: 'clamp(3rem, 6vw, 5rem)',
-            color: '#3E2723', // Dark Brown
-            margin: 0,
-            lineHeight: 0.9,
-            fontWeight: 800,
-        },
-        scriptText: {
-            fontFamily: '"Playfair Display", serif',
-            fontStyle: 'italic',
-            color: '#D87C5A', // Terracotta
-            fontWeight: 400,
-        },
-        bubblesContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            maxWidth: '1000px',
-            position: 'relative',
-            // Negative margin on container not needed if we handle overlaps in wrappers
-        },
-        bubbleWrapper: (align, zIndex) => ({
-            display: 'flex',
-            justifyContent: align,
-            width: '100%',
-            padding: '0 2rem',
-            marginBottom: '-3rem', // Creates the overlap effect
-            zIndex: zIndex,
-            position: 'relative',
-            pointerEvents: 'none' // Let clicks pass through gaps
-        }),
-        bubble: {
-            backgroundColor: '#FFF',
-            padding: '3rem',
-            borderRadius: '40px', // Extra rounded
-            boxShadow: '0 30px 60px rgba(93, 64, 55, 0.15)', // Deep shadow
-            position: 'relative',
-            maxWidth: '650px',
-            width: '90%',
-            color: '#5D4037',
-            pointerEvents: 'auto'
-        },
-        stars: {
-            color: '#E07A5F',
-            fontSize: '1.2rem',
-            marginBottom: '1rem',
-            letterSpacing: '4px',
-        },
-        text: {
-            fontSize: '1.1rem',
-            lineHeight: 1.5,
-            marginBottom: '1rem',
-            fontWeight: 500,
-            color: '#5D4037',
-        },
-        clientName: {
-            textAlign: 'right',
-            fontSize: '1rem',
-            fontWeight: 800,
-            color: '#3E2723',
-            display: 'block',
-            marginTop: '0.5rem'
-        }
+    const handleThumbnailClick = (index) => {
+        setActiveIndex(index);
     };
 
-    return (
-        <section style={styles.section} id="testimonials" ref={sectionRef}>
-            <div style={styles.headerContainer}>
-                <h2 style={styles.mainHeading}>What our</h2>
-                <h2 style={{ ...styles.mainHeading, ...styles.scriptText }}>Clients say</h2>
-            </div>
+    const currentTestimonial = testimonialsData[activeIndex];
 
-            <div style={styles.bubblesContainer} ref={containerRef}>
-                {testimonialsData.map((t, index) => (
-                    <div key={index} style={styles.bubbleWrapper(t.align, t.zIndex)}>
-                        <div
-                            ref={el => bubblesRef.current[index] = el}
-                            className={`chat-bubble bubble-${index % 2 === 0 ? 'left' : 'right'}`}
-                            style={styles.bubble}
-                        >
-                            <div style={styles.stars}>
-                                {[...Array(t.rating)].map((_, i) => (
-                                    <span key={i}>★</span>
-                                ))}
+    if (!testimonialsData.length) return null;
+
+    return (
+        <section ref={sectionRef} style={{
+            backgroundColor: '#FFFAF6', // Ivory Light Background
+            padding: '100px 5%',
+            minHeight: '100vh',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#1F0954', // Dark Navy Text for contrast
+            fontFamily: '"Manrope", sans-serif',
+            overflow: 'hidden'
+        }}>
+            <div style={{ maxWidth: '1100px', width: '100%' }}>
+
+                {/* Heading Left Aligned */}
+                <div style={{ marginBottom: '3rem' }}>
+                    <div style={{
+                        display: 'inline-block',
+                        padding: '6px 16px',
+                        border: '1px solid #1F0954', // Dark border
+                        borderRadius: '50px',
+                        fontSize: '0.85rem',
+                        marginBottom: '1.5rem',
+                        color: '#1F0954', // Dark text
+                        letterSpacing: '0.5px',
+                        fontWeight: 600
+                    }}>
+                        Customer Review
+                    </div>
+                    <h2 style={{
+                        fontFamily: '"Playfair Display", serif',
+                        fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                        lineHeight: '1.1',
+                        margin: 0,
+                        maxWidth: '600px',
+                        color: '#1F0954'
+                    }}>
+                        Don't take our word for it!<br />
+                        <span style={{ color: '#C7B58D' }}>Hear it from our clients!</span> {/* Gold Accent */}
+                    </h2>
+                </div>
+
+                {/* Main Content Grid */}
+                <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'minmax(280px, 340px) 1fr',
+                    gap: '4rem',
+                    alignItems: 'stretch'
+                }} className="testimonial-grid">
+
+                    {/* Large Featured Image (Left Column) */}
+                    <div style={{
+                        position: 'relative',
+                        borderRadius: '24px',
+                        overflow: 'hidden',
+                        height: '100%',
+                        minHeight: '400px',
+                        boxShadow: '0 25px 50px rgba(31, 9, 84, 0.15)', // Purple shadow
+                        border: '1px solid rgba(0,0,0,0.05)'
+                    }}>
+                        <img
+                            src={currentTestimonial.image}
+                            alt={currentTestimonial.name}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    </div>
+
+                    {/* Right Column: Quote -> Author -> Thumbnails */}
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+
+                        {/* Quote & Author */}
+                        <div ref={mainContentRef}>
+                            <FaQuoteLeft size={32} color="#C7B58D" style={{ opacity: 0.8, marginBottom: '1.5rem' }} />
+                            <p style={{
+                                fontSize: '1.25rem',
+                                lineHeight: '1.6',
+                                fontWeight: 500,
+                                color: '#1F0954', // Dark text
+                                marginBottom: '2rem',
+                                opacity: 0.9
+                            }}>
+                                "{currentTestimonial.text}"
+                            </p>
+
+                            <div style={{ marginBottom: '3rem' }}>
+                                <h4 style={{
+                                    fontSize: '1.2rem',
+                                    fontWeight: 800,
+                                    marginBottom: '0.3rem',
+                                    color: '#4B0082' // Purple Name
+                                }}>
+                                    {currentTestimonial.name}
+                                </h4>
+                                <span style={{
+                                    fontSize: '0.9rem',
+                                    color: '#C7B58D',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '1px',
+                                    fontWeight: 600
+                                }}>
+                                    {currentTestimonial.role}
+                                </span>
                             </div>
-                            <p style={styles.text}>{t.text}</p>
-                            <span style={styles.clientName}>- {t.name}</span>
+                        </div>
+
+                        {/* Thumbnails Row (Bottom of Right Column) */}
+                        <div style={{
+                            display: 'flex',
+                            gap: '1rem',
+                            flexWrap: 'wrap'
+                        }}>
+                            {testimonialsData.map((t, i) => (
+                                <div
+                                    key={t.id}
+                                    onClick={() => handleThumbnailClick(i)}
+                                    style={{
+                                        width: '65px',
+                                        height: '65px',
+                                        borderRadius: '14px',
+                                        overflow: 'hidden',
+                                        cursor: 'pointer',
+                                        opacity: activeIndex === i ? 1 : 0.6,
+                                        transform: activeIndex === i ? 'scale(1.05)' : 'scale(1)',
+                                        border: activeIndex === i ? '3px solid #C7B58D' : '1px solid #DDD',
+                                        transition: 'all 0.3s ease',
+                                        boxShadow: '0 5px 15px rgba(0,0,0,0.05)'
+                                    }}
+                                >
+                                    <img
+                                        src={t.image}
+                                        alt={t.name}
+                                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
-                ))}
+                </div>
             </div>
 
             <style>{`
-                .chat-bubble {
-                    /* Tail Base Logic */
+                @media (max-width: 900px) {
+                    .testimonial-grid {
+                        grid-template-columns: 1fr !important;
+                        text-align: center;
+                    }
+                    .testimonial-grid > div:first-child {
+                        margin: 0 auto;
+                        max-width: 300px;
+                    }
+                    .testimonial-grid > div:last-child {
+                        align-items: center;
+                    }
                 }
-
-                /* Left Bubble Tail - Smooth Curve */
-                .bubble-left {
-                    border-bottom-left-radius: 0; 
-                }
-                
-                /* Better Tail using Border Hack matching the image */
-                .bubble-left::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -20px;
-                    left: 0;
-                    border-right: 40px solid transparent;
-                    border-top: 40px solid #FFF;
-                    border-bottom: 0;
-                    border-left: 0;
-                    border-radius: 0 0 40px 0; /* Curve the outside */
-                }
-
-                /* Right Bubble Tail */
-                .bubble-right {
-                    border-bottom-right-radius: 0;
-                }
-                .bubble-right::after {
-                    content: '';
-                    position: absolute;
-                    bottom: -20px;
-                    right: 0;
-                    border-left: 40px solid transparent;
-                    border-top: 40px solid #FFF;
-                    border-bottom: 0;
-                    border-right: 0;
-                    border-radius: 0 0 0 40px; /* Curve the outside */
-                }
-
             `}</style>
         </section>
     );

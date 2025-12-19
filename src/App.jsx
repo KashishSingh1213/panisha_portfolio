@@ -9,6 +9,7 @@ import Tool from './components/Tool';
 import Skills from './components/Skills';
 
 import Testimonials from './components/Testimonials';
+import ContentSamples from './components/ContentSamples';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -57,6 +58,7 @@ const Portfolio = () => {
       <Skills />
 
       <Tool />
+      <ContentSamples />
       <Testimonials />
       <Contact />
 

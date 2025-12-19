@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase'; // Import Firestore instance
+import { db } from '../firebase';
 import { FaEnvelope, FaLinkedin } from 'react-icons/fa';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -30,7 +30,6 @@ const Contact = () => {
         setStatus('loading');
 
         try {
-            // Add a new document with a generated id.
             await addDoc(collection(db, "messages"), {
                 name: formData.name,
                 email: formData.email,
@@ -40,7 +39,7 @@ const Contact = () => {
 
             setStatus('success');
             setResponseMsg('Message sent successfully!');
-            setFormData({ name: '', email: '', message: '' }); // Reset form
+            setFormData({ name: '', email: '', message: '' });
 
         } catch (error) {
             console.error('Error adding document: ', error);
@@ -48,7 +47,6 @@ const Contact = () => {
             setResponseMsg('Failed to send message. Please try again.');
         }
 
-        // Reset status after 5 seconds
         setTimeout(() => {
             setStatus('idle');
             setResponseMsg('');
@@ -57,7 +55,6 @@ const Contact = () => {
 
     useEffect(() => {
         const ctx = gsap.context(() => {
-            // Animate Left Side (Info)
             gsap.from(infoRef.current, {
                 x: -50,
                 opacity: 0,
@@ -69,7 +66,6 @@ const Contact = () => {
                 }
             });
 
-            // Animate Right Side (Form)
             gsap.from(formRef.current, {
                 x: 50,
                 opacity: 0,
@@ -82,7 +78,6 @@ const Contact = () => {
                 }
             });
 
-            // Stagger Form inputs
             gsap.from(".form-item", {
                 y: 20,
                 opacity: 0,
@@ -103,14 +98,14 @@ const Contact = () => {
 
     const styles = {
         section: {
-            backgroundColor: '#FFFAF6',
+            backgroundColor: '#FFFFF0', // Ivory
             padding: '100px 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            color: '#5D4037',
+            color: '#1F0954', // Dark Navy
         },
         container: {
             display: 'grid',
@@ -120,7 +115,6 @@ const Contact = () => {
             width: '100%',
             alignItems: 'start',
         },
-        // Left Side
         infoCol: {
             display: 'flex',
             flexDirection: 'column',
@@ -130,47 +124,41 @@ const Contact = () => {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(3rem, 5vw, 4.5rem)',
             lineHeight: 1.1,
-            color: '#3E2723',
+            color: '#1F0954', // Dark Navy
             margin: 0,
         },
         subtext: {
             fontSize: '1.2rem',
             lineHeight: 1.6,
-            color: '#795548',
+            color: '#5E4B8B', // Muted Purple
             maxWidth: '90%',
         },
         emailLink: {
             fontSize: '1.5rem',
-            color: '#D87C5A',
+            color: '#4B0082', // Purple Accent
             textDecoration: 'none',
             fontWeight: 700,
             borderBottom: '2px solid transparent',
             transition: 'border-color 0.3s',
             alignSelf: 'flex-start',
         },
-        socials: {
-            display: 'flex',
-            gap: '1.5rem',
-            marginTop: '1rem',
-        },
         socialLink: {
             fontSize: '1rem',
             textTransform: 'uppercase',
             letterSpacing: '2px',
-            color: '#3E2723',
+            color: '#1F0954', // Dark Navy
             textDecoration: 'none',
             fontWeight: 700,
             position: 'relative',
         },
-        // Right Side (Form)
         form: {
             display: 'flex',
             flexDirection: 'column',
             gap: '1.5rem',
-            backgroundColor: '#FFF',
+            backgroundColor: '#F2F0EF', // Surface Color
             padding: '3rem',
             borderRadius: '30px',
-            boxShadow: '0 20px 60px rgba(93, 64, 55, 0.1)',
+            boxShadow: '0 20px 60px rgba(31, 9, 84, 0.08)', // Purple Tint
         },
         inputGroup: {
             display: 'flex',
@@ -180,7 +168,7 @@ const Contact = () => {
         label: {
             fontSize: '0.9rem',
             fontWeight: 700,
-            color: '#8D6E63',
+            color: '#5E4B8B', // Muted Purple
             marginLeft: '1rem',
             textTransform: 'uppercase',
             letterSpacing: '1px',
@@ -188,22 +176,22 @@ const Contact = () => {
         input: {
             padding: '1.2rem 1.5rem',
             borderRadius: '50px',
-            border: '1px solid #E0E0E0',
-            backgroundColor: '#FAFAFA',
+            border: '1px solid #D3D3D3',
+            backgroundColor: '#FFFFFF',
             fontSize: '1rem',
             fontFamily: 'inherit',
-            color: '#3E2723',
+            color: '#1F0954', // Dark Navy
             outline: 'none',
             transition: 'all 0.3s',
         },
         textarea: {
             padding: '1.5rem',
             borderRadius: '20px',
-            border: '1px solid #E0E0E0',
-            backgroundColor: '#FAFAFA',
+            border: '1px solid #D3D3D3',
+            backgroundColor: '#FFFFFF',
             fontSize: '1rem',
             fontFamily: 'inherit',
-            color: '#3E2723',
+            color: '#1F0954',
             outline: 'none',
             minHeight: '150px',
             resize: 'vertical',
@@ -213,7 +201,7 @@ const Contact = () => {
             padding: '1.2rem',
             borderRadius: '50px',
             border: 'none',
-            backgroundColor: '#E07A5F',
+            backgroundColor: '#4B0082', // Purple Accent
             color: '#FFF',
             fontSize: '1.1rem',
             fontWeight: 700,
@@ -241,21 +229,21 @@ const Contact = () => {
 
     return (
         <section id="contact" style={styles.section} ref={sectionRef}>
-            <div style={styles.container}>
+            <div style={styles.container} ref={infoRef}>
                 {/* Left Side: Info */}
-                <div style={styles.infoCol} ref={infoRef}>
+                <div style={styles.infoCol}>
                     <h2 style={styles.heading}>Let's create something meaningful.</h2>
                     <p style={styles.subtext}>
                         Got a project that needs a touch of warmth and precision? I'm currently available for freelance work and collaborations.
                     </p>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.2rem', marginTop: '1.5rem' }}>
                         <a href="mailto:panishadhutti@gmail.com" style={{ ...styles.socialLink, textTransform: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem' }} className="hover-link">
-                            <FaEnvelope size={20} />
+                            <FaEnvelope size={20} color="#4B0082" />
                             panishadhutti@gmail.com
                         </a>
 
                         <a href="https://linkedin.com/in/panisha-dhutti-611245206" target="_blank" rel="noopener noreferrer" style={{ ...styles.socialLink, textTransform: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '1.1rem' }} className="hover-link">
-                            <FaLinkedin size={24} />
+                            <FaLinkedin size={24} color="#4B0082" />
                             <span style={{ wordBreak: 'break-all' }}>linkedin.com/in/panisha-dhutti-611245206</span>
                         </a>
                     </div>
@@ -322,18 +310,18 @@ const Contact = () => {
 
             <style>{`
                 .contact-input:focus {
-                    border-color: #D87C5A !important;
+                    border-color: #C7B58D !important; /* Gold */
                     background-color: #FFF !important;
-                    box-shadow: 0 0 0 4px rgba(216, 124, 90, 0.1);
+                    box-shadow: 0 0 0 4px rgba(199, 181, 141, 0.2);
                 }
                 .hover-link:hover {
-                    color: #D87C5A !important;
-                    border-color: #D87C5A !important;
+                    color: #4B0082 !important; /* Purple */
+                    opacity: 0.8;
                 }
                 .submit-btn:hover {
-                    background-color: #BF6A50 !important;
+                    background-color: #6A1B9A !important; /* Light Purple */
                     transform: translateY(-3px);
-                    box-shadow: 0 10px 20px rgba(216, 124, 90, 0.3);
+                    box-shadow: 0 10px 20px rgba(75, 0, 130, 0.3);
                 }
                 .submit-btn:disabled {
                     background-color: #E0E0E0 !important;
