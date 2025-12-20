@@ -115,7 +115,7 @@ const About = () => {
             width: '100%',
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
-            gap: '6rem',
+            gap: '4rem',
             alignItems: 'center',
         },
         // Left Text
@@ -204,43 +204,47 @@ const About = () => {
             boxShadow: '0 20px 50px rgba(31, 9, 84, 0.15)',
         },
         img1: { // Main Pill
-            width: '280px',
-            height: '420px',
+            width: '280px', // Fixed width
+            height: '420px', // Fixed height
             backgroundImage: `url("${content.img1 || 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80'}")`,
             borderRadius: '140px',
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)',
+            // Use calc to center to avoid GSAP overwrite of transform
+            left: 'calc(50% - 140px)',
+            top: 'calc(50% - 210px)',
+            position: 'absolute',
             zIndex: 2,
             border: '5px solid #FFF',
         },
         img2: { // Top Right Circle
-            width: '180px',
-            height: '180px',
+            width: '160px',
+            height: '160px',
             backgroundImage: `url("${content.img2 || 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80'}")`,
             borderRadius: '50%',
-            top: '20px',
-            right: '0px',
+            top: '10%',
+            right: '5%',
+            position: 'absolute',
             zIndex: 1,
             border: '5px solid #FFF',
         },
         img3: { // Bottom Left Landscape
-            width: '200px',
-            height: '150px',
+            width: '220px',
+            height: '160px',
             backgroundImage: `url("${content.img3 || 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80'}")`,
             borderRadius: '20px',
-            bottom: '40px',
-            left: '0px',
+            bottom: '10%',
+            left: '0%',
+            position: 'absolute',
             zIndex: 3,
             border: '5px solid #FFF',
         },
         img4: { // Tiny decorative circle
-            width: '100px',
-            height: '100px',
+            width: '80px',
+            height: '80px',
             backgroundImage: `url("${content.img4 || 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80'}")`,
             borderRadius: '50%',
-            top: '100px',
-            left: '20px',
+            top: '20%',
+            left: '10%',
+            position: 'absolute',
             zIndex: 1,
             border: '3px solid #FFF',
             opacity: 0.9,
@@ -287,12 +291,12 @@ const About = () => {
                 {/* Right Side: Collage */}
                 <div style={styles.rightCol} ref={rightColRef}>
                     {/* Main Image */}
-                    <div className="collage-item parallax-up" style={{ ...styles.imgBase, ...styles.img1 }}></div>
+                    <div className="collage-item parallax-up img-main" style={{ ...styles.imgBase, ...styles.img1 }}></div>
 
                     {/* Peripheral Images */}
-                    <div className="collage-item parallax-down" style={{ ...styles.imgBase, ...styles.img2 }}></div>
-                    <div className="collage-item parallax-up" style={{ ...styles.imgBase, ...styles.img3 }}></div>
-                    <div className="collage-item parallax-down" style={{ ...styles.imgBase, ...styles.img4 }}></div>
+                    <div className="collage-item parallax-down img-top-right" style={{ ...styles.imgBase, ...styles.img2 }}></div>
+                    <div className="collage-item parallax-up img-bottom-left" style={{ ...styles.imgBase, ...styles.img3 }}></div>
+                    <div className="collage-item parallax-down img-tiny" style={{ ...styles.imgBase, ...styles.img4 }}></div>
                 </div>
             </div>
 
@@ -310,9 +314,50 @@ const About = () => {
                         height: 500px !important;
                         margin-top: 3rem;
                     }
-                    /* Adjust image positions for mobile if needed, or rely on flex stacking */
+                    
+                    /* Mobile Collage Layout */
                     .collage-item {
-                        transform: scale(0.8) !important;
+                        transition: all 0.5s ease;
+                    }
+
+                    .img-main {
+                        width: 240px !important;
+                        height: 340px !important;
+                        left: 50% !important;
+                        top: 50% !important;
+                        transform: translate(-50%, -50%) !important;
+                        z-index: 2 !important;
+                        box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
+                    }
+
+                    .img-top-right {
+                        width: 120px !important;
+                        height: 120px !important;
+                        top: 10% !important;
+                        left: auto !important;
+                        right: 5% !important;
+                        transform: none !important;
+                        z-index: 3 !important;
+                    }
+
+                    .img-bottom-left {
+                        width: 160px !important;
+                        height: 120px !important;
+                        top: auto !important;
+                        bottom: 15% !important;
+                        left: 5% !important;
+                        transform: none !important;
+                        z-index: 3 !important;
+                        border-radius: 16px !important;
+                    }
+
+                    .img-tiny {
+                        top: 15% !important;
+                        left: 10% !important;
+                        width: 70px !important;
+                        height: 70px !important;
+                        z-index: 1 !important;
+                        opacity: 0.8 !important;
                     }
                 }
             `}</style>

@@ -223,7 +223,8 @@ const PillNav = ({
                         logoRef.current = el;
                     }}
                 >
-                    {logo ? <img src={logo} alt={logoAlt} ref={logoImgRef} /> : <span style={{ fontSize: '12px', fontWeight: 'bold', color: pillColor }}>PD</span>}
+                    {logo && <img src={logo} alt={logoAlt} ref={logoImgRef} style={{ width: '24px', height: '24px', objectFit: 'contain' }} />}
+                    <span style={{ fontSize: '14px', fontWeight: 'bold', color: pillColor, textTransform: 'uppercase', letterSpacing: '1px' }}>{logoAlt}</span>
                 </a>
 
                 <div className="pill-nav-items desktop-only" ref={navItemsRef}>

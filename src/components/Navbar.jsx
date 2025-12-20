@@ -5,7 +5,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 
 const Navbar = () => {
     const [config, setConfig] = useState({
-        logoText: 'Panisha Dhutti',
+        logoText: 'Portfolio',
         logoImg: '',
         baseColor: 'rgba(255, 255, 240, 0.9)', // Ivory
         pillColor: '#4B0082', // Indigo
