@@ -10,9 +10,14 @@ import GraphicsImg3 from '../assets/Images/width200 (1).png';
 
 // Import Marketing Images
 
-import MarketingImg2 from '../assets/Images/marketing 2.png';
-import MarketingImg3 from '../assets/Images/marketing 3.png';
-import MarketingImg4 from '../assets/Images/marketing4.png';
+// Import Marketing Images (Local Fallbacks)
+import MarketingImg1 from '../assets/Images/mar1.jpg';
+import MarketingImg2 from '../assets/Images/mar2.png';
+import MarketingImg3 from '../assets/Images/mar3.png';
+
+// Firebase Imports
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -145,6 +150,23 @@ const GridCard = ({ children, className = "", style = {} }) => (
 // --- MAIN SHOWCASE COMPONENT ---
 const MarketingShowcase = () => {
     const containerRef = useRef(null);
+    const [pageContent, setPageContent] = useState(null);
+
+    // Fetch Content from Firestore
+    useEffect(() => {
+        const fetchContent = async () => {
+            try {
+                const docRef = doc(db, 'content', 'marketing');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setPageContent(docSnap.data());
+                }
+            } catch (error) {
+                console.error("Error fetching marketing content:", error);
+            }
+        };
+        fetchContent();
+    }, []);
 
     // Palette
     const c = {
@@ -170,15 +192,15 @@ const MarketingShowcase = () => {
 
     // Unsplash Images mapped to content
     const items = [
-        // Marketing Materials (Tall/Portrait) - USING LOCAL IMAGES
-        { id: 2, type: 'marketing', img: MarketingImg2, title: 'Marketing 2' },
-        { id: 3, type: 'marketing', img: MarketingImg3, title: 'Marketing 3' },
-        { id: 7, type: 'marketing', img: MarketingImg4, title: 'Marketing 4' },
+        // Marketing Materials (Tall/Portrait) - Using Firestore Data OR Local Fallbacks
+        { id: 2, type: 'marketing', img: pageContent?.marketingImg1 || MarketingImg2, title: 'Marketing 2' },
+        { id: 3, type: 'marketing', img: pageContent?.marketingImg2 || MarketingImg3, title: 'Marketing 3' },
+        { id: 7, type: 'marketing', img: pageContent?.marketingImg3 || MarketingImg1, title: 'Marketing 4' },
 
-        // Graphics (Square/Wide) - USING LOCAL IMAGES
-        { id: 4, type: 'graphics', img: GraphicsImg1, title: 'Social Media' },
-        { id: 5, type: 'graphics', img: GraphicsImg2, title: 'Typography' },
-        { id: 6, type: 'graphics', img: GraphicsImg3, title: 'Identity' },
+        // Graphics (Square/Wide) - Using Firestore Data OR Local Fallbacks
+        { id: 4, type: 'graphics', img: pageContent?.graphicsImg1 || GraphicsImg1, title: 'Social Media' },
+        { id: 5, type: 'graphics', img: pageContent?.graphicsImg2 || GraphicsImg2, title: 'Typography' },
+        { id: 6, type: 'graphics', img: pageContent?.graphicsImg3 || GraphicsImg3, title: 'Identity' },
     ];
 
     return (
@@ -216,11 +238,11 @@ const MarketingShowcase = () => {
 
 
             {/* === PART 2: MARKETING PORTFOLIO (GRID) === */}
-            <div className="anim-section" style={{ padding: '2rem 5% 4rem 5%' }}>
+            <div className="anim-section" style={{ padding: '5rem 5% 5rem 5%' }}>
 
                 {/* Header Block with Reference Style */}
                 <div style={{
-                    borderLeft: `10px solid ${c.gold}`, paddingLeft: '3rem', margin: '0 0 2rem 0',
+                    borderLeft: `10px solid ${c.gold}`, paddingLeft: '3rem', margin: '0 0 4rem 0',
                     maxWidth: '1000px'
                 }}>
                     <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '4rem', color: c.navy, lineHeight: 1, marginBottom: '1rem', textTransform: 'uppercase' }}>
