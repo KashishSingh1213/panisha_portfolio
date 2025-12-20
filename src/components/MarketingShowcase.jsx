@@ -205,13 +205,13 @@ const MarketingShowcase = () => {
                 </div>
 
                 {/* THE GRID */}
-                <div style={{
+                <div className="marketing-portfolio-grid" style={{
                     display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2rem',
                     autoRows: 'auto'
                 }}>
 
                     {/* --- Text Block: Graphics --- */}
-                    <div style={{ gridColumn: 'span 1', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                    <div className="grid-text-graphics" style={{ gridColumn: 'span 1', padding: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                         <h3 style={{ fontFamily: 'Playfair Display, serif', fontSize: '2.5rem', color: c.navy, marginBottom: '1.5rem' }}>Graphics</h3>
                         <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1rem', lineHeight: '1.8', color: '#444' }}>
                             Experience in graphic design, including corporate projects, collaborations, travel and more. These are some examples of my work.
@@ -230,14 +230,14 @@ const MarketingShowcase = () => {
 
                     {/* --- Marketing Items (Portrait/Tall) --- */}
                     {items.filter(i => i.type === 'marketing').map(item => (
-                        <GridCard key={item.id} style={{ height: '420px', gridRow: 'span 2' }}>
+                        <GridCard key={item.id} className="grid-item-marketing" style={{ height: '420px', gridRow: 'span 2' }}>
                             <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             <div style={{ position: 'absolute', top: '20px', right: '20px', background: c.gold, color: '#FFF', padding: '5px 15px', fontSize: '0.8rem', fontWeight: 700 }}>MARKETING</div>
                         </GridCard>
                     ))}
 
                     {/* --- Text Block: Marketing --- */}
-                    <div style={{
+                    <div className="grid-text-marketing" style={{
                         gridColumn: 'span 2', backgroundColor: c.navy, color: '#FFFFF0',
                         padding: '3rem', display: 'flex', flexDirection: 'column', justifyContent: 'center'
                     }}>
@@ -254,14 +254,53 @@ const MarketingShowcase = () => {
                 .grid-card:hover { transform: translateY(-10px); box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important; }
                 .phone-mockup:hover { transform: translateY(-10px); }
                 
-                @media (max-width: 900px) {
-                    .phones-grid { flex-direction: column; align-items: center; }
-                    .marketing-grid { grid-template-columns: 1fr !important; }
+                /* TABLET RESPONSIVENESS */
+                @media (max-width: 1024px) {
+                    .marketing-portfolio-grid {
+                        grid-template-columns: repeat(2, 1fr) !important;
+                    }
+                    .grid-text-marketing {
+                        grid-column: span 2 !important;
+                    }
+                    /* Ensure marketing items don't break the flow */
+                    .grid-item-marketing {
+                        height: 400px !important;
+                    }
+                }
+
+                /* MOBILE RESPONSIVENESS */
+                @media (max-width: 768px) {
+                    .phones-grid { 
+                        flex-direction: column; 
+                        align-items: center; 
+                        gap: 2rem !important;
+                    }
                     
-                    /* Reset Grid for Mobile */
-                    div[style*="display: grid"] { grid-template-columns: 1fr !important; }
-                    div[style*="gridColumn: 'span 2'"] { grid-column: auto !important; }
-                    div[style*="gridRow: 'span 2'"] { grid-row: auto !important; height: 350px !important; }
+                    /* Stack everything in 1 column */
+                    .marketing-portfolio-grid { 
+                        grid-template-columns: 1fr !important;
+                        gap: 1.5rem !important;
+                    }
+
+                    /* Reset grid spans */
+                    .grid-text-graphics,
+                    .grid-text-marketing,
+                    .grid-item-marketing { 
+                        grid-column: auto !important; 
+                        grid-row: auto !important; 
+                    }
+
+                    /* Adjust Heights */
+                    .grid-item-marketing { 
+                        height: 300px !important; 
+                    }
+                    
+                    /* Text Adjustments */
+                    h2 { font-size: 2.5rem !important; }
+                    h3 { font-size: 2rem !important; }
+                    .grid-text-marketing, .grid-text-graphics {
+                        padding: 1.5rem !important;
+                    }
                 }
             `}</style>
         </section>
