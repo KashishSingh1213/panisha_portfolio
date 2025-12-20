@@ -205,7 +205,7 @@ const ContentSamples = () => {
     ];
 
     return (
-        <section ref={containerRef} style={{
+        <section id="work" ref={containerRef} style={{
             backgroundColor: '#FFFAF6', // Ivory
             padding: 'var(--section-spacing) 5% 0 5%',
             minHeight: '100vh',

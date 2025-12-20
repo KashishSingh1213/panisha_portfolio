@@ -183,7 +183,7 @@ const PillNav = ({
                         scaleY: 1,
                         duration: 0.3,
                         ease,
-                        transformOrigin: 'top center'
+                        transformOrigin: 'top right'
                     }
                 );
             } else {
@@ -193,7 +193,7 @@ const PillNav = ({
                     scaleY: 1,
                     duration: 0.2,
                     ease,
-                    transformOrigin: 'top center',
+                    transformOrigin: 'top right',
                     onComplete: () => {
                         gsap.set(menu, { visibility: 'hidden' });
                     }

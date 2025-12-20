@@ -207,7 +207,7 @@ const MarketingShowcase = () => {
         <section ref={containerRef} style={{ backgroundColor: c.bg, overflow: 'hidden' }}>
 
             {/* === PART 1: VIDEOS === */}
-            <div className="anim-section" style={{ padding: '3rem 5% 2rem 5%', borderBottom: `1px solid ${c.border}` }}>
+            <div id="videos" className="anim-section" style={{ padding: '3rem 5% 2rem 5%', borderBottom: `1px solid ${c.border}` }}>
                 <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2rem auto' }}>
                     <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3.5rem', color: c.navy, marginBottom: '1rem' }}>Videos</h2>
                     <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.1rem', color: '#555', lineHeight: '1.8' }}>

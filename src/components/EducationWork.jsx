@@ -191,7 +191,8 @@ const EducationWork = () => {
             width: '100%',
             flexDirection: isMobile ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
             alignItems: 'center',
-            marginBottom: '4rem',
+            alignItems: 'center',
+            marginBottom: isMobile ? '2rem' : '4rem',
             position: 'relative',
             opacity: 0,
             animation: `fadeInUp 0.6s ease forwards ${index * 0.15}s`
@@ -200,7 +201,7 @@ const EducationWork = () => {
         // Half Widths for standard items
         half: {
             width: isMobile ? '100%' : '50%',
-            padding: isMobile ? '0 0 0 50px' : (isMobile ? '0' : '0 40px'), // Padding for spacing from center
+            padding: isMobile ? '0 0 0 100px' : (isMobile ? '0' : '0 40px'), // Padding for spacing from center
             boxSizing: 'border-box',
             display: 'flex',
             justifyContent: isMobile ? 'flex-start' : 'center', // Align card properly per side
