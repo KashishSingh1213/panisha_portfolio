@@ -336,16 +336,20 @@ const About = () => {
                     }
                     
                     /* Mobile Collage Layout */
+                    /* Removed transition to avoid GSAP conflict */
                     .collage-item {
-                        transition: all 0.5s ease;
+                        /* transition: all 0.5s ease; */
                     }
 
                     .img-main {
                         width: 240px !important;
                         height: 340px !important;
-                        left: 50% !important;
-                        top: 50% !important;
-                        transform: translate(-50%, -50%) !important;
+                        position: absolute !important;
+                        left: 0 !important;
+                        right: 0 !important;
+                        top: 0 !important;
+                        bottom: 0 !important;
+                        margin: auto !important;
                         z-index: 2 !important;
                         box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
                     }
@@ -356,7 +360,7 @@ const About = () => {
                         top: 10% !important;
                         left: auto !important;
                         right: 5% !important;
-                        transform: none !important;
+                        /* Removed transform constraint */
                         z-index: 3 !important;
                     }
 
@@ -366,7 +370,7 @@ const About = () => {
                         top: auto !important;
                         bottom: 15% !important;
                         left: 5% !important;
-                        transform: none !important;
+                        /* Removed transform constraint */
                         z-index: 3 !important;
                         border-radius: 16px !important;
                     }
