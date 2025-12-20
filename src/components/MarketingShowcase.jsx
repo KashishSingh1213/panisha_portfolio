@@ -270,7 +270,7 @@ const MarketingShowcase = () => {
                     {/* --- Graphics Items (Square/Landscape) --- */}
                     {items.filter(i => i.type === 'graphics').map(item => (
                         <GridCard key={item.id} style={{ height: '350px' }}>
-                            <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={item.img} alt={item.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             <div style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', padding: '1.5rem', background: 'linear-gradient(to top, rgba(0,0,0,0.7), transparent)' }}>
                                 <span style={{ color: '#FFF', fontFamily: 'Manrope, sans-serif', fontWeight: 600, letterSpacing: '1px' }}>{item.title}</span>
                             </div>
@@ -280,7 +280,7 @@ const MarketingShowcase = () => {
                     {/* --- Marketing Items (Portrait/Tall) --- */}
                     {items.filter(i => i.type === 'marketing').map(item => (
                         <GridCard key={item.id} className="grid-item-marketing" style={{ height: '420px', gridRow: 'span 2' }}>
-                            <img src={item.img} alt={item.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <img src={item.img} alt={item.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                             <div style={{ position: 'absolute', top: '20px', right: '20px', background: c.gold, color: '#FFF', padding: '5px 15px', fontSize: '0.8rem', fontWeight: 700 }}>MARKETING</div>
                         </GridCard>
                     ))}

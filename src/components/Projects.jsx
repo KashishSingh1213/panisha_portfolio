@@ -129,6 +129,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                         <img
                             src={selectedProject.image}
                             alt={selectedProject.title}
+                            loading="lazy"
                             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />
                     </div>
@@ -175,7 +176,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
                             "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=500&auto=format&fit=crop"
                         ].map((img, i) => (
                             <div key={i} style={{ height: '300px', borderRadius: '20px', overflow: 'hidden', backgroundColor: '#e0e0e0' }}>
-                                <img src={img} alt={`Project Detail ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                                <img src={img} alt={`Project Detail ${i + 1}`} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
                             </div>
                         ))}
                     </div>
@@ -233,7 +234,9 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
 
                             {/* Top Circle Image */}
                             <div className="process-circle" style={{ borderColor: color }}>
-                                <div className="circle-inner" style={{ backgroundImage: `url(${work.image})` }}></div>
+                                <div className="circle-inner" style={{ overflow: 'hidden' }}>
+                                    <img src={work.image} alt={work.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                </div>
                                 <div className="circle-icon-overlay">
                                     <span style={{ color: color }}>0{index + 1}</span>
                                 </div>
