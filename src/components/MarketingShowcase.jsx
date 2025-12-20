@@ -21,7 +21,21 @@ const PhoneVideo = ({ src, poster, title }) => {
     const [isPlaying, setIsPlaying] = useState(false);
     const videoRef = useRef(null);
 
+    // Check for YouTube
+    const isYouTube = src && (src.includes('youtube.com') || src.includes('youtu.be'));
+
+    const getYouTubeEmbed = (url) => {
+        let videoId = '';
+        if (url.includes('/shorts/')) videoId = url.split('/shorts/')[1].split('?')[0];
+        else if (url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
+        else if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split('?')[0];
+
+        // Add minimal UI params
+        return `https://www.youtube.com/embed/${videoId}?loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1`;
+    };
+
     const togglePlay = () => {
+        if (isYouTube) return;
         if (!videoRef.current) return;
         if (isPlaying) {
             videoRef.current.pause();
@@ -33,7 +47,7 @@ const PhoneVideo = ({ src, poster, title }) => {
     };
 
     return (
-        <div className="phone-mockup" onClick={togglePlay} style={{
+        <div className="phone-mockup" onClick={!isYouTube ? togglePlay : undefined} style={{
             width: '280px',
             height: '560px',
             borderRadius: '40px',
@@ -42,43 +56,56 @@ const PhoneVideo = ({ src, poster, title }) => {
             position: 'relative',
             boxShadow: '0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 2px #333',
             overflow: 'hidden',
-            cursor: 'pointer',
+            cursor: isYouTube ? 'default' : 'pointer',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease'
         }}>
             {/* Notch */}
             <div style={{
                 position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
                 width: '120px', height: '24px', backgroundColor: '#1F1F1F',
-                borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px', zIndex: 10
+                borderBottomLeftRadius: '12px', borderBottomRightRadius: '12px', zIndex: 10,
+                pointerEvents: 'none'
             }}></div>
 
-            <video
-                ref={videoRef}
-                src={src}
-                poster={poster}
-                loop
-                playsInline
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            {isYouTube ? (
+                <iframe
+                    src={getYouTubeEmbed(src)}
+                    title={title}
+                    style={{ width: '100%', height: '100%', border: 'none', objectFit: 'cover' }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                />
+            ) : (
+                <>
+                    <video
+                        ref={videoRef}
+                        src={src}
+                        poster={poster}
+                        loop
+                        playsInline
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
 
-            {/* Play Overlay */}
-            {!isPlaying && (
-                <div style={{
-                    position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
-                    backgroundColor: 'rgba(0,0,0,0.3)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    backdropFilter: 'blur(2px)'
-                }}>
-                    <div style={{
-                        width: '70px', height: '70px', borderRadius: '50%',
-                        backgroundColor: 'rgba(255,255,255,0.2)',
-                        border: '1px solid rgba(255,255,255,0.5)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        color: '#FFF', fontSize: '1.5rem', backdropFilter: 'blur(10px)'
-                    }}>
-                        <FaPlay style={{ marginLeft: '4px' }} />
-                    </div>
-                </div>
+                    {/* Play Overlay */}
+                    {!isPlaying && (
+                        <div style={{
+                            position: 'absolute', top: 0, left: 0, width: '100%', height: '100%',
+                            backgroundColor: 'rgba(0,0,0,0.3)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            backdropFilter: 'blur(2px)'
+                        }}>
+                            <div style={{
+                                width: '70px', height: '70px', borderRadius: '50%',
+                                backgroundColor: 'rgba(255,255,255,0.2)',
+                                border: '1px solid rgba(255,255,255,0.5)',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                color: '#FFF', fontSize: '1.5rem', backdropFilter: 'blur(10px)'
+                            }}>
+                                <FaPlay style={{ marginLeft: '4px' }} />
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
 
             {/* Title Badge similar to Instagram */}
@@ -158,9 +185,9 @@ const MarketingShowcase = () => {
         <section ref={containerRef} style={{ backgroundColor: c.bg, overflow: 'hidden' }}>
 
             {/* === PART 1: VIDEOS === */}
-            <div className="anim-section" style={{ padding: 'var(--section-spacing) 5%', borderBottom: `1px solid ${c.border}` }}>
-                <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 4rem auto' }}>
-                    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3.5rem', color: c.navy, marginBottom: '1.5rem' }}>Videos</h2>
+            <div className="anim-section" style={{ padding: '3rem 5% 2rem 5%', borderBottom: `1px solid ${c.border}` }}>
+                <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto 2rem auto' }}>
+                    <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '3.5rem', color: c.navy, marginBottom: '1rem' }}>Videos</h2>
                     <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.1rem', color: '#555', lineHeight: '1.8' }}>
                         I have expertise in video editing and creation, including projects for company, personal branding, collaborations/partnerships, and trending content.
                     </p>
@@ -171,17 +198,17 @@ const MarketingShowcase = () => {
                 }}>
                     <PhoneVideo
                         title="Company"
-                        src="https://assets.mixkit.co/videos/preview/mixkit-tree-branches-in-the-breeze-1188-large.mp4"
+                        src="https://youtube.com/shorts/jtKnWm4hA98?si=mij503BPEBkqaxS5"
                         poster="https://images.unsplash.com/photo-1531297461136-82lw9b61d696?auto=format&fit=crop&w=600&q=80"
                     />
                     <PhoneVideo
                         title="Branding"
-                        src="https://assets.mixkit.co/videos/preview/mixkit-man-working-on-his-laptop-308-large.mp4"
+                        src="https://youtube.com/shorts/eRfLS6ztWMA?si=MJ-SOIvnc0Vf1UXP"
                         poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
                     />
                     <PhoneVideo
                         title="Trending"
-                        src="https://assets.mixkit.co/videos/preview/mixkit-young-woman-talking-on-video-call-on-smartphone-40291-large.mp4"
+                        src="https://youtube.com/shorts/WQADmHbYg-0?si=sw6VDKw0iLSDxjec"
                         poster="https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80"
                     />
                 </div>
@@ -189,11 +216,11 @@ const MarketingShowcase = () => {
 
 
             {/* === PART 2: MARKETING PORTFOLIO (GRID) === */}
-            <div className="anim-section" style={{ padding: 'var(--section-spacing) 5%' }}>
+            <div className="anim-section" style={{ padding: '2rem 5% 4rem 5%' }}>
 
                 {/* Header Block with Reference Style */}
                 <div style={{
-                    borderLeft: `10px solid ${c.gold}`, paddingLeft: '3rem', margin: '0 0 5rem 0',
+                    borderLeft: `10px solid ${c.gold}`, paddingLeft: '3rem', margin: '0 0 2rem 0',
                     maxWidth: '1000px'
                 }}>
                     <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '4rem', color: c.navy, lineHeight: 1, marginBottom: '1rem', textTransform: 'uppercase' }}>

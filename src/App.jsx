@@ -60,9 +60,9 @@ const Portfolio = () => {
       <Services />
       <Skills />
 
-      <Tool />
       <ContentSamples />
       <MarketingShowcase />
+      <Tool />
       <Testimonials />
       <Contact />
 

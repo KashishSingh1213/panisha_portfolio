@@ -21,7 +21,7 @@ const StepCard = ({ index, data, isLast }) => {
             position: 'relative',
             width: '100%',
             maxWidth: '600px',
-            marginBottom: '3rem',
+            marginBottom: isLast ? '0' : '3rem',
             zIndex: 1,
             marginLeft: isLeft ? '0' : 'auto',
             marginRight: isLeft ? 'auto' : '0',
@@ -207,7 +207,7 @@ const ContentSamples = () => {
     return (
         <section ref={containerRef} style={{
             backgroundColor: '#FFFAF6', // Ivory
-            padding: 'var(--section-spacing) 5%',
+            padding: 'var(--section-spacing) 5% 0 5%',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',
