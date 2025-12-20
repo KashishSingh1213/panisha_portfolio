@@ -147,7 +147,7 @@ const Dashboard = () => {
 
             <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '1.5rem'
             }}>
                 {/* Traffic Chart */}
@@ -160,7 +160,7 @@ const Dashboard = () => {
                     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
                 }}>
                     <h3 style={{ color: '#1F2937', marginBottom: '1.5rem', fontSize: '1.1rem' }}>Traffic Overview (Simulated)</h3>
-                    <ResponsiveContainer width="100%" height="90%">
+                    <ResponsiveContainer width="100%" height="90%" minWidth={0}>
                         <AreaChart data={chartData}>
                             <defs>
                                 <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
@@ -189,7 +189,7 @@ const Dashboard = () => {
                     boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)'
                 }}>
                     <h3 style={{ color: '#1F2937', marginBottom: '1.5rem', fontSize: '1.1rem' }}>Quick Actions</h3>
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
                         <Link to="/admin/hero" className="action-card" style={{
                             background: '#F9FAFB',
                             padding: '1.5rem',
