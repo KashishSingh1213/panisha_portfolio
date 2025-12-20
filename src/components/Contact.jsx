@@ -99,7 +99,7 @@ const Contact = () => {
     const styles = {
         section: {
             backgroundColor: '#FFFFF0', // Ivory
-            padding: '100px 5%',
+            padding: 'var(--section-spacing) 5%',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
             display: 'flex',

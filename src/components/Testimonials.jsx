@@ -67,7 +67,7 @@ const Testimonials = () => {
     return (
         <section ref={sectionRef} style={{
             backgroundColor: '#FFFAF6', // Ivory Light Background
-            padding: '100px 5%',
+            padding: 'var(--section-spacing) 5%',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',

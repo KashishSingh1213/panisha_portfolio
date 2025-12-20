@@ -106,7 +106,7 @@ const Tool = () => {
     const styles = {
         section: {
             backgroundColor: '#FFFAF6', // Slightly warmer Ivory
-            padding: '120px 5%',
+            padding: 'var(--section-spacing) 5%',
             fontFamily: '"Manrope", sans-serif',
             overflow: 'hidden',
             position: 'relative',

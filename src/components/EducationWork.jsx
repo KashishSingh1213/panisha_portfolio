@@ -116,7 +116,7 @@ const EducationWork = () => {
     const styles = {
         section: {
             backgroundColor: '#FFFFF0',
-            padding: '80px 5%',
+            padding: '20px 5% 60px',
             minHeight: '100vh',
             fontFamily: '"Manrope", sans-serif',
             display: 'flex',

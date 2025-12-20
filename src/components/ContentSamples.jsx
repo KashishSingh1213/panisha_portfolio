@@ -207,7 +207,7 @@ const ContentSamples = () => {
     return (
         <section ref={containerRef} style={{
             backgroundColor: '#FFFAF6', // Ivory
-            padding: '120px 5%',
+            padding: 'var(--section-spacing) 5%',
             minHeight: '100vh',
             display: 'flex',
             flexDirection: 'column',

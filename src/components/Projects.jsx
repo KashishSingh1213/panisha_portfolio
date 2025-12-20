@@ -86,7 +86,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
     if (selectedProject) {
         const color = colors[(selectedProject.id - 1) % colors.length] || colors[0];
         return (
-            <section ref={sectionRef} style={{ backgroundColor: '#FFFFF0', padding: '120px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif' }}>
+            <section ref={sectionRef} style={{ backgroundColor: '#FFFFF0', padding: 'var(--section-spacing) 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif' }}>
                 <div ref={detailRef} style={{ maxWidth: '1200px', margin: '0 auto' }}>
                     <button
                         onClick={() => setSelectedProject(null)}
@@ -215,7 +215,7 @@ Whether it’s building a brand voice, writing for different formats, or adaptin
     }
 
     return (
-        <section style={{ backgroundColor: '#FFFFF0', padding: '100px 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif', overflow: 'hidden' }} ref={sectionRef} id="projects">
+        <section style={{ backgroundColor: '#FFFFF0', padding: 'var(--section-spacing) 5%', minHeight: '100vh', fontFamily: '"Manrope", sans-serif', overflow: 'hidden' }} ref={sectionRef} id="projects">
             <div style={{ textAlign: 'center', marginBottom: '120px' }}>
                 <h2 style={{ fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontFamily: '"Playfair Display", serif', color: '#1F0954', margin: 0 }}>Selected Work</h2>
                 <p style={{ color: '#C7B58D', marginTop: '1rem', fontSize: '1.1rem' }}>Our portfolio and project model</p>

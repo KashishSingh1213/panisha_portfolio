@@ -102,7 +102,7 @@ const About = () => {
     const styles = {
         section: {
             backgroundColor: '#FFFFF0',
-            padding: '120px 5%',
+            padding: 'var(--section-spacing) 5%',
             minHeight: '100vh',
             display: 'flex',
             alignItems: 'center',
