@@ -238,7 +238,7 @@ const MarketingShowcase = () => {
 
 
             {/* === PART 2: MARKETING PORTFOLIO (GRID) === */}
-            <div className="anim-section" style={{ padding: '5rem 5% 5rem 5%' }}>
+            <div id="marketing" className="anim-section" style={{ padding: '5rem 5% 5rem 5%' }}>
 
                 {/* Header Block with Reference Style */}
                 <div style={{

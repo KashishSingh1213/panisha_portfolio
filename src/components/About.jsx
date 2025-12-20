@@ -305,7 +305,7 @@ const About = () => {
                         </div>
                     </div>
 
-                    <button className="hover-btn" style={styles.button}>More Details</button>
+                    <button className="hover-btn" style={styles.button} onClick={() => document.getElementById('marketing')?.scrollIntoView({ behavior: 'smooth' })}>More Details</button>
                 </div>
 
                 {/* Right Side: Collage */}
