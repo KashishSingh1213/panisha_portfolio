@@ -4,6 +4,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const fallbackImages = {
+    img1: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80',
+    img2: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80',
+    img3: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80',
+    img4: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80'
+};
+
+const getValidUrl = (url, fallback) => {
+    if (!url || typeof url !== 'string') return fallback;
+    // Check for valid HTTP/HTTPS or Data URL
+    if (url.match(/^(https?:\/\/|data:image\/)/i)) return url;
+    return fallback;
+};
+
 const About = () => {
     const sectionRef = useRef(null);
     const leftColRef = useRef(null);
@@ -15,33 +29,35 @@ const About = () => {
         desc1: 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
         desc2: 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
         yearsExp: '5+',
-        projectsDelivered: '50+'
+        projectsDelivered: '50+',
+        ...fallbackImages
     });
 
     useEffect(() => {
         // Fetch content
-        import('../firebase').then(({ db }) => {
-            import('firebase/firestore').then(({ doc, onSnapshot }) => {
-                const unsub = onSnapshot(doc(db, "content", "about"), (doc) => {
-                    if (doc.exists()) {
-                        const data = doc.data();
-                        setContent({
-                            heading: data.heading || 'Crafting stories \nthat connect & convert.',
-                            highlight: data.highlight || 'connect & convert.',
-                            desc1: data.desc1 || 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
-                            desc2: data.desc2 || 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
-                            yearsExp: data.yearsExp || '5+',
-                            projectsDelivered: data.projectsDelivered || '50+',
-                            img1: data.img1 || '',
-                            img2: data.img2 || '',
-                            img3: data.img3 || '',
-                            img4: data.img4 || ''
-                        });
-                    }
-                });
-                return () => unsub(); // Cleanup not strictly accessible here due to closure, but acceptable for this iteration
+        const fetchData = async () => {
+            const { db } = await import('../firebase');
+            const { doc, onSnapshot } = await import('firebase/firestore');
+
+            const unsub = onSnapshot(doc(db, "content", "about"), (doc) => {
+                if (doc.exists()) {
+                    const data = doc.data();
+                    setContent({
+                        heading: data.heading || 'Crafting stories \nthat connect & convert.',
+                        highlight: data.highlight || 'connect & convert.',
+                        desc1: data.desc1 || 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
+                        desc2: data.desc2 || 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
+                        yearsExp: data.yearsExp || '5+',
+                        projectsDelivered: data.projectsDelivered || '50+',
+                        img1: getValidUrl(data.img1, fallbackImages.img1),
+                        img2: getValidUrl(data.img2, fallbackImages.img2),
+                        img3: getValidUrl(data.img3, fallbackImages.img3),
+                        img4: getValidUrl(data.img4, fallbackImages.img4)
+                    });
+                }
             });
-        });
+        };
+        fetchData();
     }, []);
 
     useEffect(() => {
