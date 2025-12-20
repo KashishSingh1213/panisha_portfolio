@@ -1,14 +1,18 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import about1 from '../assets/Images/about 1.webp';
+import about2 from '../assets/Images/about5.png';
+import about3 from '../assets/Images/about 2.webp';
+import about4 from '../assets/Images/about3.jpg';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const fallbackImages = {
-    img1: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80',
-    img2: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&q=80',
-    img3: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&q=80',
-    img4: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&q=80'
+    img1: about1,
+    img2: about2,
+    img3: about3,
+    img4: about4
 };
 
 const getValidUrl = (url, fallback) => {
@@ -268,10 +272,10 @@ const About = () => {
     };
 
     return (
-        <section style={styles.section} id="about" ref={sectionRef}>
-            <div style={styles.container}>
+        <section style={styles.section} id="about" ref={sectionRef} className="about-section">
+            <div style={styles.container} className="about-container">
                 {/* Left Side: Content */}
-                <div style={styles.leftCol} ref={leftColRef}>
+                <div style={styles.leftCol} ref={leftColRef} className="about-left-col">
                     <div style={styles.subHeading}>
                         <span style={styles.line}></span>
                         <span>About Me</span>
@@ -305,7 +309,7 @@ const About = () => {
                 </div>
 
                 {/* Right Side: Collage */}
-                <div style={styles.rightCol} ref={rightColRef}>
+                <div style={styles.rightCol} ref={rightColRef} className="about-right-col">
                     {/* Main Image */}
                     <div className="collage-item parallax-up img-main" style={{ ...styles.imgBase, ...styles.img1 }}></div>
 
@@ -323,10 +327,10 @@ const About = () => {
                     box-shadow: 0 10px 20px rgba(106, 27, 154, 0.3);
                 }
                 @media (max-width: 900px) {
-                    div[style*="gridTemplateColumns"] {
+                    .about-container {
                         grid-template-columns: 1fr !important;
                     }
-                    div[style*="height: 600px"] {
+                    .about-right-col {
                         height: 500px !important;
                         margin-top: 3rem;
                     }
