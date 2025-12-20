@@ -27,6 +27,8 @@ import EditHeader from './admin/sections/EditHeader';
 import EditFooter from './admin/sections/EditFooter';
 import EditExperience from './admin/sections/EditExperience';
 
+import MarketingShowcase from './components/MarketingShowcase';
+
 const Portfolio = () => {
   React.useEffect(() => {
     // Cursor logic
@@ -59,6 +61,7 @@ const Portfolio = () => {
 
       <Tool />
       <ContentSamples />
+      <MarketingShowcase />
       <Testimonials />
       <Contact />
 
