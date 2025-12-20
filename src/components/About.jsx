@@ -10,10 +10,10 @@ const About = () => {
     const rightColRef = useRef(null);
 
     const [content, setContent] = React.useState({
-        heading: 'Strategic Content that \nBuilds Brands.',
-        highlight: 'Builds Brands.',
-        desc1: 'I have hands-on experience in content writing for both personal branding and company-focused projects. My work covers a wide range, from writing marketing materials like brochures and banners to crafting copy for brand merchandise, always ensuring consistency in tone and message.',
-        desc2: 'Whether it’s building a brand voice, writing for different formats, or adapting content to fit various platforms, I bring a thoughtful, and strategic approach to every piece I create.',
+        heading: 'Crafting stories \nthat connect & convert.',
+        highlight: 'connect & convert.',
+        desc1: 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
+        desc2: 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
         yearsExp: '5+',
         projectsDelivered: '50+'
     });
@@ -26,10 +26,10 @@ const About = () => {
                     if (doc.exists()) {
                         const data = doc.data();
                         setContent({
-                            heading: data.heading || 'Strategic Content that \nBuilds Brands.',
-                            highlight: data.highlight || 'Builds Brands.',
-                            desc1: data.desc1 || '',
-                            desc2: data.desc2 || '',
+                            heading: data.heading || 'Crafting stories \nthat connect & convert.',
+                            highlight: data.highlight || 'connect & convert.',
+                            desc1: data.desc1 || 'I’m a results-oriented marketing professional with a strong foundation in strategic marketing. I enjoy translating brand goals into clear messages that connect with audiences, build trust, and drive measurable growth.',
+                            desc2: data.desc2 || 'From managing campaigns to creating engaging content, I combine the creative side with the performance side of marketing to deliver real value.',
                             yearsExp: data.yearsExp || '5+',
                             projectsDelivered: data.projectsDelivered || '50+',
                             img1: data.img1 || '',
