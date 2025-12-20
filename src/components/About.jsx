@@ -355,13 +355,7 @@ const About = () => {
                     }
 
                     .img-top-right {
-                        width: 120px !important;
-                        height: 120px !important;
-                        top: 10% !important;
-                        left: auto !important;
-                        right: 5% !important;
-                        /* Removed transform constraint */
-                        z-index: 3 !important;
+                        display: none !important;
                     }
 
                     .img-bottom-left {
@@ -376,13 +370,9 @@ const About = () => {
                     }
 
                     .img-tiny {
-                        top: 15% !important;
-                        left: 10% !important;
-                        width: 70px !important;
-                        height: 70px !important;
-                        z-index: 1 !important;
-                        opacity: 0.8 !important;
+                        display: none !important;
                     }
+
                 }
             `}</style>
         </section>
