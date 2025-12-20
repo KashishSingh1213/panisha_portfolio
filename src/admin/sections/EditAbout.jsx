@@ -162,6 +162,50 @@ const EditAbout = () => {
                     onUploadSuccess={(url) => setFormData(prev => ({ ...prev, img4: url }))}
                 />
 
+                <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: '#555' }}>Theme Settings</h3>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Background Color</label>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <input
+                                type="color"
+                                name="backgroundColor"
+                                value={formData.backgroundColor || '#ffffff'}
+                                onChange={handleChange}
+                                style={{ width: '50px', height: '50px', padding: '0', border: 'none', cursor: 'pointer' }}
+                            />
+                            <input
+                                type="text"
+                                name="backgroundColor"
+                                value={formData.backgroundColor || '#ffffff'}
+                                onChange={handleChange}
+                                className="admin-input"
+                                style={{ flex: 1 }}
+                            />
+                        </div>
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Text Color</label>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                            <input
+                                type="color"
+                                name="textColor"
+                                value={formData.textColor || '#000000'}
+                                onChange={handleChange}
+                                style={{ width: '50px', height: '50px', padding: '0', border: 'none', cursor: 'pointer' }}
+                            />
+                            <input
+                                type="text"
+                                name="textColor"
+                                value={formData.textColor || '#000000'}
+                                onChange={handleChange}
+                                className="admin-input"
+                                style={{ flex: 1 }}
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 <button type="submit" disabled={saving} className="admin-btn" style={{ marginTop: '1rem' }}>Save Changes</button>
             </form>
         </div>
