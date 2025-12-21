@@ -183,8 +183,8 @@ const Skills = () => {
 
             <div style={styles.grid}>
                 {skillsData.map((skill, index) => {
-                    // Fallback to generic icon if mapped one isn't found
-                    const IconComponent = iconMap[skill.name] || <FaWrench />;
+                    // Use iconKey from Admin if available, otherwise fallback to name, then generic
+                    const IconComponent = iconMap[skill.iconKey] || iconMap[skill.name] || <FaWrench />;
 
                     return (
                         <div

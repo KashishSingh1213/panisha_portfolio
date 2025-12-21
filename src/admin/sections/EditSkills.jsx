@@ -9,10 +9,28 @@ const EditSkills = () => {
     const [saving, setSaving] = useState(false);
     const [msg, setMsg] = useState('');
 
+    const iconOptions = [
+        'Campaign Planning', 'Brand Positioning', 'Audience Research', 'Performance Analysis',
+        'Content Writing', 'Storytelling', 'Social Media Copy', 'Brand Voice',
+        'Video Editing', 'Visual Storytelling', 'Graphic Content',
+        'Analytics Tools', 'Social Platforms', 'Planning Tools'
+    ];
+
     const defaultSkills = [
-        { id: '01', name: 'Campaign Planning', desc: 'Strategic execution for growth.', icon: '📅', color: '#FFF3E0' },
-        { id: '02', name: 'Brand Positioning', desc: 'Defining unique market value.', icon: '🎯', color: '#E3F2FD' },
-        { id: '03', name: 'Audience Research', desc: 'Understanding user needs.', icon: '🔍', color: '#F3E5F5' },
+        { id: '01', name: 'Campaign Planning', iconKey: 'Campaign Planning', desc: 'Strategic execution for growth.', color: '#F3E5F5' },
+        { id: '02', name: 'Brand Positioning', iconKey: 'Brand Positioning', desc: 'Defining unique market value.', color: '#E8EAF6' },
+        { id: '03', name: 'Audience Research', iconKey: 'Audience Research', desc: 'Understanding user needs.', color: '#FFF8E1' },
+        { id: '04', name: 'Performance Analysis', iconKey: 'Performance Analysis', desc: 'Data-driven optimization.', color: '#F3E5F5' },
+        { id: '05', name: 'Content Writing', iconKey: 'Content Writing', desc: 'Compelling copy across platforms.', color: '#FFFFF0' },
+        { id: '06', name: 'Storytelling', iconKey: 'Storytelling', desc: 'Connecting brands with people.', color: '#E0F2F1' },
+        { id: '07', name: 'Social Media Copy', iconKey: 'Social Media Copy', desc: 'Engaging captions & scripts.', color: '#EDE7F6' },
+        { id: '08', name: 'Brand Voice', iconKey: 'Brand Voice', desc: 'Consistent communication style.', color: '#FFF3E0' },
+        { id: '09', name: 'Video Editing', iconKey: 'Video Editing', desc: 'High-impact video content.', color: '#F3E5F5' },
+        { id: '10', name: 'Visual Storytelling', iconKey: 'Visual Storytelling', desc: 'Communicating through imagery.', color: '#E8EAF6' },
+        { id: '11', name: 'Graphic Content', iconKey: 'Graphic Content', desc: 'Social creatives & branding.', color: '#FFF8E1' },
+        { id: '12', name: 'Analytics Tools', iconKey: 'Analytics Tools', desc: 'Measuring success & ROI.', color: '#EDE7F6' },
+        { id: '13', name: 'Social Platforms', iconKey: 'Social Platforms', desc: 'Instagram, LinkedIn, YouTube.', color: '#F3E5F5' },
+        { id: '14', name: 'Planning Tools', iconKey: 'Planning Tools', desc: 'Organizing content workflows.', color: '#E8EAF6' }
     ];
 
     useEffect(() => {
@@ -41,7 +59,14 @@ const EditSkills = () => {
     };
 
     const handleAdd = () => {
-        setSkills([...skills, { id: '0' + (skills.length + 1), name: 'New Skill', desc: '', icon: '⚡', color: '#FFF' }]);
+        const id = String(skills.length + 1).padStart(2, '0');
+        setSkills([...skills, {
+            id,
+            name: 'New Skill',
+            iconKey: 'Planning Tools', // Default icon
+            desc: 'Skill description...',
+            color: '#FFFFFF'
+        }]);
     };
 
     const handleRemove = (index) => {
@@ -68,7 +93,7 @@ const EditSkills = () => {
         <div>
             {msg && <Toast msg={msg} onClose={() => setMsg('')} />}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h2 style={{ color: '#333' }}>Edit Skills</h2>
+                <h2 style={{ color: '#333' }}>Edit Skills (Technical Arsenal)</h2>
             </div>
             <form onSubmit={handleSubmit} style={{ maxWidth: '900px' }}>
                 {skills.map((skill, index) => (
@@ -84,8 +109,16 @@ const EditSkills = () => {
                                 <input className="admin-input" value={skill.name} onChange={(e) => handleChange(index, 'name', e.target.value)} />
                             </div>
                             <div className="admin-form-group">
-                                <label className="admin-label">Icon (Emoji or char)</label>
-                                <input className="admin-input" value={skill.icon} onChange={(e) => handleChange(index, 'icon', e.target.value)} />
+                                <label className="admin-label">Icon Representation</label>
+                                <select
+                                    className="admin-input"
+                                    value={skill.iconKey || skill.name} // Fallback to name if iconKey missing
+                                    onChange={(e) => handleChange(index, 'iconKey', e.target.value)}
+                                >
+                                    {iconOptions.map(opt => (
+                                        <option key={opt} value={opt}>{opt}</option>
+                                    ))}
+                                </select>
                             </div>
                         </div>
 
