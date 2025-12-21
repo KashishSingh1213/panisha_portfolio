@@ -193,14 +193,14 @@ const MarketingShowcase = () => {
     // Unsplash Images mapped to content
     const items = [
         // Marketing Materials (Tall/Portrait) - Using Firestore Data OR Local Fallbacks
-        { id: 2, type: 'marketing', img: pageContent?.marketingImg1 || MarketingImg2, title: 'Marketing 2' },
-        { id: 3, type: 'marketing', img: pageContent?.marketingImg2 || MarketingImg3, title: 'Marketing 3' },
-        { id: 7, type: 'marketing', img: pageContent?.marketingImg3 || MarketingImg1, title: 'Marketing 4' },
+        { id: 2, type: 'marketing', img: pageContent?.marketingImg1 || MarketingImg2, title: 'Marketing 2', badge: pageContent?.marketingBadge1 || 'MARKETING' },
+        { id: 3, type: 'marketing', img: pageContent?.marketingImg2 || MarketingImg3, title: 'Marketing 3', badge: pageContent?.marketingBadge2 || 'MARKETING' },
+        { id: 7, type: 'marketing', img: pageContent?.marketingImg3 || MarketingImg1, title: 'Marketing 4', badge: pageContent?.marketingBadge3 || 'MARKETING' },
 
         // Graphics (Square/Wide) - Using Firestore Data OR Local Fallbacks
-        { id: 4, type: 'graphics', img: pageContent?.graphicsImg1 || GraphicsImg1, title: 'Social Media' },
-        { id: 5, type: 'graphics', img: pageContent?.graphicsImg2 || GraphicsImg2, title: 'Typography' },
-        { id: 6, type: 'graphics', img: pageContent?.graphicsImg3 || GraphicsImg3, title: 'Identity' },
+        { id: 4, type: 'graphics', img: pageContent?.graphicsImg1 || GraphicsImg1, title: pageContent?.graphicsTitle1 || 'Social Media' },
+        { id: 5, type: 'graphics', img: pageContent?.graphicsImg2 || GraphicsImg2, title: pageContent?.graphicsTitle2 || 'Typography' },
+        { id: 6, type: 'graphics', img: pageContent?.graphicsImg3 || GraphicsImg3, title: pageContent?.graphicsTitle3 || 'Identity' },
     ];
 
     return (
@@ -281,7 +281,7 @@ const MarketingShowcase = () => {
                     {items.filter(i => i.type === 'marketing').map(item => (
                         <GridCard key={item.id} className="grid-item-marketing" style={{ height: '420px', gridRow: 'span 2' }}>
                             <img src={item.img} alt={item.title} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                            <div style={{ position: 'absolute', top: '20px', right: '20px', background: c.gold, color: '#FFF', padding: '5px 15px', fontSize: '0.8rem', fontWeight: 700 }}>MARKETING</div>
+                            <div style={{ position: 'absolute', top: '20px', right: '20px', background: c.gold, color: '#FFF', padding: '5px 15px', fontSize: '0.8rem', fontWeight: 700 }}>{item.badge}</div>
                         </GridCard>
                     ))}
 

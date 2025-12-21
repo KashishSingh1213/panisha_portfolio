@@ -77,7 +77,13 @@ const EditMarketingShowcase = () => {
         video2Poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80',
         video3Title: 'Trending',
         video3Src: 'https://youtube.com/shorts/WQADmHbYg-0?si=sw6VDKw0iLSDxjec',
-        video3Poster: 'https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80'
+        video3Poster: 'https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80',
+        graphicsTitle1: 'Social Media',
+        graphicsTitle2: 'Typography',
+        graphicsTitle3: 'Identity',
+        marketingBadge1: 'MARKETING',
+        marketingBadge2: 'MARKETING',
+        marketingBadge3: 'MARKETING'
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -265,21 +271,41 @@ const EditMarketingShowcase = () => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-                    <ImageUpload
-                        label="Graphics Image 1 (Social Media)"
-                        currentImage={formData.graphicsImg1}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg1: url }))}
-                    />
-                    <ImageUpload
-                        label="Graphics Image 2 (Typography)"
-                        currentImage={formData.graphicsImg2}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg2: url }))}
-                    />
-                    <ImageUpload
-                        label="Graphics Image 3 (Identity)"
-                        currentImage={formData.graphicsImg3}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg3: url }))}
-                    />
+                    <div>
+                        <ImageUpload
+                            label="Graphics Image 1 (Social Media)"
+                            currentImage={formData.graphicsImg1}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg1: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 1 Title</label>
+                            <input type="text" name="graphicsTitle1" value={formData.graphicsTitle1 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. Social Media" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <ImageUpload
+                            label="Graphics Image 2 (Typography)"
+                            currentImage={formData.graphicsImg2}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg2: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 2 Title</label>
+                            <input type="text" name="graphicsTitle2" value={formData.graphicsTitle2 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. Typography" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <ImageUpload
+                            label="Graphics Image 3 (Identity)"
+                            currentImage={formData.graphicsImg3}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, graphicsImg3: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 3 Title</label>
+                            <input type="text" name="graphicsTitle3" value={formData.graphicsTitle3 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. Identity" />
+                        </div>
+                    </div>
                 </div>
 
                 {/* Marketing Material Block */}
@@ -305,21 +331,41 @@ const EditMarketingShowcase = () => {
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-                    <ImageUpload
-                        label="Marketing Image 1"
-                        currentImage={formData.marketingImg1}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg1: url }))}
-                    />
-                    <ImageUpload
-                        label="Marketing Image 2"
-                        currentImage={formData.marketingImg2}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg2: url }))}
-                    />
-                    <ImageUpload
-                        label="Marketing Image 3"
-                        currentImage={formData.marketingImg3}
-                        onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg3: url }))}
-                    />
+                    <div>
+                        <ImageUpload
+                            label="Marketing Image 1"
+                            currentImage={formData.marketingImg1}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg1: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 1 Badge</label>
+                            <input type="text" name="marketingBadge1" value={formData.marketingBadge1 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. MARKETING" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <ImageUpload
+                            label="Marketing Image 2"
+                            currentImage={formData.marketingImg2}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg2: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 2 Badge</label>
+                            <input type="text" name="marketingBadge2" value={formData.marketingBadge2 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. MARKETING" />
+                        </div>
+                    </div>
+
+                    <div>
+                        <ImageUpload
+                            label="Marketing Image 3"
+                            currentImage={formData.marketingImg3}
+                            onUploadSuccess={(url) => setFormData(prev => ({ ...prev, marketingImg3: url }))}
+                        />
+                        <div className="admin-form-group">
+                            <label className="admin-label">Image 3 Badge</label>
+                            <input type="text" name="marketingBadge3" value={formData.marketingBadge3 || ''} onChange={handleChange} className="admin-input" placeholder="e.g. MARKETING" />
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" disabled={saving} className="admin-btn" style={{ marginTop: '2rem' }}>
