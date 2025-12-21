@@ -205,7 +205,7 @@ const ContentSamples = () => {
     ];
 
     return (
-        <section id="work" ref={containerRef} style={{
+        <section id="portfolio" ref={containerRef} style={{
             backgroundColor: '#FFFAF6', // Ivory
             padding: 'var(--section-spacing) 5% 0 5%',
             minHeight: '100vh',
@@ -215,32 +215,35 @@ const ContentSamples = () => {
             overflow: 'hidden'
         }}>
             <div style={{ textAlign: 'center', maxWidth: '800px', marginBottom: '4rem' }}>
-                <div style={{
-                    display: 'inline-block',
-                    padding: '8px 24px',
-                    border: '1px solid #1F0954',
-                    borderRadius: '50px',
-                    fontSize: '0.85rem',
-                    marginBottom: '1.5rem',
-                    color: '#1F0954',
-                    fontWeight: 600,
-                    letterSpacing: '1px'
-                }}>
-                    PORTFOLIO
-                </div>
                 <h2 style={{
                     fontFamily: '"Playfair Display", serif',
-                    fontSize: 'clamp(3rem, 5vw, 4rem)',
+                    fontSize: 'clamp(3.5rem, 6vw, 5rem)',
                     color: '#1F0954',
-                    margin: 0
+                    margin: 0,
+                    lineHeight: 1.1,
+                    letterSpacing: '-1px'
+                }}>
+                    PORTFOLIO
+                </h2>
+                <h3 style={{
+                    fontFamily: '"Manrope", sans-serif',
+                    fontSize: '1.5rem',
+                    color: '#5E4B8B',
+                    marginTop: '0.5rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '2px'
                 }}>
                     Content Strategy
-                </h2>
+                </h3>
                 <p style={{
                     fontFamily: '"Manrope", sans-serif',
-                    fontSize: '1.2rem',
-                    color: '#5E4B8B',
-                    marginTop: '1.5rem'
+                    fontSize: '1.1rem',
+                    color: '#888',
+                    marginTop: '1rem',
+                    maxWidth: '600px',
+                    marginLeft: 'auto',
+                    marginRight: 'auto'
                 }}>
                     Compelling narratives tailored for every platform.
                 </p>

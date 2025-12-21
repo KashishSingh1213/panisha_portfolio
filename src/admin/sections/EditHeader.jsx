@@ -12,8 +12,8 @@ const EditHeader = () => {
         pillTextColor: '#ffffff',
         items: [
             { label: 'About', href: '#about' },
+            { label: 'Portfolio', href: '#work' },
             { label: 'Services', href: '#services' },
-            { label: 'Work', href: '#projects' },
             { label: 'Skills', href: '#skills' },
             { label: 'Contact', href: '#contact' }
         ]

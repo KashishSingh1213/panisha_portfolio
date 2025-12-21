@@ -12,7 +12,7 @@ const Navbar = () => {
         pillTextColor: '#ffffff',
         items: [
             { label: 'About', href: '#about' },
-            { label: 'Experience', href: '#experience' },
+            { label: 'Portfolio', href: '#portfolio' },
             { label: 'Services', href: '#services' },
             { label: 'Skills', href: '#skills' },
             { label: 'Contact', href: '#contact' }
@@ -39,14 +39,22 @@ const Navbar = () => {
     // pillColor="var(--color-accent)"
     // pillTextColor="#ffffff"
 
+    // Force override for Portfolio link to ensure it matches the new ID
+    const navItems = config.items.map(item => {
+        if (item.label === 'Portfolio' || item.label === 'Work') {
+            return { ...item, label: 'Portfolio', href: '#portfolio' };
+        }
+        return item;
+    });
+
     return (
         <PillNav
-            items={config.items}
+            items={navItems}
             logo={config.logoImg || "https://api.iconify.design/ph:sparkle-fill.svg?color=%234B0082"}
             logoAlt={config.logoText}
             baseColor={config.baseColor}
             pillColor={config.pillColor}
-            hoveredPillTextColor={config.pillColor} // Usually text becomes color of pill when hovered on transparent background, but PillNav logic differs.
+            hoveredPillTextColor={config.hoveredPillTextColor || config.pillColor}
             pillTextColor={config.pillTextColor}
         />
     );
