@@ -1,7 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { uploadToCloudinary } from '../../cloudinaryHelper';
 import Toast from '../components/Toast';
+
+// Reusable Image Upload Component
+const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const url = await uploadToCloudinary(file);
+            onUploadSuccess(url);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed: " + error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="admin-form-group">
+            <label className="admin-label">{label}</label>
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                {currentImage && (
+                    <img src={currentImage} alt="Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }} />
+                )}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading...</span>}
+            </div>
+            <input type="file" onChange={handleFileChange} accept="image/*" className="admin-input" style={{ padding: '8px' }} disabled={uploading} />
+        </div>
+    );
+};
 
 const EditTestimonials = () => {
     const [testimonials, setTestimonials] = useState([]);
@@ -10,8 +45,34 @@ const EditTestimonials = () => {
     const [msg, setMsg] = useState('');
 
     const defaultTestimonials = [
-        { id: 1, name: "Sarah M.", role: "Marketing Director", text: "Panisha brings a rare balance of creativity...", rating: 5, align: 'flex-start', direction: -1, zIndex: 1 },
-        { id: 2, name: "David K.", role: "Business Owner", text: "Professional, reliable, and detail-oriented...", rating: 5, align: 'flex-end', direction: 1, zIndex: 2 }
+        {
+            id: 1,
+            name: "Michael Johnson",
+            role: "Senior Software Engineer",
+            text: "I was looking for my next big career move, and within weeks, I landed a role that perfectly matched my skills and aspirations. The process was seamless!",
+            image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+            id: 2,
+            name: "Sarah Meyers",
+            role: "Marketing Director",
+            text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference.",
+            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+            id: 3,
+            name: "David Kim",
+            role: "Startup Founder",
+            text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
+            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        },
+        {
+            id: 4,
+            name: "Anita Patel",
+            role: "Brand Architect",
+            text: "Her work added clarity and consistency to our brand communication. The new visual identity helped us connect better with our audience.",
+            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        }
     ];
 
     useEffect(() => {
@@ -35,26 +96,18 @@ const EditTestimonials = () => {
 
     const handleChange = (index, field, value) => {
         const newItems = [...testimonials];
-        if (field === 'rating') value = parseInt(value, 10);
         newItems[index][field] = value;
         setTestimonials(newItems);
     };
 
     const handleAdd = () => {
-        // Logic to alternate alignment for visual variety
-        const last = testimonials[testimonials.length - 1];
-        const align = last && last.align === 'flex-start' ? 'flex-end' : 'flex-start';
-        const direction = align === 'flex-start' ? -1 : 1;
-
+        const id = testimonials.length > 0 ? Math.max(...testimonials.map(t => t.id)) + 1 : 1;
         setTestimonials([...testimonials, {
-            id: Date.now(),
+            id: id,
             name: 'Client Name',
             role: 'Role',
             text: 'Testimonial text...',
-            rating: 5,
-            align: align,
-            direction: direction,
-            zIndex: testimonials.length + 1
+            image: ''
         }]);
     };
 
@@ -107,8 +160,11 @@ const EditTestimonials = () => {
                         </div>
 
                         <div className="admin-form-group">
-                            <label className="admin-label">Rating (1-5)</label>
-                            <input className="admin-input" type="number" min="1" max="5" value={t.rating} onChange={(e) => handleChange(index, 'rating', e.target.value)} />
+                            <ImageUpload
+                                label="Client Image"
+                                currentImage={t.image}
+                                onUploadSuccess={(url) => handleChange(index, 'image', url)}
+                            />
                         </div>
                     </div>
                 ))}

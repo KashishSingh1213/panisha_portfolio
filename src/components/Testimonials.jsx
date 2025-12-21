@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaQuoteLeft } from 'react-icons/fa';
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,38 +13,88 @@ const Testimonials = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [testimonialsData, setTestimonialsData] = useState([]);
 
-    // Mock Data Loading
+
+
+    // Mock Data Loading -> Real Data Loading
     useEffect(() => {
-        setTestimonialsData([
-            {
-                id: 1,
-                name: "Michael Johnson",
-                role: "Senior Software Engineer",
-                text: "I was looking for my next big career move, and within weeks, I landed a role that perfectly matched my skills and aspirations. The process was seamless!",
-                image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 2,
-                name: "Sarah Meyers",
-                role: "Marketing Director",
-                text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference.",
-                image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 3,
-                name: "David Kim",
-                role: "Startup Founder",
-                text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 4,
-                name: "Anita Patel",
-                role: "Brand Architect",
-                text: "Her work added clarity and consistency to our brand communication. The new visual identity helped us connect better with our audience.",
-                image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+        const fetchTestimonials = async () => {
+            try {
+                const docRef = doc(db, 'content', 'testimonials');
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists() && docSnap.data().items && docSnap.data().items.length > 0) {
+                    setTestimonialsData(docSnap.data().items);
+                } else {
+                    // Fallback to hardcoded if no data in DB
+                    setTestimonialsData([
+                        {
+                            id: 1,
+                            name: "Michael Johnson",
+                            role: "Senior Software Engineer",
+                            text: "I was looking for my next big career move, and within weeks, I landed a role that perfectly matched my skills and aspirations. The process was seamless!",
+                            image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        },
+                        {
+                            id: 2,
+                            name: "Sarah Meyers",
+                            role: "Marketing Director",
+                            text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference.",
+                            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        },
+                        {
+                            id: 3,
+                            name: "David Kim",
+                            role: "Startup Founder",
+                            text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
+                            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        },
+                        {
+                            id: 4,
+                            name: "Anita Patel",
+                            role: "Brand Architect",
+                            text: "Her work added clarity and consistency to our brand communication. The new visual identity helped us connect better with our audience.",
+                            image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                        }
+                    ]);
+                }
+            } catch (error) {
+                console.error("Error fetching testimonials:", error);
+                // Keep hardcoded fallback in case of error, setting it here explicitly if needed, but the else block above handles the 'no data' case.
+                // It's safer to ensure state is set if it wasn't already.
+                setTestimonialsData([
+                    {
+                        id: 1,
+                        name: "Michael Johnson",
+                        role: "Senior Software Engineer",
+                        text: "I was looking for my next big career move, and within weeks, I landed a role that perfectly matched my skills and aspirations. The process was seamless!",
+                        image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                    },
+                    {
+                        id: 2,
+                        name: "Sarah Meyers",
+                        role: "Marketing Director",
+                        text: "Panisha brings a rare balance of creativity and strategy. Her ability to understand brand goals and translate them into engaging content made a visible difference.",
+                        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                    },
+                    {
+                        id: 3,
+                        name: "David Kim",
+                        role: "Startup Founder",
+                        text: "Professional, reliable, and detail-oriented. From social media to content and campaign execution, her contribution consistently delivered strong results.",
+                        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                    },
+                    {
+                        id: 4,
+                        name: "Anita Patel",
+                        role: "Brand Architect",
+                        text: "Her work added clarity and consistency to our brand communication. The new visual identity helped us connect better with our audience.",
+                        image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                    }
+                ]);
             }
-        ]);
+        };
+
+        fetchTestimonials();
     }, []);
 
     // Animate content when activeIndex changes
