@@ -219,19 +219,19 @@ const MarketingShowcase = () => {
                     display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap'
                 }}>
                     <PhoneVideo
-                        title="Company"
-                        src="https://youtube.com/shorts/jtKnWm4hA98?si=mij503BPEBkqaxS5"
-                        poster="https://images.unsplash.com/photo-1531297461136-82lw9b61d696?auto=format&fit=crop&w=600&q=80"
+                        title={pageContent?.video1Title || "Company"}
+                        src={pageContent?.video1Src || "https://youtube.com/shorts/jtKnWm4hA98?si=mij503BPEBkqaxS5"}
+                        poster={pageContent?.video1Poster || "https://images.unsplash.com/photo-1531297461136-82lw9b61d696?auto=format&fit=crop&w=600&q=80"}
                     />
                     <PhoneVideo
-                        title="Branding"
-                        src="https://youtube.com/shorts/eRfLS6ztWMA?si=MJ-SOIvnc0Vf1UXP"
-                        poster="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"
+                        title={pageContent?.video2Title || "Branding"}
+                        src={pageContent?.video2Src || "https://youtube.com/shorts/eRfLS6ztWMA?si=MJ-SOIvnc0Vf1UXP"}
+                        poster={pageContent?.video2Poster || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80"}
                     />
                     <PhoneVideo
-                        title="Trending"
-                        src="https://youtube.com/shorts/WQADmHbYg-0?si=sw6VDKw0iLSDxjec"
-                        poster="https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80"
+                        title={pageContent?.video3Title || "Trending"}
+                        src={pageContent?.video3Src || "https://youtube.com/shorts/WQADmHbYg-0?si=sw6VDKw0iLSDxjec"}
+                        poster={pageContent?.video3Poster || "https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80"}
                     />
                 </div>
             </div>

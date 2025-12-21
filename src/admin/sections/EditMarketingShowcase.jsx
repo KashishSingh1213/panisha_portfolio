@@ -68,7 +68,16 @@ const EditMarketingShowcase = () => {
         graphicsImg3: '',
         marketingImg1: '',
         marketingImg2: '',
-        marketingImg3: ''
+        marketingImg3: '',
+        video1Title: 'Company',
+        video1Src: 'https://youtube.com/shorts/jtKnWm4hA98?si=mij503BPEBkqaxS5',
+        video1Poster: 'https://images.unsplash.com/photo-1531297461136-82lw9b61d696?auto=format&fit=crop&w=600&q=80',
+        video2Title: 'Branding',
+        video2Src: 'https://youtube.com/shorts/eRfLS6ztWMA?si=MJ-SOIvnc0Vf1UXP',
+        video2Poster: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80',
+        video3Title: 'Trending',
+        video3Src: 'https://youtube.com/shorts/WQADmHbYg-0?si=sw6VDKw0iLSDxjec',
+        video3Poster: 'https://images.unsplash.com/photo-1542202229-7d9377a3a712?auto=format&fit=crop&w=600&q=80'
     });
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -146,6 +155,59 @@ const EditMarketingShowcase = () => {
                         className="admin-textarea"
                     />
                 </div>
+
+                {/* Video Items Editor */}
+                <h4 style={{ marginTop: '1.5rem', color: '#666', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>Video 1</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Title (e.g. 'Company')</label>
+                        <input type="text" name="video1Title" value={formData.video1Title || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Video URL (YouTube/Shorts)</label>
+                        <input type="text" name="video1Src" value={formData.video1Src || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                </div>
+                <ImageUpload
+                    label="Video 1 Poster Image"
+                    currentImage={formData.video1Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video1Poster: url }))}
+                />
+
+                <h4 style={{ marginTop: '1.5rem', color: '#666', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>Video 2</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Title</label>
+                        <input type="text" name="video2Title" value={formData.video2Title || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Video URL</label>
+                        <input type="text" name="video2Src" value={formData.video2Src || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                </div>
+                <ImageUpload
+                    label="Video 2 Poster Image"
+                    currentImage={formData.video2Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video2Poster: url }))}
+                />
+
+                <h4 style={{ marginTop: '1.5rem', color: '#666', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>Video 3</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Title</label>
+                        <input type="text" name="video3Title" value={formData.video3Title || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-label">Video URL</label>
+                        <input type="text" name="video3Src" value={formData.video3Src || ''} onChange={handleChange} className="admin-input" />
+                    </div>
+                </div>
+                <ImageUpload
+                    label="Video 3 Poster Image"
+                    currentImage={formData.video3Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video3Poster: url }))}
+                />
+
 
                 {/* Marketing Section Header */}
                 <h3 style={{ marginTop: '2rem', marginBottom: '1rem', color: '#555' }}>Marketing Header</h3>
