@@ -9,32 +9,22 @@ const EducationWork = () => {
     const [content, setContent] = useState({
         work: [
             {
-                id: 'w1',
-                type: 'work',
-                title: 'Marketing & Sales Manager',
-                org: 'Indigo Sails',
-                location: 'London',
-                period: 'Jan 2024 – Mar 2025',
-                loot: [
-                    'Executed marketing campaigns, boosting lead conversions by 25%.',
-                    'Managed social media and email content, increasing inquiries by 10%.',
-                    'Analysed performance metrics and optimised campaigns for higher engagement.',
-                    'Assisted in organising events and brand collaborations.'
-                ]
-            },
-            {
                 id: 'w2',
                 type: 'work',
                 title: 'Social Media Manager',
                 org: '1 Club',
                 location: 'London',
                 period: 'Mar 2023 – Dec 2023',
-                loot: [
-                    'Increased social media reach by 60% in one week through strategic marketing.',
-                    'Managed The Redefined Podcast’s social content, boosting listenership.',
-                    'Analysed social data regularly to guide marketing decisions.',
-                    'Tracked industry trends and competitor activities to stay ahead.'
-                ]
+                desc: 'Increased social media reach by 60% in one week through strategic marketing and managed The Redefined Podcast’s social content, boosting listenership. Analysed social data regularly to guide marketing decisions while tracking industry trends and competitor activities to stay ahead.'
+            },
+            {
+                id: 'w1',
+                type: 'work',
+                title: 'Marketing & Sales Manager',
+                org: 'Indigo Sails',
+                location: 'London',
+                period: 'Jan 2024 – Mar 2025',
+                desc: 'Executed marketing campaigns, boosting lead conversions by 25%, and managed social media and email content to increase inquiries by 10%. Analysed performance metrics to optimise campaigns for higher engagement and assisted in organising events and brand collaborations.'
             },
             {
                 id: 'w3',
@@ -43,24 +33,10 @@ const EducationWork = () => {
                 org: 'CT Group of Institutions',
                 location: 'Jalandhar',
                 period: 'May 2025 (Projected)',
-                loot: [
-                    'Managed paid lead-generation campaigns to increase student enquiries.',
-                    'Run brand-awareness campaigns to strengthen digital presence.',
-                    'Revamped course pages with the web team to improve UX.',
-                    'Added a Placement section to showcase outcomes.'
-                ]
+                desc: 'Managed paid lead-generation campaigns to increase student enquiries and run brand-awareness campaigns to strengthen digital presence. Revamped course pages with the web team to improve UX and added a Placement section to showcase outcomes.'
             }
         ],
         education: [
-            {
-                id: 'e1',
-                type: 'education',
-                title: 'MA. Strategic Marketing',
-                org: 'University of Greenwich',
-                location: 'London, UK',
-                period: '2021 – 2022',
-                desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
-            },
             {
                 id: 'e2',
                 type: 'education',
@@ -69,6 +45,15 @@ const EducationWork = () => {
                 location: 'Jalandhar, India',
                 period: '2017 – 2020',
                 desc: 'Focused on service operations, customer experience management, and global tourism trends.'
+            },
+            {
+                id: 'e1',
+                type: 'education',
+                title: 'MA. Strategic Marketing',
+                org: 'University of Greenwich',
+                location: 'London, UK',
+                period: '2021 – 2022',
+                desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
             }
         ]
     });

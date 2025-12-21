@@ -5,9 +5,9 @@ import Toast from '../components/Toast';
 
 const EditFooter = () => {
     const [config, setConfig] = useState({
-        backgroundColor: '#3E2723',
-        textColor: '#FFFAF6',
-        accentColor: '#D87C5A',
+        backgroundColor: '#F2F0EF',
+        textColor: '#1F0954',
+        accentColor: '#4B0082',
         logoText: 'Panisha Dhutti.',
         description: 'Creating meaningful connections through strategy, design, and storytelling.',
 
