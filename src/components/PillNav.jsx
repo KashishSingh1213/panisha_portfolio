@@ -13,6 +13,7 @@ const PillNav = ({
     pillColor = '#ccff00', /* Lime accent */
     hoveredPillTextColor = '#ccff00',
     pillTextColor = '#ccff00',
+    hoverPillColor = '#1F0954',
     onMobileMenuClick,
     initialLoadAnimation = true
 }) => {
@@ -208,7 +209,8 @@ const PillNav = ({
         ['--base']: baseColor,
         ['--pill-bg']: pillColor,
         ['--hover-text']: hoveredPillTextColor,
-        ['--pill-text']: resolvedPillTextColor
+        ['--pill-text']: resolvedPillTextColor,
+        ['--hover-bg']: hoverPillColor
     };
 
     return (

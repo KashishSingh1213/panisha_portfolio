@@ -10,6 +10,8 @@ const EditHeader = () => {
         baseColor: 'rgba(255, 250, 246, 0.85)',
         pillColor: '#D87C5A',
         pillTextColor: '#ffffff',
+        hoverColor: '#F2F0EF',
+        hoverPillColor: '#1F0954',
         items: [
             { label: 'About', href: '#about' },
             { label: 'Portfolio', href: '#work' },
@@ -97,10 +99,23 @@ const EditHeader = () => {
                             </div>
                         </div>
                         <div className="admin-form-group">
-                            <label className="admin-label">Active Pill Color</label>
                             <div style={{ display: 'flex', gap: '10px' }}>
                                 <input type="color" value={config.pillColor} onChange={(e) => handleChange('pillColor', e.target.value)} style={{ height: '40px' }} />
                                 <input className="admin-input" value={config.pillColor} onChange={(e) => handleChange('pillColor', e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="admin-form-group">
+                            <label className="admin-label">Hover Text Color</label>
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                <input type="color" value={config.hoverColor || '#ffffff'} onChange={(e) => handleChange('hoverColor', e.target.value)} style={{ height: '40px' }} />
+                                <input className="admin-input" value={config.hoverColor || '#ffffff'} onChange={(e) => handleChange('hoverColor', e.target.value)} placeholder="#ffffff" />
+                            </div>
+                        </div>
+                        <div className="admin-form-group">
+                            <label className="admin-label">Hover Pill Background</label>
+                            <div style={{ display: 'flex', gap: '10px' }}>
+                                <input type="color" value={config.hoverPillColor || '#1F0954'} onChange={(e) => handleChange('hoverPillColor', e.target.value)} style={{ height: '40px' }} />
+                                <input className="admin-input" value={config.hoverPillColor || '#1F0954'} onChange={(e) => handleChange('hoverPillColor', e.target.value)} placeholder="#1F0954" />
                             </div>
                         </div>
                     </div>

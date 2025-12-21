@@ -10,6 +10,8 @@ const Navbar = () => {
         baseColor: 'rgba(255, 255, 240, 0.9)', // Ivory
         pillColor: '#4B0082', // Indigo
         pillTextColor: '#ffffff',
+        hoverColor: '#F2F0EF',
+        hoverPillColor: '#1F0954',
         items: [
             { label: 'About', href: '#about' },
             { label: 'Portfolio', href: '#portfolio' },
@@ -54,7 +56,8 @@ const Navbar = () => {
             logoAlt={config.logoText}
             baseColor={config.baseColor}
             pillColor={config.pillColor}
-            hoveredPillTextColor={config.hoveredPillTextColor || config.pillColor}
+            hoveredPillTextColor={config.hoverColor}
+            hoverPillColor={config.hoverPillColor}
             pillTextColor={config.pillTextColor}
         />
     );
