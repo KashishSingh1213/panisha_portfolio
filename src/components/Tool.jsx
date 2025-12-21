@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
@@ -20,6 +20,8 @@ const Tool = () => {
 
 
 
+    const [toolsData, setToolsData] = useState([]);
+
     const proficiencyTools = [
         { icon: "https://api.iconify.design/logos:google-ads.svg", name: "Google Ads", percent: 99, color: "#4285F4" },
         { icon: "https://api.iconify.design/logos:meta-icon.svg", name: "Meta Ads", percent: 95, color: "#0668E1" },
@@ -29,9 +31,29 @@ const Tool = () => {
         { icon: "https://api.iconify.design/logos:grammarly-icon.svg", name: "Grammarly", percent: 95, color: "#15C39A" },
     ];
 
-
-
     useEffect(() => {
+        import('../firebase').then(({ db }) => {
+            import('firebase/firestore').then(({ doc, getDoc }) => {
+                const fetchTools = async () => {
+                    try {
+                        const docRef = doc(db, 'content', 'tools');
+                        const snap = await getDoc(docRef);
+                        if (snap.exists() && snap.data().items) {
+                            setToolsData(snap.data().items);
+                        } else {
+                            setToolsData(proficiencyTools);
+                        }
+                    } catch (e) {
+                        console.error("Error fetching tools:", e);
+                        setToolsData(proficiencyTools);
+                    }
+                };
+                fetchTools();
+            });
+        });
+
+        // Animation logic delayed to ensure data is likely ready or elements are rendered
+        // In a real app, rely on `toolsData` length or a loading state to trigger animation
         const ctx = gsap.context(() => {
             // Header Animation
             gsap.fromTo(titleRef.current,
@@ -50,10 +72,8 @@ const Tool = () => {
                 }
             );
 
-
-
-            // Grid Cards Animation
-            gsap.fromTo(cardsRef.current,
+            // Grid Cards Animation (targeted by class since refs array might be empty initially)
+            gsap.fromTo('.tool-card',
                 { y: 60, opacity: 0, scale: 0.9 },
                 {
                     y: 0,
@@ -71,7 +91,7 @@ const Tool = () => {
 
         }, containerRef);
         return () => ctx.revert();
-    }, []);
+    }, [toolsData.length]); // Re-run animation when data loads
 
     const styles = {
         section: {
@@ -143,9 +163,10 @@ const Tool = () => {
             </div>
 
             <div className="tool-grid" style={styles.gridContainer} ref={gridRef}>
-                {proficiencyTools.map((tool, index) => (
+                {toolsData.map((tool, index) => (
                     <div
                         key={index}
+                        className="tool-card"
                         style={styles.card}
                         ref={el => cardsRef.current[index] = el}
                         onMouseEnter={(e) => {

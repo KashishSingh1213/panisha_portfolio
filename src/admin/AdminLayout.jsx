@@ -59,6 +59,9 @@ const AdminLayout = () => {
                     <Link to="/admin" className={`admin-nav-link ${isActive('/admin')}`} onClick={() => setIsSidebarOpen(false)}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>📊</span> <span className="text">Dashboard</span>
                     </Link>
+                    <Link to="/admin/tools" className={`admin-nav-link ${isActive('/admin/tools')}`} onClick={() => setIsSidebarOpen(false)}>
+                        <span style={{ width: '24px', fontSize: '1.2rem' }}>🧰</span> <span className="text">Edit Tools</span>
+                    </Link>
                     <Link to="/admin/hero" className={`admin-nav-link ${isActive('/admin/hero')}`} onClick={() => setIsSidebarOpen(false)}>
                         <span style={{ width: '24px', fontSize: '1.2rem' }}>🏠</span> <span className="text">Edit Hero</span>
                     </Link>
