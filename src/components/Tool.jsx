@@ -29,18 +29,12 @@ const Tool = () => {
         { icon: "https://api.iconify.design/logos:grammarly-icon.svg", name: "Grammarly", percent: 95, color: "#15C39A" },
     ];
 
-    const socialPlatforms = [
-        { icon: "https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg", name: "Instagram" },
-        { icon: "https://api.iconify.design/logos:linkedin-icon.svg", name: "LinkedIn" },
-        { icon: "https://api.iconify.design/logos:facebook.svg", name: "Facebook" },
-        { icon: "https://api.iconify.design/logos:tiktok-icon.svg", name: "TikTok" },
-        { icon: "https://api.iconify.design/logos:youtube-icon.svg", name: "YouTube" },
-    ];
+
 
     useEffect(() => {
         const ctx = gsap.context(() => {
             // Header Animation
-            gsap.fromTo([titleRef.current, ".social-header"],
+            gsap.fromTo(titleRef.current,
                 { y: 50, opacity: 0 },
                 {
                     y: 0,
@@ -56,31 +50,7 @@ const Tool = () => {
                 }
             );
 
-            // Socials Stagger + Float
-            gsap.fromTo(".social-icon-wrapper",
-                { y: 30, opacity: 0 },
-                {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.8,
-                    stagger: 0.1,
-                    ease: "back.out(1.7)",
-                    scrollTrigger: {
-                        trigger: ".social-row",
-                        start: "top 90%",
-                    }
-                }
-            );
 
-            // Continuous Floating for Socials
-            gsap.to(".social-icon-wrapper", {
-                y: -10,
-                duration: 1.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                stagger: 0.2
-            });
 
             // Grid Cards Animation
             gsap.fromTo(cardsRef.current,
@@ -106,25 +76,16 @@ const Tool = () => {
     const styles = {
         section: {
             backgroundColor: '#FFFAF6', // Slightly warmer Ivory
-            padding: 'var(--section-spacing) 5%',
+            padding: '0 5% var(--section-spacing) 5%',
             fontFamily: '"Manrope", sans-serif',
             overflow: 'hidden',
             position: 'relative',
         },
         header: {
             textAlign: 'center',
-            marginBottom: '4rem',
-        },
-        socialHeader: {
-            textAlign: 'center',
             marginBottom: '2rem',
-            fontFamily: '"Playfair Display", serif',
-            fontSize: '1.5rem',
-            color: '#1F0954',
-            fontWeight: 600,
-            textTransform: 'uppercase',
-            letterSpacing: '1px'
         },
+
         h2: {
             fontFamily: '"Playfair Display", serif',
             fontSize: 'clamp(2.5rem, 5vw, 4rem)',
@@ -137,21 +98,7 @@ const Tool = () => {
             maxWidth: '600px',
             margin: '0 auto'
         },
-        socialRow: {
-            display: 'flex',
-            justifyContent: 'center',
-            gap: 'clamp(1.5rem, 4vw, 4rem)', // Responsive gap
-            marginBottom: '6rem',
-            padding: '0 1rem',
-            flexWrap: 'wrap',
-        },
-        socialIconWrapper: {
-            width: 'clamp(50px, 8vw, 70px)', // Responsive size
-            height: 'clamp(50px, 8vw, 70px)',
-            transition: 'all 0.3s ease',
-            cursor: 'pointer',
-            filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))',
-        },
+
         // Grid of cards
         gridContainer: {
             maxWidth: '1200px',
@@ -187,34 +134,7 @@ const Tool = () => {
     return (
         <section style={styles.section} ref={containerRef} id="tools">
 
-            {/* Socials Heading */}
-            <div className="social-header" style={styles.socialHeader}>
-                Connect & Follow
-            </div>
 
-            {/* Social Platforms Row */}
-            <div style={styles.socialRow} className="social-row">
-                {socialPlatforms.map((item, i) => (
-                    <div
-                        key={i}
-                        className="social-icon-wrapper"
-                        style={styles.socialIconWrapper}
-                        title={item.name}
-                        onMouseEnter={(e) => {
-                            gsap.to(e.currentTarget, { scale: 1.2, duration: 0.3 });
-                        }}
-                        onMouseLeave={(e) => {
-                            gsap.to(e.currentTarget, { scale: 1, duration: 0.3 });
-                        }}
-                    >
-                        <img
-                            src={item.icon}
-                            alt={item.name}
-                            style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                        />
-                    </div>
-                ))}
-            </div>
 
             {/* Expertise & Proficiency Header */}
             <div style={styles.header} ref={titleRef}>
