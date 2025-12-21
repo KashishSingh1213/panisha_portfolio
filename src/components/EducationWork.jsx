@@ -9,13 +9,13 @@ const EducationWork = () => {
     const [content, setContent] = useState({
         work: [
             {
-                id: 'w2',
+                id: 'w3',
                 type: 'work',
-                title: 'Social Media Manager',
-                org: '1 Club',
-                location: 'London',
-                period: 'Mar 2023 – Dec 2023',
-                desc: 'Increased social media reach by 60% in one week through strategic marketing and managed The Redefined Podcast’s social content, boosting listenership. Analysed social data regularly to guide marketing decisions while tracking industry trends and competitor activities to stay ahead.'
+                title: 'Digital Marketing Executive',
+                org: 'CT Group of Institutions',
+                location: 'Jalandhar',
+                period: 'May 2025 (Projected)',
+                desc: 'Managed paid lead-generation campaigns to increase student enquiries and run brand-awareness campaigns to strengthen digital presence. Revamped course pages with the web team to improve UX and added a Placement section to showcase outcomes.'
             },
             {
                 id: 'w1',
@@ -27,25 +27,16 @@ const EducationWork = () => {
                 desc: 'Executed marketing campaigns, boosting lead conversions by 25%, and managed social media and email content to increase inquiries by 10%. Analysed performance metrics to optimise campaigns for higher engagement and assisted in organising events and brand collaborations.'
             },
             {
-                id: 'w3',
+                id: 'w2',
                 type: 'work',
-                title: 'Digital Marketing Executive',
-                org: 'CT Group of Institutions',
-                location: 'Jalandhar',
-                period: 'May 2025 (Projected)',
-                desc: 'Managed paid lead-generation campaigns to increase student enquiries and run brand-awareness campaigns to strengthen digital presence. Revamped course pages with the web team to improve UX and added a Placement section to showcase outcomes.'
+                title: 'Social Media Manager',
+                org: '1 Club',
+                location: 'London',
+                period: 'Mar 2023 – Dec 2023',
+                desc: 'Increased social media reach by 60% in one week through strategic marketing and managed The Redefined Podcast’s social content, boosting listenership. Analysed social data regularly to guide marketing decisions while tracking industry trends and competitor activities to stay ahead.'
             }
         ],
         education: [
-            {
-                id: 'e2',
-                type: 'education',
-                title: 'BSc. Airlines & Tourism',
-                org: 'CT Group of Institutions',
-                location: 'Jalandhar, India',
-                period: '2017 – 2020',
-                desc: 'Focused on service operations, customer experience management, and global tourism trends.'
-            },
             {
                 id: 'e1',
                 type: 'education',
@@ -54,6 +45,15 @@ const EducationWork = () => {
                 location: 'London, UK',
                 period: '2021 – 2022',
                 desc: 'Specialized in data-driven marketing strategies, consumer behavior, and brand management.'
+            },
+            {
+                id: 'e2',
+                type: 'education',
+                title: 'BSc. Airlines & Tourism',
+                org: 'CT Group of Institutions',
+                location: 'Jalandhar, India',
+                period: '2017 – 2020',
+                desc: 'Focused on service operations, customer experience management, and global tourism trends.'
             }
         ]
     });
@@ -111,7 +111,7 @@ const EducationWork = () => {
         },
         header: {
             textAlign: 'center',
-            marginBottom: '2rem', // Reduced to fit tabs
+            marginBottom: '2rem',
         },
         title: {
             fontFamily: '"Playfair Display", serif',
@@ -120,7 +120,7 @@ const EducationWork = () => {
             marginBottom: '0.5rem',
         },
         subtitle: {
-            color: '#1F0954', // Dark Navy
+            color: '#1F0954',
             fontSize: '1rem',
             fontWeight: '700',
             textTransform: 'uppercase',
@@ -176,31 +176,20 @@ const EducationWork = () => {
             width: '100%',
             flexDirection: isMobile ? 'column' : (index % 2 === 0 ? 'row' : 'row-reverse'),
             alignItems: 'center',
-            alignItems: 'center',
             marginBottom: isMobile ? '2rem' : '4rem',
             position: 'relative',
             opacity: 0,
             animation: `fadeInUp 0.6s ease forwards ${index * 0.15}s`
         }),
 
-        // Half Widths for standard items
-        half: {
+        // Half Widths
+        half: (index) => ({
             width: isMobile ? '100%' : '50%',
-            padding: isMobile ? '0 0 0 100px' : (isMobile ? '0' : '0 40px'), // Padding for spacing from center
+            padding: isMobile ? '0 0 0 80px' : '0 40px',
             boxSizing: 'border-box',
             display: 'flex',
-            justifyContent: isMobile ? 'flex-start' : 'center', // Align card properly per side
-        },
-
-        // Specific alignment helpers
-        leftContent: {
-            justifyContent: 'flex-end', // Push text to center
-            textAlign: isMobile ? 'left' : 'right'
-        },
-        rightContent: {
-            justifyContent: 'flex-start', // Push text to center
-            textAlign: 'left'
-        },
+            justifyContent: isMobile ? 'flex-start' : (index % 2 === 0 ? 'flex-start' : 'flex-end'), // Align card near spine
+        }),
 
         // The Center Circle
         centerCircle: {
@@ -219,20 +208,21 @@ const EducationWork = () => {
             left: isMobile ? '20px' : '50%',
             transform: 'translateX(-50%)',
             zIndex: 5,
-            boxShadow: '0 0 0 8px #FFFFF0' // Fake margin via border color mask
+            boxShadow: '0 0 0 8px #FFFFF0'
         },
 
-        // Card Wrapper
+        // Wrapper
         cardWrapper: {
             background: '#fff',
-            borderRadius: '12px',
+            borderRadius: '16px',
             boxShadow: '0 10px 30px rgba(0,0,0,0.05)',
             overflow: 'hidden',
             width: '100%',
-            maxWidth: '500px', // Limit width
+            maxWidth: '550px',
             transition: 'transform 0.3s ease',
             position: 'relative',
-            display: 'flex'
+            display: 'flex',
+            textAlign: 'left' // FORCE LEFT ALIGNMENT ALWAYS
         },
 
         colorStrip: {
@@ -242,7 +232,8 @@ const EducationWork = () => {
 
         contentBox: {
             padding: '2rem',
-            flex: 1
+            flex: 1,
+            textAlign: 'left' // EXTRA INSURANCE
         },
 
         roleTitle: {
@@ -303,26 +294,27 @@ const EducationWork = () => {
 
                 {nodes.map((item, index) => {
                     const color = colors[index % colors.length];
-                    const isLeft = index % 2 === 0;
                     const year = item.period.match(/\d{4}/)?.[0] || '2024';
+
+                    // Row Direction: 
+                    // Index 0 (Even) -> row -> Spacer | Circle | Card (Card on RIGHT)
+                    // Index 1 (Odd) -> row-reverse -> Spacer | Circle | Card (Visually: Card | Circle | Spacer) (Card on LEFT)
 
                     return (
                         <div key={item.id} style={styles.row(index)}>
 
-                            {/* Desktop: Empty space on one side to balance */}
+                            {/* Spacer (Desktop Only) */}
                             {!isMobile && (
-                                <div style={{ ...styles.half, ...(!isLeft ? styles.leftContent : styles.rightContent), opacity: 0 }}>
-                                    {/* Empty placeholder for alignment */}
-                                </div>
+                                <div style={{ width: '50%', opacity: 0 }}></div>
                             )}
 
-                            {/* Center Circle with Date */}
+                            {/* Center Marker */}
                             <div style={{ ...styles.centerCircle, borderColor: color, color: color }}>
                                 {year}
                             </div>
 
-                            {/* The Actual Content Card */}
-                            <div style={{ ...styles.half, ...(isLeft ? styles.leftContent : styles.rightContent) }}>
+                            {/* Content Card */}
+                            <div style={styles.half(index)}>
                                 <div
                                     style={styles.cardWrapper}
                                     onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
@@ -332,11 +324,11 @@ const EducationWork = () => {
                                     <div style={styles.contentBox}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                             <h3 style={styles.roleTitle}>{item.title}</h3>
-                                            {item.type === 'work' ? <FaBriefcase color={color} /> : <FaGraduationCap color={color} />}
+                                            {item.type === 'work' ? <FaBriefcase color={color} size={20} style={{ opacity: 0.8 }} /> : <FaGraduationCap color={color} size={24} style={{ opacity: 0.8 }} />}
                                         </div>
                                         <span style={{ ...styles.orgName, color: color }}>{item.org}</span>
-                                        <p style={{ fontSize: '0.85rem', color: '#999', marginBottom: '1rem', fontStyle: 'italic' }}>
-                                            <FaCalendarAlt style={{ marginRight: 5 }} /> {item.period}
+                                        <p style={{ fontSize: '0.85rem', color: '#999', marginBottom: '1rem', fontStyle: 'italic', display: 'flex', alignItems: 'center' }}>
+                                            <FaCalendarAlt style={{ marginRight: 8 }} /> {item.period}
                                         </p>
 
                                         {item.loot ? (
@@ -351,7 +343,6 @@ const EducationWork = () => {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     );
                 })}
