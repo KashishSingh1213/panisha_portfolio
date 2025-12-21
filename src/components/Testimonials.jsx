@@ -12,7 +12,10 @@ const Testimonials = () => {
     const mainContentRef = useRef(null);
     const [activeIndex, setActiveIndex] = useState(0);
     const [testimonialsData, setTestimonialsData] = useState([]);
-
+    const [headerData, setHeaderData] = useState({
+        title: "Don't take our word for it!",
+        subtitle: "Hear it from our clients!"
+    });
 
 
     // Mock Data Loading -> Real Data Loading
@@ -22,8 +25,13 @@ const Testimonials = () => {
                 const docRef = doc(db, 'content', 'testimonials');
                 const docSnap = await getDoc(docRef);
 
-                if (docSnap.exists() && docSnap.data().items && docSnap.data().items.length > 0) {
-                    setTestimonialsData(docSnap.data().items);
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    if (data.items && data.items.length > 0) {
+                        setTestimonialsData(data.items);
+                    }
+                    if (data.title) setHeaderData(prev => ({ ...prev, title: data.title }));
+                    if (data.subtitle) setHeaderData(prev => ({ ...prev, subtitle: data.subtitle }));
                 } else {
                     // Fallback to hardcoded if no data in DB
                     setTestimonialsData([
@@ -154,8 +162,8 @@ const Testimonials = () => {
                         maxWidth: '600px',
                         color: '#1F0954'
                     }}>
-                        Don't take our word for it!<br />
-                        <span style={{ color: '#C7B58D' }}>Hear it from our clients!</span> {/* Gold Accent */}
+                        {headerData.title}<br />
+                        <span style={{ color: '#C7B58D' }}>{headerData.subtitle}</span> {/* Gold Accent */}
                     </h2>
                 </div>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { FaGraduationCap, FaBriefcase, FaCalendarAlt } from 'react-icons/fa';
+import { FaGraduationCap, FaBriefcase, FaCalendarAlt, FaBullhorn, FaChartLine, FaHashtag, FaPlane } from 'react-icons/fa';
 
 const EducationWork = () => {
     const sectionRef = useRef(null);
@@ -324,7 +324,19 @@ const EducationWork = () => {
                                     <div style={styles.contentBox}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                             <h3 style={styles.roleTitle}>{item.title}</h3>
-                                            {item.type === 'work' ? <FaBriefcase color={color} size={20} style={{ opacity: 0.8 }} /> : <FaGraduationCap color={color} size={24} style={{ opacity: 0.8 }} />}
+                                            {(() => {
+                                                const t = (item.title || '').toLowerCase();
+                                                const iconProps = { color: color, size: 20, style: { opacity: 0.8 } };
+
+                                                if (activeTab === 'education') return <FaGraduationCap {...iconProps} size={24} />;
+
+                                                if (t.includes('marketing')) return <FaBullhorn {...iconProps} />;
+                                                if (t.includes('sales')) return <FaChartLine {...iconProps} />;
+                                                if (t.includes('social')) return <FaHashtag {...iconProps} />;
+                                                if (t.includes('airlines') || t.includes('tourism')) return <FaPlane {...iconProps} />;
+
+                                                return <FaBriefcase {...iconProps} />;
+                                            })()}
                                         </div>
                                         <span style={{ ...styles.orgName, color: color }}>{item.org}</span>
                                         <p style={{ fontSize: '0.85rem', color: '#999', marginBottom: '1rem', fontStyle: 'italic', display: 'flex', alignItems: 'center' }}>
