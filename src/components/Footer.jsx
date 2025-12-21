@@ -18,6 +18,7 @@ const Footer = () => {
         menuLinks: [
             { label: 'About', href: '#about' },
             { label: 'Services', href: '#services' },
+            { label: 'Portfolio', href: '#portfolio' },
             { label: 'Contact', href: '#contact' }
         ],
         socialTitle: 'Socials',
@@ -164,9 +165,19 @@ const Footer = () => {
                 {/* Quick Links */}
                 <div style={styles.navCol} className="footer-item">
                     <h3 style={styles.colTitle}>{config.menuTitle}</h3>
-                    {config.menuLinks && config.menuLinks.map((link, i) => (
-                        <a key={i} href={link.href} className="footer-link" style={styles.link}>{link.label}</a>
-                    ))}
+                    {config.menuLinks && config.menuLinks.map((link, i) => {
+                        let href = link.href;
+                        const labelLower = link.label ? link.label.toLowerCase() : '';
+
+                        // Force redirect to Content Strategy (#portfolio) if label mentions Portfolio or Work
+                        if (labelLower.includes('portfolio') || labelLower.includes('work')) {
+                            href = '#portfolio';
+                        }
+
+                        return (
+                            <a key={i} href={href} className="footer-link" style={styles.link}>{link.label}</a>
+                        );
+                    })}
                 </div>
 
                 {/* Socials */}

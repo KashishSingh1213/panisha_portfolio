@@ -16,7 +16,8 @@ const EditFooter = () => {
         menuLinks: [
             { label: 'About', href: '#about' },
             { label: 'Services', href: '#services' },
-            { label: 'Work', href: '#projects' },
+            { label: 'Services', href: '#services' },
+            { label: 'Portfolio', href: '#portfolio' },
             { label: 'Contact', href: '#contact' }
         ],
 
