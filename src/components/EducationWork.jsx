@@ -381,12 +381,13 @@ const EducationWork = () => {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                             <h3 style={styles.roleTitle}>{item.title}</h3>
                                             {(() => {
+                                                const size = item.iconSize || 40;
                                                 if (item.icon) {
-                                                    return <img src={item.icon} alt="icon" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />;
+                                                    return <img src={item.icon} alt="icon" style={{ width: `${size}px`, height: `${size}px`, objectFit: 'contain' }} />;
                                                 }
                                                 return activeTab === 'education'
-                                                    ? <FaGraduationCap color={color} size={24} style={{ opacity: 0.8 }} />
-                                                    : <MarketingIcon color={color} size={24} style={{ opacity: 0.8 }} />;
+                                                    ? <FaGraduationCap color={color} size={size} style={{ opacity: 0.8 }} />
+                                                    : <MarketingIcon color={color} size={size} style={{ opacity: 0.8 }} />;
                                             })()}
                                         </div>
                                         <span style={{ ...styles.orgName, color: color }}>{item.org}</span>

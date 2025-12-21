@@ -296,6 +296,15 @@ const EditExperience = () => {
                                             onUploadSuccess={(url) => updateItem('work', i, 'icon', url)}
                                         />
                                     </div>
+                                    <div>
+                                        <label>Icon Size (px)</label>
+                                        <input
+                                            type="number"
+                                            value={item.iconSize || 40}
+                                            onChange={(e) => updateItem('work', i, 'iconSize', parseInt(e.target.value))}
+                                            placeholder="40"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div style={{ marginTop: '15px' }}>
