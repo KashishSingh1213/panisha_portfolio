@@ -1,6 +1,62 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { FaGraduationCap, FaBriefcase, FaCalendarAlt, FaBullhorn, FaChartLine, FaHashtag, FaPlane } from 'react-icons/fa';
 
+const SocialMegaphoneIcon = ({ color, size, style }) => (
+    <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        style={style}
+    >
+        {/* Megaphone Body */}
+        <path d="M12 8l-6-3v6l6-3V8z" />
+        <path d="M16 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11l4 4V1L16 3z" style={{ display: 'none' }} /> {/* Hidden msg bubble test */}
+        <path d="M4 11.5L12 15l9-3.5V9l-9-3.5L4 9v2.5z" style={{ display: 'none' }} />
+
+        {/* Actual Megaphone Line Art matches */}
+        <path d="M3 11l8-4v10l-8-4v-2z" /> {/* Funnel */}
+        <path d="M11 7h2a6 6 0 0 1 6 6v0a6 6 0 0 1-6 6h-2" /> {/* Mouth wide */}
+        <path d="M10 17l-1 4" /> {/* Handle */}
+
+        {/* Social Bubbles */}
+        <circle cx="19" cy="5" r="2.5" />
+        <path d="M19 4v2m-1-1h2" /> {/* Plus/Social hint */}
+
+        <circle cx="21" cy="10" r="1.5" />
+
+        <circle cx="17" cy="3" r="1" />
+    </svg>
+);
+
+const MarketingIcon = ({ color, size, style }) => (
+    <svg
+        stroke={color}
+        fill="none"
+        strokeWidth="2"
+        viewBox="0 0 24 24"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        height={size}
+        width={size}
+        xmlns="http://www.w3.org/2000/svg"
+        style={style}
+    >
+        <path d="M7 9.00003C7 9.00003 3.5 9 3 9C2.44772 9 2 9.44771 2 10V14C2 14.5523 2.44772 15 3 15C3.5 15 7 15 7 15Z" />
+        <path d="M7 15V9.00003L15 5V19L7 15Z" />
+        <path d="M19 9V15" />
+        <path d="M21 7V17" />
+        {/* Abstract social circles */}
+        <circle cx="18" cy="6" r="1.5" fill={color} stroke="none" />
+        <circle cx="21" cy="5" r="1.5" fill={color} stroke="none" />
+        <circle cx="21" cy="19" r="1.5" fill={color} stroke="none" />
+    </svg>
+);
+
 const EducationWork = () => {
     const sectionRef = useRef(null);
     const [isMobile, setIsMobile] = useState(false);
@@ -325,17 +381,12 @@ const EducationWork = () => {
                                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                             <h3 style={styles.roleTitle}>{item.title}</h3>
                                             {(() => {
-                                                const t = (item.title || '').toLowerCase();
-                                                const iconProps = { color: color, size: 20, style: { opacity: 0.8 } };
-
-                                                if (activeTab === 'education') return <FaGraduationCap {...iconProps} size={24} />;
-
-                                                if (t.includes('marketing')) return <FaBullhorn {...iconProps} />;
-                                                if (t.includes('sales')) return <FaChartLine {...iconProps} />;
-                                                if (t.includes('social')) return <FaHashtag {...iconProps} />;
-                                                if (t.includes('airlines') || t.includes('tourism')) return <FaPlane {...iconProps} />;
-
-                                                return <FaBriefcase {...iconProps} />;
+                                                if (item.icon) {
+                                                    return <img src={item.icon} alt="icon" style={{ width: '24px', height: '24px', objectFit: 'contain' }} />;
+                                                }
+                                                return activeTab === 'education'
+                                                    ? <FaGraduationCap color={color} size={24} style={{ opacity: 0.8 }} />
+                                                    : <MarketingIcon color={color} size={24} style={{ opacity: 0.8 }} />;
                                             })()}
                                         </div>
                                         <span style={{ ...styles.orgName, color: color }}>{item.org}</span>

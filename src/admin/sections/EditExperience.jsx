@@ -1,6 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc, onSnapshot } from 'firebase/firestore';
+import { uploadToCloudinary } from '../../cloudinaryHelper';
+
+// Reusable Image Upload Component
+const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const url = await uploadToCloudinary(file);
+            onUploadSuccess(url);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed: " + error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="admin-form-group" style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px', fontWeight: 'bold', fontSize: '0.9rem', color: '#555' }}>{label}</label>
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                {currentImage && (
+                    <div style={{ background: '#f0f0f0', padding: '5px', borderRadius: '8px' }}>
+                        <img src={currentImage} alt="Icon Preview" style={{ width: '40px', height: '40px', objectFit: 'contain' }} />
+                    </div>
+                )}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading...</span>}
+            </div>
+            <input type="file" onChange={handleFileChange} accept="image/*" style={{ width: '100%', padding: '8px', border: '1px solid #ddd', borderRadius: '4px' }} disabled={uploading} />
+        </div>
+    );
+};
 
 const EditExperience = () => {
     const [loading, setLoading] = useState(false);
@@ -251,6 +288,13 @@ const EditExperience = () => {
                                     <div>
                                         <label>XP (e.g. +5000 XP)</label>
                                         <input type="text" value={item.xp} onChange={(e) => updateItem('work', i, 'xp', e.target.value)} />
+                                    </div>
+                                    <div style={{ gridColumn: 'span 2' }}>
+                                        <ImageUpload
+                                            label="Custom Icon (Optional)"
+                                            currentImage={item.icon}
+                                            onUploadSuccess={(url) => updateItem('work', i, 'icon', url)}
+                                        />
                                     </div>
                                 </div>
 
