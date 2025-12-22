@@ -234,7 +234,7 @@ const Hero = () => {
                 </div>
 
                 <div style={styles.actions} ref={btnRef}>
-                    <button style={styles.primaryBtn} className="btn-hover" onClick={() => document.getElementById('videos')?.scrollIntoView({ behavior: 'smooth' })}>
+                    <button style={styles.primaryBtn} className="btn-hover" onClick={() => document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth' })}>
                         <span>View My Work</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
