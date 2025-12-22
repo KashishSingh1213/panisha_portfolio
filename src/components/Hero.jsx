@@ -94,6 +94,7 @@ const Hero = () => {
             padding: '140px 5% 40px',
             position: 'relative',
             overflow: 'hidden',
+            maxWidth: '100%',
         },
         container: {
             maxWidth: '1200px',
