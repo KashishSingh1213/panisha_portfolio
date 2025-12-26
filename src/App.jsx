@@ -27,6 +27,7 @@ import EditHeader from './admin/sections/EditHeader';
 import EditFooter from './admin/sections/EditFooter';
 import EditExperience from './admin/sections/EditExperience';
 import EditMarketingShowcase from './admin/sections/EditMarketingShowcase';
+import EditContentStrategy from './admin/sections/EditContentStrategy';
 import EditTools from './admin/sections/EditTools';
 
 import MarketingShowcase from './components/MarketingShowcase';
@@ -101,6 +102,7 @@ function App() {
             <Route path="footer" element={<EditFooter />} />
             <Route path="experience" element={<EditExperience />} />
             <Route path="marketing-showcase" element={<EditMarketingShowcase />} />
+            <Route path="content-strategy" element={<EditContentStrategy />} />
             <Route path="tools" element={<EditTools />} />
             <Route path="messages" element={<ViewMessages />} />
           </Route>

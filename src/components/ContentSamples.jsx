@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { db } from '../firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,9 +13,9 @@ const StepCard = ({ index, data, isLast }) => {
 
     // Brand Palette mapping
     const theme = [
-        { main: '#1F0954', shadow: '#0c0221', title: 'LinkedIn Strategy', iconColor: '#0077B5' }, // Navy (Brand)
-        { main: '#4B0082', shadow: '#2a0049', title: 'Instagram Growth', iconColor: '#E1306C' },  // Purple (Brand)
-        { main: '#C7B58D', shadow: '#8f7e57', title: 'YouTube Content', iconColor: '#FF0000' }    // Gold (Brand)
+        { main: '#1F0954', shadow: '#0c0221', title: data.title, iconColor: '#0077B5' }, // Navy (Brand)
+        { main: '#4B0082', shadow: '#2a0049', title: data.title, iconColor: '#E1306C' },  // Purple (Brand)
+        { main: '#C7B58D', shadow: '#8f7e57', title: data.title, iconColor: '#FF0000' }    // Gold (Brand)
     ][index];
 
     return (
@@ -175,6 +177,22 @@ const StepCard = ({ index, data, isLast }) => {
 
 const ContentSamples = () => {
     const containerRef = useRef(null);
+    const [pageContent, setPageContent] = useState(null);
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            try {
+                const docRef = doc(db, 'content', 'contentStrategy');
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setPageContent(docSnap.data());
+                }
+            } catch (error) {
+                console.error("Error fetching content strategy:", error);
+            }
+        };
+        fetchContent();
+    }, []);
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -196,18 +214,21 @@ const ContentSamples = () => {
     // Full Long-form content
     const samples = [
         {
-            content: "Back in my early days as an aspiring entrepreneur, I had this weird habit of putting off communication. No matter if it was replying to emails, returning calls, or following up with potential business partners, I always found some excuse to procrastinate. I mean, I convinced myself that I was too busy with my startup to focus on immediate communication. But what I didn't realise was that this delay was actually costing me valuable chances to grow my business.\n\nIt wasn't until a game-changing moment that I realised my mistake. A potential investor had contacted me, and instead of my usual stalling, I responded right away. That decision led to a successful meeting and, ultimately, secured the funding my startup so desperately needed. That was the wake-up call I needed.\n\nFrom then on, I ditched my procrastination habit and embraced the power of timely communication. And let me tell you, it transformed my entrepreneurial journey. Quick responses built trust with my partners, investors, and customers. And being able to seize opportunities as they arose. Well, that propelled my business forward like nothing else. Looking back, I can honestly say that this fundamental shift in my approach to communication played a big part in my career as an entrepreneur.",
-            link: "https://www.linkedin.com/posts/akshay-ruparelia_back-in-my-early-days-as-an-aspiring-entrepreneur-activity-7116002581071437824-C2m3/?utm_source=share&utm_medium=member_desktop",
+            title: pageContent?.card1Title || 'LinkedIn Strategy',
+            content: pageContent?.card1Content || "Back in my early days as an aspiring entrepreneur, I had this weird habit of putting off communication. No matter if it was replying to emails, returning calls, or following up with potential business partners, I always found some excuse to procrastinate. I mean, I convinced myself that I was too busy with my startup to focus on immediate communication. But what I didn't realise was that this delay was actually costing me valuable chances to grow my business.\n\nIt wasn't until a game-changing moment that I realised my mistake. A potential investor had contacted me, and instead of my usual stalling, I responded right away. That decision led to a successful meeting and, ultimately, secured the funding my startup so desperately needed. That was the wake-up call I needed.\n\nFrom then on, I ditched my procrastination habit and embraced the power of timely communication. And let me tell you, it transformed my entrepreneurial journey. Quick responses built trust with my partners, investors, and customers. And being able to seize opportunities as they arose. Well, that propelled my business forward like nothing else. Looking back, I can honestly say that this fundamental shift in my approach to communication played a big part in my career as an entrepreneur.",
+            link: pageContent?.card1Link || "https://www.linkedin.com/posts/akshay-ruparelia_back-in-my-early-days-as-an-aspiring-entrepreneur-activity-7116002581071437824-C2m3/?utm_source=share&utm_medium=member_desktop",
             icon: <FaLinkedin size={45} />
         },
         {
-            content: "Growing up in an immigrant family, I always felt grateful for the incredible lessons. My family had to leave their homeland and try a new country, which was pretty scary. But it also made them refined and determined.\n\nMy grandparents and parents showed me how to adapt to new situations, and how to work for a better life. These qualities have become a part of who I want to carry on these valuable lessons to my children and their children.\n\nBeing part of an immigrant family has shown me these virtues, and I'm proud of my roots. They taught me that resilience isn't just about surviving hard times, but about thriving in them and finding joy in the journey of adaptation.",
-            link: "https://www.instagram.com/p/CzqUjuSoJNz/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA%3D%3D",
+            title: pageContent?.card2Title || 'Instagram Growth',
+            content: pageContent?.card2Content || "Growing up in an immigrant family, I always felt grateful for the incredible lessons. My family had to leave their homeland and try a new country, which was pretty scary. But it also made them refined and determined.\n\nMy grandparents and parents showed me how to adapt to new situations, and how to work for a better life. These qualities have become a part of who I want to carry on these valuable lessons to my children and their children.\n\nBeing part of an immigrant family has shown me these virtues, and I'm proud of my roots. They taught me that resilience isn't just about surviving hard times, but about thriving in them and finding joy in the journey of adaptation.",
+            link: pageContent?.card2Link || "https://www.instagram.com/p/CzqUjuSoJNz/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA%3D%3D",
             icon: <FaInstagram size={45} />
         },
         {
-            content: "A Conversation with Professor Roger Delves (Professor of Authentic Leadership) on how to stay true to yourself and discover what is authenticity.\n\nAuthenticity isn't just a buzzword—it's a powerful way to live and lead. In this video, Roger Delves, an esteemed Indigo Sails professional facilitator, explores how to align personal lives or professional journeys, understanding and applying a stronger sense of purpose.\n\nThey go beyond theory, offering practical guidance on how to align personal lives or professional journeys, understanding and applying stronger sense of purpose.\n\nIn this video, you'll discover:\n✅ What authenticity really means\n✅ How to navigate challenges when staying true to yourself\n✅ Practical steps to make authenticity a part of your everyday life\n✅ The impact of authenticity on personal and professional success\n\nJoin us on this journey of self-discovery and transformation.\n\nFor more information, please email:\ninfo@indigosails.co.uk\nbookings@indigosails.co.uk",
-            link: "https://www.youtube.com/watch?v=_s0yksoJTEs",
+            title: pageContent?.card3Title || 'YouTube Content',
+            content: pageContent?.card3Content || "A Conversation with Professor Roger Delves (Professor of Authentic Leadership) on how to stay true to yourself and discover what is authenticity.\n\nAuthenticity isn't just a buzzword—it's a powerful way to live and lead. In this video, Roger Delves, an esteemed Indigo Sails professional facilitator, explores how to align personal lives or professional journeys, understanding and applying a stronger sense of purpose.\n\nThey go beyond theory, offering practical guidance on how to align personal lives or professional journeys, understanding and applying stronger sense of purpose.\n\nIn this video, you'll discover:\n✅ What authenticity really means\n✅ How to navigate challenges when staying true to yourself\n✅ Practical steps to make authenticity a part of your everyday life\n✅ The impact of authenticity on personal and professional success\n\nJoin us on this journey of self-discovery and transformation.\n\nFor more information, please email:\ninfo@indigosails.co.uk\nbookings@indigosails.co.uk",
+            link: pageContent?.card3Link || "https://www.youtube.com/watch?v=_s0yksoJTEs",
             icon: <FaYoutube size={45} />
         }
     ];
@@ -231,7 +252,7 @@ const ContentSamples = () => {
                     lineHeight: 1.1,
                     letterSpacing: '-1px'
                 }}>
-                    PORTFOLIO
+                    {pageContent?.sectionTitle || 'PORTFOLIO'}
                 </h2>
                 <h3 style={{
                     fontFamily: '"Manrope", sans-serif',
@@ -242,7 +263,7 @@ const ContentSamples = () => {
                     textTransform: 'uppercase',
                     letterSpacing: '2px'
                 }}>
-                    Content Strategy
+                    {pageContent?.sectionSubtitle || 'Content Strategy'}
                 </h3>
                 <p style={{
                     fontFamily: '"Manrope", sans-serif',
@@ -253,7 +274,7 @@ const ContentSamples = () => {
                     marginLeft: 'auto',
                     marginRight: 'auto'
                 }}>
-                    Compelling narratives tailored for every platform.
+                    {pageContent?.sectionDesc || 'Compelling narratives tailored for every platform.'}
                 </p>
             </div>
 
