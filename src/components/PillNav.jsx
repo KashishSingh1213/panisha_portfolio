@@ -30,93 +30,102 @@ const PillNav = ({
     const logoRef = useRef(null);
 
     useEffect(() => {
-        const layout = () => {
-            circleRefs.current.forEach(circle => {
-                if (!circle?.parentElement) return;
+        let ctx = gsap.context(() => {
+            const layout = () => {
+                circleRefs.current.forEach(circle => {
+                    if (!circle?.parentElement) return;
 
-                const pill = circle.parentElement;
-                const rect = pill.getBoundingClientRect();
-                const { width: w, height: h } = rect;
-                const R = ((w * w) / 4 + h * h) / (2 * h);
-                const D = Math.ceil(2 * R) + 2;
-                const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
-                const originY = D - delta;
+                    const pill = circle.parentElement;
+                    const rect = pill.getBoundingClientRect();
+                    const { width: w, height: h } = rect;
+                    const R = ((w * w) / 4 + h * h) / (2 * h);
+                    const D = Math.ceil(2 * R) + 2;
+                    const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+                    const originY = D - delta;
 
-                circle.style.width = `${D}px`;
-                circle.style.height = `${D}px`;
-                circle.style.bottom = `-${delta}px`;
+                    circle.style.width = `${D}px`;
+                    circle.style.height = `${D}px`;
+                    circle.style.bottom = `-${delta}px`;
 
-                gsap.set(circle, {
-                    xPercent: -50,
-                    scale: 0,
-                    transformOrigin: `50% ${originY}px`
+                    gsap.set(circle, {
+                        xPercent: -50,
+                        scale: 0,
+                        transformOrigin: `50% ${originY}px`
+                    });
+
+                    const label = pill.querySelector('.pill-label');
+                    const white = pill.querySelector('.pill-label-hover');
+
+                    if (label) gsap.set(label, { y: 0 });
+                    if (white) gsap.set(white, { y: h + 12, opacity: 0 });
+
+                    const index = circleRefs.current.indexOf(circle);
+                    if (index === -1) return;
+
+                    tlRefs.current[index]?.kill();
+                    const tl = gsap.timeline({ paused: true });
+
+                    tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0);
+
+                    if (label) {
+                        tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0);
+                    }
+
+                    if (white) {
+                        gsap.set(white, { y: Math.ceil(h + 100), opacity: 0 });
+                        tl.to(white, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0);
+                    }
+
+                    tlRefs.current[index] = tl;
                 });
+            };
 
-                const label = pill.querySelector('.pill-label');
-                const white = pill.querySelector('.pill-label-hover');
+            layout();
 
-                if (label) gsap.set(label, { y: 0 });
-                if (white) gsap.set(white, { y: h + 12, opacity: 0 });
+            const onResize = () => layout();
+            window.addEventListener('resize', onResize);
 
-                const index = circleRefs.current.indexOf(circle);
-                if (index === -1) return;
+            // Cleanup resizing listener specifically within context if needed, 
+            // but ctx.revert() doesn't remove window listeners automatically unless we add them to the context (which we can't easily for window).
+            // So we'll return a cleanup function that handles both.
 
-                tlRefs.current[index]?.kill();
-                const tl = gsap.timeline({ paused: true });
-
-                tl.to(circle, { scale: 1.2, xPercent: -50, duration: 2, ease, overwrite: 'auto' }, 0);
-
-                if (label) {
-                    tl.to(label, { y: -(h + 8), duration: 2, ease, overwrite: 'auto' }, 0);
-                }
-
-                if (white) {
-                    gsap.set(white, { y: Math.ceil(h + 100), opacity: 0 });
-                    tl.to(white, { y: 0, opacity: 1, duration: 2, ease, overwrite: 'auto' }, 0);
-                }
-
-                tlRefs.current[index] = tl;
-            });
-        };
-
-        layout();
-
-        const onResize = () => layout();
-        window.addEventListener('resize', onResize);
-
-        if (document.fonts?.ready) {
-            document.fonts.ready.then(layout).catch(() => { });
-        }
-
-        const menu = mobileMenuRef.current;
-        if (menu) {
-            gsap.set(menu, { visibility: 'hidden', opacity: 0, scaleY: 1 });
-        }
-
-        if (initialLoadAnimation) {
-            const logo = logoRef.current;
-            const navItems = navItemsRef.current;
-
-            if (logo) {
-                gsap.set(logo, { scale: 0 });
-                gsap.to(logo, {
-                    scale: 1,
-                    duration: 0.6,
-                    ease
-                });
+            if (document.fonts?.ready) {
+                document.fonts.ready.then(layout).catch(() => { });
             }
 
-            if (navItems) {
-                gsap.set(navItems, { width: 0, overflow: 'hidden' });
-                gsap.to(navItems, {
-                    width: 'auto',
-                    duration: 0.6,
-                    ease
-                });
+            const menu = mobileMenuRef.current;
+            if (menu) {
+                gsap.set(menu, { visibility: 'hidden', opacity: 0, scaleY: 1 });
             }
-        }
 
-        return () => window.removeEventListener('resize', onResize);
+            if (initialLoadAnimation) {
+                const logo = logoRef.current;
+                const navItems = navItemsRef.current;
+
+                if (logo) {
+                    gsap.set(logo, { scale: 0 });
+                    gsap.to(logo, {
+                        scale: 1,
+                        duration: 0.6,
+                        ease
+                    });
+                }
+
+                if (navItems) {
+                    gsap.set(navItems, { width: 0, overflow: 'hidden' });
+                    gsap.to(navItems, {
+                        width: 'auto',
+                        duration: 0.6,
+                        ease
+                    });
+                }
+            }
+
+            // Return cleanup for the window listener to the useEffect cleanup
+            return () => window.removeEventListener('resize', onResize);
+        });
+
+        return () => ctx.revert();
     }, [items, ease, initialLoadAnimation]);
 
     const handleEnter = i => {
