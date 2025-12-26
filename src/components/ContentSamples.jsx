@@ -78,18 +78,21 @@ const StepCard = ({ index, data, isLast }) => {
                         : 'polygon(0 0, 100% 0, 0 100%)'
                 }}></div>
 
-                {/* Content Header */}
-                <h3 style={{
-                    fontFamily: '"Playfair Display", serif',
-                    fontWeight: 700,
-                    fontSize: '1.8rem',
-                    color: theme.main,
-                    marginBottom: '1.5rem',
-                    marginTop: '0.5rem',
-                    textAlign: 'center'
-                }}>
-                    {theme.title}
-                </h3>
+                /* Content Header */
+                <a href={data.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                    <h3 style={{
+                        fontFamily: '"Playfair Display", serif',
+                        fontWeight: 700,
+                        fontSize: '1.8rem',
+                        color: theme.main,
+                        marginBottom: '1.5rem',
+                        marginTop: '0.5rem',
+                        textAlign: 'center',
+                        cursor: 'pointer'
+                    }}>
+                        {theme.title}
+                    </h3>
+                </a>
 
                 {/* Main Content Body (Full Text) */}
                 <div style={{
@@ -141,8 +144,8 @@ const StepCard = ({ index, data, isLast }) => {
                 </div>
             </div>
 
-            {/* Floating Large Icon */}
-            <div style={{
+            {/* Floating Large Icon - Clickable Wrapper */}
+            <a href={data.link} target="_blank" rel="noopener noreferrer" style={{
                 position: 'absolute',
                 top: '60px',
                 right: isLeft ? '-50px' : 'auto',
@@ -157,10 +160,15 @@ const StepCard = ({ index, data, isLast }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                border: `4px solid ${'#FFF5EA'}`
-            }}>
+                border: `4px solid ${'#FFF5EA'}`,
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease'
+            }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
                 {data.icon}
-            </div>
+            </a>
         </div>
     );
 };
@@ -189,17 +197,17 @@ const ContentSamples = () => {
     const samples = [
         {
             content: "Back in my early days as an aspiring entrepreneur, I had this weird habit of putting off communication. No matter if it was replying to emails, returning calls, or following up with potential business partners, I always found some excuse to procrastinate. I mean, I convinced myself that I was too busy with my startup to focus on immediate communication. But what I didn't realise was that this delay was actually costing me valuable chances to grow my business.\n\nIt wasn't until a game-changing moment that I realised my mistake. A potential investor had contacted me, and instead of my usual stalling, I responded right away. That decision led to a successful meeting and, ultimately, secured the funding my startup so desperately needed. That was the wake-up call I needed.\n\nFrom then on, I ditched my procrastination habit and embraced the power of timely communication. And let me tell you, it transformed my entrepreneurial journey. Quick responses built trust with my partners, investors, and customers. And being able to seize opportunities as they arose. Well, that propelled my business forward like nothing else. Looking back, I can honestly say that this fundamental shift in my approach to communication played a big part in my career as an entrepreneur.",
-            link: "#",
+            link: "https://www.linkedin.com/in/akshayruparelia/",
             icon: <FaLinkedin size={45} />
         },
         {
             content: "Growing up in an immigrant family, I always felt grateful for the incredible lessons. My family had to leave their homeland and try a new country, which was pretty scary. But it also made them refined and determined.\n\nMy grandparents and parents showed me how to adapt to new situations, and how to work for a better life. These qualities have become a part of who I want to carry on these valuable lessons to my children and their children.\n\nBeing part of an immigrant family has shown me these virtues, and I'm proud of my roots. They taught me that resilience isn't just about surviving hard times, but about thriving in them and finding joy in the journey of adaptation.",
-            link: "#",
+            link: "https://www.instagram.com/akshayruparelia/",
             icon: <FaInstagram size={45} />
         },
         {
             content: "A Conversation with Professor Roger Delves (Professor of Authentic Leadership) on how to stay true to yourself and discover what is authenticity.\n\nAuthenticity isn't just a buzzword—it's a powerful way to live and lead. In this video, Roger Delves, an esteemed Indigo Sails professional facilitator, explores how to align personal lives or professional journeys, understanding and applying a stronger sense of purpose.\n\nThey go beyond theory, offering practical guidance on how to align personal lives or professional journeys, understanding and applying stronger sense of purpose.\n\nIn this video, you'll discover:\n✅ What authenticity really means\n✅ How to navigate challenges when staying true to yourself\n✅ Practical steps to make authenticity a part of your everyday life\n✅ The impact of authenticity on personal and professional success\n\nJoin us on this journey of self-discovery and transformation.\n\nFor more information, please email:\ninfo@indigosails.co.uk\nbookings@indigosails.co.uk",
-            link: "#",
+            link: "https://www.youtube.com/@IndigoSails",
             icon: <FaYoutube size={45} />
         }
     ];

@@ -1,4 +1,4 @@
-export const uploadToCloudinary = async (file, resourceType = 'image') => {
+export const uploadToCloudinary = async (file, resourceType = 'auto') => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "admin_upload"); // MUST match Cloudinary Dashboard preset

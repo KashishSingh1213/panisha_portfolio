@@ -14,7 +14,7 @@ const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
 
         setUploading(true);
         try {
-            const url = await uploadToCloudinary(file);
+            const url = await uploadToCloudinary(file, 'auto');
             onUploadSuccess(url);
         } catch (error) {
             console.error("Upload failed", error);
@@ -59,6 +59,12 @@ const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
+
+        // Check 100MB limit
+        if (file.size > 100 * 1024 * 1024) {
+            alert("File too large! Max size is 100MB.");
+            return;
+        }
 
         setUploading(true);
         try {
