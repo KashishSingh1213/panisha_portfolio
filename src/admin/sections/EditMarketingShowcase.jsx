@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { uploadToCloudinary } from '../../cloudinaryHelper';
+import { uploadToCloudinary, uploadWithProgress } from '../../cloudinaryHelper';
 import Toast from '../components/Toast';
 
 // Reusable Image Upload Component
@@ -55,21 +55,26 @@ const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
 // Reusable Video Upload Component
 const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
     const [uploading, setUploading] = useState(false);
+    const [progress, setProgress] = useState(0);
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Check 95MB limit (Cloudinary unsigned limit is typically 100MB)
+        // Check 95MB limit
         if (file.size > 95 * 1024 * 1024) {
-            alert("File too large! Max size for direct upload is 95MB. For larger files, please host on YouTube and use the link.");
+            alert("File too large! Max size for direct upload is 95MB. Please compress your video or host on YouTube.");
             return;
         }
 
         setUploading(true);
+        setProgress(0);
+
         try {
-            // Explicitly use 'video' resource type
-            const url = await uploadToCloudinary(file, 'video');
+            // Use 'video' resource type, track progress
+            const url = await uploadWithProgress(file, 'video', (percent) => {
+                setProgress(percent);
+            });
             onUploadSuccess(url);
             alert("Video uploaded successfully!");
         } catch (error) {
@@ -77,8 +82,8 @@ const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
             alert("Upload failed: " + (error.message || "Unknown error"));
         } finally {
             setUploading(false);
-            // Reset the input so the same file can be selected again if needed
-            e.target.value = null;
+            setProgress(0);
+            e.target.value = null; // Reset input
         }
     };
 
@@ -95,7 +100,14 @@ const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
                         muted
                     />
                 )}
-                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading... please wait (this may take a minute)</span>}
+                {uploading && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading: {progress}%</span>
+                        <div style={{ width: '100px', height: '6px', background: '#eee', borderRadius: '3px', overflow: 'hidden' }}>
+                            <div style={{ width: `${progress}%`, height: '100%', background: '#D87C5A', transition: 'width 0.2s' }}></div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <input
