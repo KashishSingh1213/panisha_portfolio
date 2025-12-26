@@ -78,7 +78,7 @@ const StepCard = ({ index, data, isLast }) => {
                         : 'polygon(0 0, 100% 0, 0 100%)'
                 }}></div>
 
-                /* Content Header */
+
                 <a href={data.link} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
                     <h3 style={{
                         fontFamily: '"Playfair Display", serif',
