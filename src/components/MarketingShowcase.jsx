@@ -246,11 +246,8 @@ const MarketingShowcase = () => {
                     maxWidth: '1000px'
                 }}>
                     <h2 style={{ fontFamily: 'Playfair Display, serif', fontSize: '4rem', color: c.navy, lineHeight: 1, marginBottom: '1rem', textTransform: 'uppercase' }}>
-                        Marketing<br /><span style={{ color: c.purple }}>Portfolio</span>
+                        Graphics &<br /><span style={{ color: c.purple }}>Strategy</span>
                     </h2>
-                    <p style={{ fontFamily: 'Manrope, sans-serif', fontSize: '1.2rem', color: '#666', maxWidth: '600px' }}>
-                        Graphics & Strategy
-                    </p>
                 </div>
 
                 {/* THE GRID */}
