@@ -60,21 +60,25 @@ const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Check 100MB limit
-        if (file.size > 100 * 1024 * 1024) {
-            alert("File too large! Max size is 100MB.");
+        // Check 95MB limit (Cloudinary unsigned limit is typically 100MB)
+        if (file.size > 95 * 1024 * 1024) {
+            alert("File too large! Max size for direct upload is 95MB. For larger files, please host on YouTube and use the link.");
             return;
         }
 
         setUploading(true);
         try {
+            // Explicitly use 'video' resource type
             const url = await uploadToCloudinary(file, 'video');
             onUploadSuccess(url);
+            alert("Video uploaded successfully!");
         } catch (error) {
             console.error("Upload failed", error);
-            alert("Upload failed: " + error.message);
+            alert("Upload failed: " + (error.message || "Unknown error"));
         } finally {
             setUploading(false);
+            // Reset the input so the same file can be selected again if needed
+            e.target.value = null;
         }
     };
 
@@ -91,7 +95,7 @@ const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
                         muted
                     />
                 )}
-                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading Video...</span>}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading... please wait (this may take a minute)</span>}
             </div>
 
             <input
