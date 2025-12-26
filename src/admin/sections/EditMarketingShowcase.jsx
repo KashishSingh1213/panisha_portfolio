@@ -249,6 +249,11 @@ const EditMarketingShowcase = () => {
                     currentVideo={formData.video1Src}
                     onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video1Src: url }))}
                 />
+                <ImageUpload
+                    label="Video 1 Poster Image (Thumbnail)"
+                    currentImage={formData.video1Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video1Poster: url }))}
+                />
 
 
                 <h4 style={{ marginTop: '1.5rem', color: '#666', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>Video 2</h4>
@@ -267,6 +272,11 @@ const EditMarketingShowcase = () => {
                     currentVideo={formData.video2Src}
                     onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video2Src: url }))}
                 />
+                <ImageUpload
+                    label="Video 2 Poster Image (Thumbnail)"
+                    currentImage={formData.video2Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video2Poster: url }))}
+                />
 
 
                 <h4 style={{ marginTop: '1.5rem', color: '#666', borderBottom: '1px solid #eee', paddingBottom: '0.5rem' }}>Video 3</h4>
@@ -284,6 +294,11 @@ const EditMarketingShowcase = () => {
                     label="Or Upload Video 3"
                     currentVideo={formData.video3Src}
                     onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video3Src: url }))}
+                />
+                <ImageUpload
+                    label="Video 3 Poster Image (Thumbnail)"
+                    currentImage={formData.video3Poster}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video3Poster: url }))}
                 />
 
 
