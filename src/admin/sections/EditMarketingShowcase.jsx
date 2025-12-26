@@ -52,6 +52,54 @@ const ImageUpload = ({ label, currentImage, onUploadSuccess }) => {
     );
 };
 
+// Reusable Video Upload Component
+const VideoUpload = ({ label, currentVideo, onUploadSuccess }) => {
+    const [uploading, setUploading] = useState(false);
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        setUploading(true);
+        try {
+            const url = await uploadToCloudinary(file, 'video');
+            onUploadSuccess(url);
+        } catch (error) {
+            console.error("Upload failed", error);
+            alert("Upload failed: " + error.message);
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    return (
+        <div className="admin-form-group">
+            <label className="admin-label">{label}</label>
+
+            {/* Preview */}
+            <div style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '15px' }}>
+                {currentVideo && !currentVideo.includes('youtube') && !currentVideo.includes('youtu.be') && (
+                    <video
+                        src={currentVideo}
+                        style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px', border: '1px solid #ddd' }}
+                        muted
+                    />
+                )}
+                {uploading && <span style={{ color: '#D87C5A', fontWeight: 'bold' }}>Uploading Video...</span>}
+            </div>
+
+            <input
+                type="file"
+                onChange={handleFileChange}
+                accept="video/*"
+                className="admin-input"
+                style={{ padding: '8px' }}
+                disabled={uploading}
+            />
+        </div>
+    );
+};
+
 const EditMarketingShowcase = () => {
     const [formData, setFormData] = useState({
         videoSectionTitle: 'Videos',
@@ -174,6 +222,11 @@ const EditMarketingShowcase = () => {
                         <input type="text" name="video1Src" value={formData.video1Src || ''} onChange={handleChange} className="admin-input" />
                     </div>
                 </div>
+                <VideoUpload
+                    label="Or Upload Video 1"
+                    currentVideo={formData.video1Src}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video1Src: url }))}
+                />
                 <ImageUpload
                     label="Video 1 Poster Image"
                     currentImage={formData.video1Poster}
@@ -191,6 +244,11 @@ const EditMarketingShowcase = () => {
                         <input type="text" name="video2Src" value={formData.video2Src || ''} onChange={handleChange} className="admin-input" />
                     </div>
                 </div>
+                <VideoUpload
+                    label="Or Upload Video 2"
+                    currentVideo={formData.video2Src}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video2Src: url }))}
+                />
                 <ImageUpload
                     label="Video 2 Poster Image"
                     currentImage={formData.video2Poster}
@@ -208,6 +266,11 @@ const EditMarketingShowcase = () => {
                         <input type="text" name="video3Src" value={formData.video3Src || ''} onChange={handleChange} className="admin-input" />
                     </div>
                 </div>
+                <VideoUpload
+                    label="Or Upload Video 3"
+                    currentVideo={formData.video3Src}
+                    onUploadSuccess={(url) => setFormData(prev => ({ ...prev, video3Src: url }))}
+                />
                 <ImageUpload
                     label="Video 3 Poster Image"
                     currentImage={formData.video3Poster}

@@ -1,10 +1,10 @@
-export const uploadToCloudinary = async (file) => {
+export const uploadToCloudinary = async (file, resourceType = 'image') => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "admin_upload"); // MUST match Cloudinary Dashboard preset
 
     const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dogcwx8ih/image/upload",
+        `https://api.cloudinary.com/v1_1/dogcwx8ih/${resourceType}/upload`,
         {
             method: "POST",
             body: formData,
